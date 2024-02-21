@@ -47,46 +47,39 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         configuration: [Debug, Release]
 
     runs-on: windows-latest
 
     env:
-      # Replace with your solution name, i.e. MyWpfApp.sln.
       Solution_Name: src/DaxStudio.sln
-      # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       Test_Project_Path: tests/DaxStudio.Tests/DaxStudio.Tests.csproj
-      # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      #Wap_Project_Directory: your-wap-project-directory-name
-      # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
-      #Wap_Project_Path: your-wap-project-path
 
-      #solution: '**/*.sln'
-      #buildDefinition: '**/*.msproj'
-      #buildTarget: 'Installer'
-      #buildPlatform: 'Any CPU'
-      #buildConfiguration: 'Release'
+      # Variables from 'appveyor.yml'
+      solution: "**/*.sln"
+      buildDefinition: "**/*.msproj"
+      buildTarget: "Installer"
+      buildPlatform: "Any CPU"
+      buildConfiguration: "Release"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Install the .NET Core workload
-      - name: Install .NET Core
-        uses: actions/setup-dotnet@v3
+      # Install the .NET tools
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 6.0.x
 
       # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v1.0.2
-
-      # Execute all unit tests in the solution
-      #- name: Execute unit tests
-      #  run: dotnet test
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
 
       # Restore the application to populate the obj folder with RuntimeIdentifiers
       - name: Restore the application
@@ -100,49 +93,8 @@ jobs:
         env:
           Configuration: ${{ matrix.configuration }}
 
-      #- task: NuGetToolInstaller@0
-      #
-      #- task: NuGetCommand@2
-      #  inputs:
-      #    restoreSolution: '$(solution)'
-      #    restoreDirectory: '$(Build.SourcesDirectory)\\packages'
-      #
-      #
-      ## - task: VSBuild@1
-      ##  inputs:
-      ##    solution: '$(solution)'
-      ##    platform: '$(buildPlatform)'
-      ##    configuration: '$(buildConfiguration)'
-      #- script: 'choco install innosetup -y'
-      #
-      #- task: MSBuild@1
-      #  inputs:
-      #    solution: '$(buildDefinition)'
-      #    #msbuildLocationMethod: 'version' # Optional. Options: version, location
-      #    #msbuildVersion: 'latest' # Optional. Options: latest, 15.0, 14.0, 12.0, 4.0
-      #    msbuildArchitecture: '$(buildPlatform)' # Optional. Options: x86, x64
-      #    #msbuildLocation: # Optional
-      #    #platform: # Optional
-      #    configuration: '$(buildConfiguration)' # Optional
-      #    msbuildArguments: '/target:$(buildTarget)' # Optional
-      #    #clean: false # Optional
-      #    #maximumCpuCount: false # Optional
-      #    #restoreNugetPackages: false # Optional
-      #    #logProjectEvents: false # Optional
-      #    #createLogFile: false # Optional
-      #
-      ## Need to refactor tests/code so they can work without a local SSAS instance
-      ## - task: VSTest@2
-      ##  inputs:
-      ##    platform: '$(buildPlatform)'
-      ##    configuration: '$(buildConfiguration)'
-      #
-      #- task: CopyFiles@2
-      #  inputs:
-      #    contents: package\*
-      #    targetFolder: $(Build.ArtifactStagingDirectory)
-      #
-      #- task: PublishBuildArtifacts@1
-      #  inputs:
-      #    pathtoPublish: $(Build.ArtifactStagingDirectory)
-      #    artifactName: DaxStudioSetup
+      - name: Generate Installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: installer/DaxStudio.iss
+          options: /O+
