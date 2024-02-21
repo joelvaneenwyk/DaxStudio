@@ -6,12 +6,12 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     assignees:
-    - "dgosbell"
-      
+      - "joelvaneenwyk"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
     assignees:
-    - "dgosbell"
+      - "joelvaneenwyk"
