@@ -1,0 +1,6 @@
+# Custom Dictionary Words
+choco
+innosetup
+msbuild
+msproj
+wapproj
