@@ -1,4 +1,4 @@
-name: Submit DAX Studio release to Windows Package Manager Community Repository 
+name: Submit DAX Studio release to Windows Package Manager Community Repository
 
 on:
   release:
@@ -9,7 +9,6 @@ env:
   packageId: DaxStudio.DaxStudio
 
 jobs:
-
   winget:
     name: Publish winget package
     runs-on: windows-latest
