@@ -165,10 +165,6 @@
         <MultiTrigger.Conditions>
           <Condition Property="Selector.IsSelected"
                      Value="True" />
-          <Condition Property="IsMinimized"
-                     Value="True" />
-          <Condition Property="IsOpen"
-                     Value="True" />
         </MultiTrigger.Conditions>
         <Setter Property="Background"
                 TargetName="grid"
@@ -178,10 +174,6 @@
       <MultiTrigger>
         <MultiTrigger.Conditions>
           <Condition Property="Selector.IsSelected"
-                     Value="True" />
-          <Condition Property="IsMinimized"
-                     Value="True" />
-          <Condition Property="IsOpen"
                      Value="True" />
           <Condition Property="Group"
                      Value="{x:Null}" />
@@ -278,7 +270,7 @@
                     Background="{x:Null}"
                     ClipToBounds="True"
                     CornerRadius="0"
-                    BorderBrush="{TemplateBinding GlowBrush}"
+                    BorderBrush="{TemplateBinding GlowColor}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     UseLayoutRounding="True" />
 
@@ -292,20 +284,20 @@
 
         <ControlTemplate.Triggers>
                 <Trigger Property="IsActive" Value="False">
-                    <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding Path=NonActiveGlowBrush, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                    <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding Path=NonActiveGlowColor, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     <Setter TargetName="PART_WindowCommands" Property="Opacity" Value="0.5" />
                 </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsActive" Value="False" />
-                        <Condition Property="NonActiveGlowBrush" Value="{x:Null}" />
+                        <Condition Property="NonActiveGlowColor" Value="{x:Null}" />
                     </MultiTrigger.Conditions>
                     <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding Path=NonActiveBorderBrush, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                 </MultiTrigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsActive" Value="True" />
-                        <Condition Property="GlowBrush" Value="{x:Null}" />
+                        <Condition Property="GlowColor" Value="{x:Null}" />
                     </MultiTrigger.Conditions>
                     <Setter TargetName="PART_Border" Property="BorderBrush" Value="{Binding Path=BorderBrush, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                 </MultiTrigger>
@@ -335,9 +327,9 @@
             <Setter Property="BorderThickness" Value="1" />
             <!--<Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />-->
             
-            <Setter Property="GlowBrush" Value="{DynamicResource Fluent.Ribbon.Brushes.AccentBaseColorBrush}" />
+            <Setter Property="GlowColor" Value="{DynamicResource Fluent.Ribbon.Brushes.AccentBaseColorBrush}" />
             <Setter Property="NonActiveBorderBrush" Value="#434346" />
-            <Setter Property="NonActiveGlowBrush" Value="#434346" />
+            <Setter Property="NonActiveGlowColor" Value="#434346" />
             <Setter Property="Template" Value="{StaticResource RibbonWindowControlTemplate}" />
             <Setter Property="TitleBackground" Value="{DynamicResource Fluent.Ribbon.Brushes.RibbonWindow.TitleBackground}" />
             <Setter Property="TitleBarHeight" Value="{DynamicResource {x:Static SystemParameters.WindowCaptionHeightKey}}" />
