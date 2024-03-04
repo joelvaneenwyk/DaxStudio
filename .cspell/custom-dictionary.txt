@@ -1,7 +1,19 @@
 # Custom Dictionary Words
+Addin
+binlog
 choco
+copydata
+COPYDATA
+daxstudio
+endlocal
+errorlevel
+ERRORLEVEL
 innosetup
 Minionguyjpro
 msbuild
 msproj
+pushd
+Serilog
+setlocal
+taskkill
 wapproj
