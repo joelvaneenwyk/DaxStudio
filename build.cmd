@@ -12,14 +12,6 @@ goto:$Command
         set "_command=!_command:   = !"
         set "_command=!_command:  = !"
         set _error_value=0
-        if "%MYCOSHIRO_CRITICAL_ERROR%"=="" goto:$RunCommand
-        if "%MYCOSHIRO_CRITICAL_ERROR%"=="0" goto:$RunCommand
-
-        :: Hit critical error so skip the command
-        echo [ERROR] Critical error detected. Skipped command: !_command!
-        set _error_value=%MYCOSHIRO_CRITICAL_ERROR%
-        goto:$CommandDone
-
         :$RunCommand
         echo ##[cmd] !_command!
         call !_command!
