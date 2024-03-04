@@ -60,9 +60,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvalonDock.Themes.DaxStudio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.FileIcons", "DaxStudio.FileIcons\DaxStudio.FileIcons.csproj", "{1193F456-32C3-4F82-9C80-3F178BD5D29A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Launcher", "DaxStudio.UriHandler\DaxStudio.Launcher.csproj", "{A59D633B-3B8C-4C2F-9CE7-D0DCBCE6567C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Launcher", "DaxStudio.UriHandler\DaxStudio.Launcher.csproj", "{A59D633B-3B8C-4C2F-9CE7-D0DCBCE6567C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.SqlFormatter", "DaxStudio.SqlFormatter\DaxStudio.SqlFormatter.csproj", "{EFE78597-D6F1-45F3-9CC5-A01A2D957BFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{3849BE1E-E8F2-4EC3-AF40-839474513452}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\dependabot.yml = ..\.github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F7B8C706-1920-4A8F-8D4F-F8C409C3394C}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
+		..\.github\workflows\default_label.yml = ..\.github\workflows\default_label.yml
+		..\.github\workflows\winget_publish.yml = ..\.github\workflows\winget_publish.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -481,6 +493,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D1ED8FBD-8493-496F-9229-497DD526E1C9} = {2FA78CD1-8A2D-4285-9DDB-FB4E4B46A7C7}
+		{F7B8C706-1920-4A8F-8D4F-F8C409C3394C} = {3849BE1E-E8F2-4EC3-AF40-839474513452}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A980F882-ED32-4E77-981F-A37C0AB1410D}
