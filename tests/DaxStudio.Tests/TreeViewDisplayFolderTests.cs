@@ -93,7 +93,7 @@ namespace DaxStudio.Tests
 
         private ADOTabularDatabase GetTestDB()
         {
-            return new ADOTabularDatabase(connection, "Test", "Test", DateTime.Parse("2019-09-01 09:00:00"), "1200", "*");
+            return new ADOTabularDatabase(connection, "Test", "Test", DateTime.Parse("2019-09-01 09:00:00"), "1200", "*", "Test Description");
         }
 
         private bool IsResellerSalesMeasureGroup(AdomdRestrictionCollection res)
@@ -121,7 +121,7 @@ namespace DaxStudio.Tests
             mockConn.Setup(x => x.GetSchemaDataSet("MDSCHEMA_FUNCTIONS", null, false)).Returns(functionDataSet);
             mockConn.Setup(x => x.GetSchemaDataSet("MDSCHEMA_CUBES", It.IsAny<AdomdRestrictionCollection>())).Returns(cubesDataSet);
             mockConn.Setup(x => x.ShowHiddenObjects).Returns(true);
-            var mockDb = new Mock<ADOTabularDatabase>(mockConn.Object, "Adventure Works", "Adventure Works", new DateTime(2017, 7, 20), "1400", "*");
+            var mockDb = new Mock<ADOTabularDatabase>(mockConn.Object, "Adventure Works", "Adventure Works", new DateTime(2017, 7, 20), "1400", "*", "Test Description");
             mockDatabase = mockDb.Object;
             mockConn.SetupGet(x => x.Database).Returns(mockDatabase);
             mockConn.Setup(x => x.GetSchemaDataSet(

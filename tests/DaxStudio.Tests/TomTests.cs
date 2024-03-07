@@ -102,7 +102,7 @@ namespace DaxStudio.Tests
             mockConn.Setup(x => x.GetSchemaDataSet("DISCOVER_SCHEMA_ROWSETS")).Returns(dmvDataSet);
             mockConn.Setup(x => x.GetSchemaDataSet("MDSCHEMA_CUBES", It.IsAny<AdomdRestrictionCollection>())).Returns(cubesDataSet);
             mockConn.Setup(x => x.ShowHiddenObjects).Returns(true);
-            var mockDb = new Mock<ADOTabularDatabase>(mockConn.Object, "Adventure Works", "Adventure Works", new DateTime(2017, 7, 20), "1400", "*");
+            var mockDb = new Mock<ADOTabularDatabase>(mockConn.Object, "Adventure Works", "Adventure Works", new DateTime(2017, 7, 20), "1400", "*", "Test Description");
             mockDatabase = mockDb.Object;
             mockConn.SetupGet(x => x.Database).Returns(mockDatabase);
             mockConn.Setup(x => x.GetSchemaDataSet(
@@ -182,10 +182,11 @@ namespace DaxStudio.Tests
         {
             var connection = MockConnection(@"..\..\data\powerbi-csdl.xml");
             MetaDataVisitorCSDL v = new MetaDataVisitorCSDL(connection);
-            ADOTabularDatabase db = new ADOTabularDatabase(connection, "Test", "Test", DateTime.Parse("2019-09-01 09:00:00"), "1200", "*");
+            connection.Visitor = v;
+            ADOTabularDatabase db = new ADOTabularDatabase(connection, "Test", "Test", DateTime.Parse("2019-09-01 09:00:00"), "1200", "*", "Test Description");
             ADOTabularModel m = new ADOTabularModel(connection, db, "Test", "Test", "Test Description", "");
             var tabs = new ADOTabularTableCollection(connection, m);
-            
+
             Assert.IsNotNull(m.TOMModel);
             Assert.AreEqual(13, m.TOMModel.Tables.Count,"Table Counts are equal");
             Assert.AreEqual(tabs["ProductCategory"].Columns.Count , m.TOMModel.Tables["ProductCategory"].Columns.Count,"ProductCategory column counts are equal");
@@ -200,7 +201,7 @@ namespace DaxStudio.Tests
         {
             var connection = MockConnection(@"..\..\data\csdl_2_5.xml");
             MetaDataVisitorCSDL v = new MetaDataVisitorCSDL(connection);
-            ADOTabularDatabase db = new ADOTabularDatabase(connection, "Test", "Test", DateTime.Parse("2019-09-01 09:00:00"), "1200", "*");
+            ADOTabularDatabase db = new ADOTabularDatabase(connection, "Test", "Test", DateTime.Parse("2019-09-01 09:00:00"), "1200", "*", "Test Description");
             ADOTabularModel m = new ADOTabularModel(connection, db, "Test", "Test", "Test Description", "");
             var tabs = new ADOTabularTableCollection(connection, m);
 

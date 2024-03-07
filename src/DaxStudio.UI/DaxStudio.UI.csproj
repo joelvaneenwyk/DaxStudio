@@ -194,6 +194,27 @@
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Cmd Only\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|x86'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\x86\Cmd Only\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<LangVersion>8.0</LangVersion>
+		<ErrorReport>prompt</ErrorReport>
+	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>..\DSCodeAnalysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -204,6 +225,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
@@ -335,6 +357,7 @@
     <Compile Include="Enums\SaveAsExtension.cs" />
     <Compile Include="Events\CopyPasteServerTimings.cs" />
     <Compile Include="Events\CopySEQuery.cs" />
+    <Compile Include="Events\DocumentActivatedEvent.cs" />
     <Compile Include="Events\PasteDaxFileEvent.cs" />
     <Compile Include="Events\CopyWithHeadersEvent.cs" />
     <Compile Include="Events\DuplicateMeasureEvent.cs" />
@@ -357,9 +380,12 @@
     <Compile Include="Extensions\DaxStudioWindowManager.cs" />
     <Compile Include="Extensions\HyperlinkExtensions.cs" />
     <Compile Include="Interfaces\ICancellable.cs" />
+    <Compile Include="Interfaces\IHaveLongRunningOperation.cs" />
     <Compile Include="Interfaces\IHaveTraceWatchers.cs" />
     <Compile Include="Interfaces\IQueryPlanRow.cs" />
     <Compile Include="Interfaces\ITraceDiagnostics.cs" />
+	<Compile Include="Interfaces\ITraceWatcher.cs" />
+    <Compile Include="Interfaces\ITraceWatcherData.cs" />
     <Compile Include="JsonConverters\ADOTabularColumnCreationConverter.cs" />
     <Compile Include="JsonConverters\QueryBuilderColumnDataTypeConverter.cs" />
     <Compile Include="JsonConverters\QueryBuilderConverter.cs" />
@@ -373,7 +399,6 @@
     <Compile Include="Events\DatabaseChangedEvent.cs" />
     <Compile Include="Events\EditorResizeEvent.cs" />
     <Compile Include="Events\ReconnectEvent.cs" />
-    <Compile Include="Events\RefreshTablesEvent.cs" />
     <Compile Include="Events\SelectedDatabaseChangedEvent.cs" />
     <Compile Include="Events\SendColumnToQueryBuilderEvent.cs" />
     <Compile Include="Events\SetFocusEvent.cs" />
@@ -395,6 +420,7 @@
     <Compile Include="Interfaces\IZoomable.cs" />
     <Compile Include="JsonConverters\InterfaceContractResolver.cs" />
     <Compile Include="JsonConverters\SecureStringConverter.cs" />
+    <Compile Include="JsonConverters\SingleOrArrayConverter.cs" />
     <Compile Include="MarkupExtensions\ConverterBindableParameter.cs" />
     <Compile Include="MarkupExtensions\EnumBindingSourceExtension.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
@@ -435,7 +461,6 @@
     <Compile Include="Events\AutoSaveEvent.cs" />
     <Compile Include="Events\AutoSaveRecoveryEvent.cs" />
     <Compile Include="Events\ChangeThemeEvent.cs" />
-    <Compile Include="Events\CopyConnectionEvent.cs" />
     <Compile Include="Events\DockManagerLoadLayout.cs" />
     <Compile Include="Events\DockManagerSaveLayout.cs" />
     <Compile Include="Events\ExportDaxFunctionsEvent.cs" />
@@ -473,7 +498,9 @@
     <Compile Include="Model\AggregateRewriteSummary.cs" />
     <Compile Include="Model\AutoSaveIndex.cs" />
     <Compile Include="Model\AutoSaveIndexEntry.cs" />
+    <Compile Include="Model\CaptureDiagnosticsSource.cs" />
     <Compile Include="Model\ClipboardManager.cs" />
+    <Compile Include="Model\ClipboardTextProvider.cs" />
     <Compile Include="Model\ConnectionManager.cs" />
     <Compile Include="Model\CustomTraceTemplate.cs" />
     <Compile Include="Model\HotKey.cs" />
@@ -491,6 +518,7 @@
     <Compile Include="Model\QueryInfo.cs" />
     <Compile Include="Model\QueryParameter.cs" />
     <Compile Include="Model\SimplePropertyChangedBase.cs" />
+    <Compile Include="Model\SqlFormatter.cs" />
     <Compile Include="Model\TraceEvent.cs" />
     <Compile Include="Model\SettingsProviderFactory.cs" />
     <Compile Include="Model\TreeViewFunctions.cs" />
@@ -520,7 +548,6 @@
     <Compile Include="Events\FunctionsLoadedEvent.cs" />
     <Compile Include="Events\LoadFileEvent.cs" />
     <Compile Include="Events\MetadataLoadedEvent.cs" />
-    <Compile Include="Events\SelectedModelChangedEvent.cs" />
     <Compile Include="Events\NavigateToLocationEvent.cs" />
     <Compile Include="Events\NewVersionEvent.cs" />
     <Compile Include="Events\OpenRecentFileEvent.cs" />
@@ -553,7 +580,6 @@
     <Compile Include="Model\ProxyPowerPivot.cs" />
     <Compile Include="Model\QueryPlanModel.cs" />
     <Compile Include="Interfaces\IToolWindow.cs" />
-    <Compile Include="Interfaces\ITraceWatcher.cs" />
     <Compile Include="Model\RunStyle.cs" />
     <Compile Include="Model\ServerTimesModel.cs" />
     <Compile Include="Model\StaticQueryResult.cs" />
@@ -627,7 +653,6 @@
     <Compile Include="Events\RunQueryEvent.cs" />
     <Compile Include="Events\SaveDocumentEvent.cs" />
     <Compile Include="Events\SendTextToEditor.cs" />
-    <Compile Include="Events\UpdateConnectionEvent.cs" />
     <Compile Include="Interfaces\IResultsTarget.cs" />
     <Compile Include="Utils\Intellisense\DaxCompletionData.cs" />
     <Compile Include="Utils\DaxHelper.cs" />
@@ -654,6 +679,7 @@
     <Compile Include="ViewModels\BenchmarkViewModel.cs" />
     <Compile Include="ViewModels\CaptureDiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\CustomTraceDialogViewModel.cs" />
+    <Compile Include="ViewModels\DatabaseDialogViewModel.cs" />
     <Compile Include="ViewModels\ExportDataWizard\ExportDataWizardExportStatusViewModel.cs" />
     <Compile Include="ViewModels\ExportDataWizard\TransitionMap.cs" />
     <Compile Include="Utils\UIHelper.cs" />
@@ -684,7 +710,7 @@
     <Compile Include="ViewModels\QueryHistoryPaneViewModel.cs" />
     <Compile Include="ViewModels\QueryParametersDialogViewModel.cs" />
     <Compile Include="ViewModels\AutoSaveRecoveryDialogViewModel.cs" />
-    <Compile Include="ViewModels\DebugAndLogTraceViewModel.cs" />
+    <Compile Include="ViewModels\EvaluateAndLogTraceViewModel.cs" />
     <Compile Include="ViewModels\CustomTraceViewModel.cs" />
     <Compile Include="ViewModels\RefreshTraceViewModel.cs" />
     <Compile Include="ViewModels\SaveDialogViewModel.cs" />
@@ -704,6 +730,9 @@
     <Compile Include="ViewModels\ViewAsDialogViewModel.cs" />
     <Compile Include="Views\AllServerQueriesView.xaml.cs">
       <DependentUpon>AllServerQueriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DatabaseDialogView.xaml.cs">
+      <DependentUpon>DatabaseDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BenchmarkServerFEView.xaml.cs">
       <DependentUpon>BenchmarkServerFEView.xaml</DependentUpon>
@@ -828,11 +857,15 @@
     <Compile Include="Views\QueryResultsPaneView.xaml.cs">
       <DependentUpon>QueryResultsPaneView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DebugAndLogTraceView.xaml.cs">
-      <DependentUpon>DebugAndLogTraceView.xaml</DependentUpon>
+    <Compile Include="Views\EvaluateAndLogTraceView.xaml.cs">
+      <DependentUpon>EvaluateAndLogTraceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CustomTraceView.xaml.cs">
       <DependentUpon>CustomTraceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\RefreshProgressViewModel.cs" />
+    <Compile Include="Views\RefreshProgressView.xaml.cs">
+      <DependentUpon>RefreshProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RefreshTraceView.xaml.cs">
       <DependentUpon>RefreshTraceView.xaml</DependentUpon>
@@ -991,6 +1024,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\DatabaseDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\BenchmarkServerFEView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1059,13 +1096,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DebugAndLogTraceView.xaml">
+    <Page Include="Views\EvaluateAndLogTraceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CustomTraceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RefreshProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RefreshTraceView.xaml">
       <SubType>Designer</SubType>
@@ -1266,18 +1307,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ADOTabular\ADOTabular.csproj">
+    <ProjectReference Include="..\ADOTabular\DaxStudio.ADOTabular.csproj">
       <Project>{DC91C987-2AEB-4F82-B8BA-3FF6A5614ED7}</Project>
-      <Name>ADOTabular</Name>
+      <Name>DaxStudio.ADOTabular</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\AvalonDock.Themes.DaxStudio\AvalonDock.Themes.DaxStudio.csproj">
+    <ProjectReference Include="..\AvalonDock.Themes.DaxStudio\DaxStudio.AvalonDock.Themes.csproj">
       <Project>{b89d0c1b-90ab-4e59-a657-a95fd84d11f1}</Project>
-      <Name>AvalonDock.Themes.DaxStudio</Name>
+      <Name>DaxStudio.AvalonDock.Themes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAXEditor\DAXEditor.csproj">
+    <ProjectReference Include="..\DAXEditor\DaxStudio.DAXEditor.csproj">
       <Project>{ee4788c1-dca6-465f-8049-28ceace6586f}</Project>
-      <Name>DAXEditor</Name>
+      <Name>DaxStudio.DAXEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\DaxStudio.Common\DaxStudio.Common.csproj">
       <Project>{508A1FAA-9157-4474-94B4-FDBF76FFA74B}</Project>
@@ -1305,9 +1346,9 @@
       <Project>{efe78597-d6f1-45f3-9cc5-a01a2d957bfa}</Project>
       <Name>DaxStudio.SqlFormatter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UnitComboLib\UnitComboLib.csproj">
+    <ProjectReference Include="..\UnitComboLib\DaxStudio.UnitComboLib.csproj">
       <Project>{c8c325ad-d7ab-4e56-8a6b-7e8b11eb5443}</Project>
-      <Name>UnitComboLib</Name>
+      <Name>DaxStudio.UnitComboLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

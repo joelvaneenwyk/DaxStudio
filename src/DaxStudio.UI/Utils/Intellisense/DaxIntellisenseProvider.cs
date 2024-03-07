@@ -42,7 +42,6 @@ namespace DaxStudio.UI.Utils.Intellisense
         IHandle<MetadataLoadedEvent>, 
         IHandle<DmvsLoadedEvent>,
         IHandle<FunctionsLoadedEvent>,
-        IHandle<SelectedModelChangedEvent>,
         IHandle<ConnectionPendingEvent>
     {
         private IEditor _editor;
@@ -564,12 +563,13 @@ namespace DaxStudio.UI.Utils.Intellisense
 
         private DaxLineState ParseLine()
         {
-            //Log.Debug("{class} {method} {message}", "DaxIntellisenseProvider", "ParseLine", "start");
             string line = GetCurrentLine();
             int pos = _editor.CaretOffset>0 ? _editor.CaretOffset - 1 : 0;
             var loc = _editor.DocumentGetLocation(pos);
             var docLine = _editor.DocumentGetLineByOffset(pos);
+#if DEBUG
             Log.Debug("{class} {method} {line} col:{column} off:{offset}", "DaxIntellisenseProvider", "ParseLine", line,loc.Column, docLine.Offset);
+#endif
             return DaxLineParser.ParseLine(line, loc.Column, docLine.Offset);
         }
         
@@ -722,12 +722,6 @@ namespace DaxStudio.UI.Utils.Intellisense
             {
                 Model = message.Model;
             }
-            return Task.CompletedTask;
-        }
-
-        public Task HandleAsync(SelectedModelChangedEvent message, CancellationToken cancellationToken)
-        {
-            Model = null;
             return Task.CompletedTask;
         }
 
