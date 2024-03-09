@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
@@ -13,12 +12,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.ExcelAddin", "DaxStudio.ExcelAddin\DaxStudio.ExcelAddin.csproj", "{C8769178-B109-4155-ABC2-F4E4587642DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30B02415-0085-4CEB-9C74-EFDA677C6C88} = {30B02415-0085-4CEB-9C74-EFDA677C6C88}
+		{508A1FAA-9157-4474-94B4-FDBF76FFA74B} = {508A1FAA-9157-4474-94B4-FDBF76FFA74B}
+		{9CDCCC97-CA3B-4BDF-B062-DA0266387B76} = {9CDCCC97-CA3B-4BDF-B062-DA0266387B76}
+		{A7912ABB-E3AD-45C4-A8A7-183828DB300E} = {A7912ABB-E3AD-45C4-A8A7-183828DB300E}
+		{EE4788C1-DCA6-465F-8049-28CEACE6586F} = {EE4788C1-DCA6-465F-8049-28CEACE6586F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.DAXEditor", "DAXEditor\DaxStudio.DAXEditor.csproj", "{EE4788C1-DCA6-465F-8049-28CEACE6586F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.DAXEditor", "DAXEditor\DaxStudio.DAXEditor.csproj", "{EE4788C1-DCA6-465F-8049-28CEACE6586F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.ADOTabular", "ADOTabular\DaxStudio.ADOTabular.csproj", "{DC91C987-2AEB-4F82-B8BA-3FF6A5614ED7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.ADOTabular", "ADOTabular\DaxStudio.ADOTabular.csproj", "{DC91C987-2AEB-4F82-B8BA-3FF6A5614ED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Interfaces", "DaxStudio.Interfaces\DaxStudio.Interfaces.csproj", "{9CDCCC97-CA3B-4BDF-B062-DA0266387B76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Interfaces", "DaxStudio.Interfaces\DaxStudio.Interfaces.csproj", "{9CDCCC97-CA3B-4BDF-B062-DA0266387B76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Standalone", "DaxStudio.Standalone\DaxStudio.Standalone.csproj", "{F92E0BFC-F721-4A08-A4FA-77DC019B14F6}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -33,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.UI", "DaxStudio.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Tests", "..\tests\DaxStudio.Tests\DaxStudio.Tests.csproj", "{D1ED8FBD-8493-496F-9229-497DD526E1C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.UnitComboLib", "UnitComboLib\DaxStudio.UnitComboLib.csproj", "{C8C325AD-D7AB-4E56-8A6B-7E8B11EB5443}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.UnitComboLib", "UnitComboLib\DaxStudio.UnitComboLib.csproj", "{C8C325AD-D7AB-4E56-8A6B-7E8B11EB5443}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0772235B-BEB3-47D4-B186-54A02FAC4990}"
 	ProjectSection(SolutionItems) = preProject
@@ -42,34 +48,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{077223
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.QueryTrace", "DaxStudio.QueryTrace\DaxStudio.QueryTrace.csproj", "{A7912ABB-E3AD-45C4-A8A7-183828DB300E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.QueryTrace", "DaxStudio.QueryTrace\DaxStudio.QueryTrace.csproj", "{A7912ABB-E3AD-45C4-A8A7-183828DB300E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.QueryTrace.Excel", "DaxStudio.QueryTrace.Excel\DaxStudio.QueryTrace.Excel.csproj", "{30B02415-0085-4CEB-9C74-EFDA677C6C88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.QueryTrace.Excel", "DaxStudio.QueryTrace.Excel\DaxStudio.QueryTrace.Excel.csproj", "{30B02415-0085-4CEB-9C74-EFDA677C6C88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Checker", "DaxStudio.Checker\DaxStudio.Checker.csproj", "{9D3F0BFC-6366-4402-B1AB-211D4F4E5179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Checker", "DaxStudio.Checker\DaxStudio.Checker.csproj", "{9D3F0BFC-6366-4402-B1AB-211D4F4E5179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Common", "DaxStudio.Common\DaxStudio.Common.csproj", "{508A1FAA-9157-4474-94B4-FDBF76FFA74B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Common", "DaxStudio.Common\DaxStudio.Common.csproj", "{508A1FAA-9157-4474-94B4-FDBF76FFA74B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Controls.DataGridFilter", "DaxStudio.Controls.DataGridFilter\DaxStudio.Controls.DataGridFilter.csproj", "{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Controls.DataGridFilter", "DaxStudio.Controls.DataGridFilter\DaxStudio.Controls.DataGridFilter.csproj", "{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Controls.PropertyGrid", "DaxStudio.Controls.PropertyGrid\DaxStudio.Controls.PropertyGrid.csproj", "{CD71EBC4-7CD8-47E9-854F-D295805EFADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Controls.PropertyGrid", "DaxStudio.Controls.PropertyGrid\DaxStudio.Controls.PropertyGrid.csproj", "{CD71EBC4-7CD8-47E9-854F-D295805EFADD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2FA78CD1-8A2D-4285-9DDB-FB4E4B46A7C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.AvalonDock.Themes", "AvalonDock.Themes.DaxStudio\DaxStudio.AvalonDock.Themes.csproj", "{B89D0C1B-90AB-4E59-A657-A95FD84D11F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.FileIcons", "DaxStudio.FileIcons\DaxStudio.FileIcons.csproj", "{1193F456-32C3-4F82-9C80-3F178BD5D29A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.FileIcons", "DaxStudio.FileIcons\DaxStudio.FileIcons.csproj", "{1193F456-32C3-4F82-9C80-3F178BD5D29A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.CommandLine", "DaxStudio.CommandLine\DaxStudio.CommandLine.csproj", "{533F7484-9E1A-4984-8D42-831D79711053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.CommandLine", "DaxStudio.CommandLine\DaxStudio.CommandLine.csproj", "{533F7484-9E1A-4984-8D42-831D79711053}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F92E0BFC-F721-4A08-A4FA-77DC019B14F6} = {F92E0BFC-F721-4A08-A4FA-77DC019B14F6}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Launcher", "DaxStudio.UriHandler\DaxStudio.Launcher.csproj", "{A59D633B-3B8C-4C2F-9CE7-D0DCBCE6567C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.SqlFormatter", "DaxStudio.SqlFormatter\DaxStudio.SqlFormatter.csproj", "{EFE78597-D6F1-45F3-9CC5-A01A2D957BFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.SqlFormatter", "DaxStudio.SqlFormatter\DaxStudio.SqlFormatter.csproj", "{EFE78597-D6F1-45F3-9CC5-A01A2D957BFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.CommandLine.Tests", "..\tests\DaxStudio.CommandLine.Tests\DaxStudio.CommandLine.Tests.csproj", "{ED854495-F857-4E2E-8EAC-975B8C61A264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.CommandLine.Tests", "..\tests\DaxStudio.CommandLine.Tests\DaxStudio.CommandLine.Tests.csproj", "{ED854495-F857-4E2E-8EAC-975B8C61A264}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
