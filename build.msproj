@@ -12,9 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+  </ItemGroup>
+  
     <VstoProject Include="./src/DaxStudio.ExcelAddin/DaxStudio.ExcelAddin.csproj" />
   </ItemGroup>
   
+  <ItemGroup>
+	<DllFiles Include=".\Release\bin\DaxStudio.*.dll"/>
   <ItemGroup>
 	<DllFiles Include=".\Release\bin\DaxStudio.*.dll"/>
   </ItemGroup>
@@ -100,6 +104,8 @@
 	  <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.exe' 
           IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
 	  <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\dscmd.exe' 
+          IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
+	  <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.checker.exe' 
           IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
 	  <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.checker.exe' 
           IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
