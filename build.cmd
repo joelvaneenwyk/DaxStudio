@@ -1,4 +1,4 @@
-@echo off
+::@echo off
 goto:$Main
 
 :SetError
@@ -175,19 +175,19 @@ setlocal EnableDelayedExpansion
     )
 
     :: This should work for Visual Studio
-    for /f "usebackq delims=" %%i in (`%vswhere% -latest -requires Microsoft.VisualStudio.Workload.NativeDesktop -find *\Tools\vsdevcmd.bat`) do (
+    for /f "usebackq delims=" %%i in (`"%vswhere%" -latest -requires Microsoft.VisualStudio.Workload.NativeDesktop -find *\Tools\vsdevcmd.bat`) do (
         set "vsdevcmd=%%i"
         goto:$LaunchDevCmd
     )
 
     :: This should work with Visual Studio Build Tools
-    for /f "usebackq delims=" %%i in (`%vswhere% -latest -products * -requires Microsoft.VisualStudio.Workload.VCTools -find *\Tools\vsdevcmd.bat`) do (
+    for /f "usebackq delims=" %%i in (`"%vswhere%" -latest -products * -requires Microsoft.VisualStudio.Workload.VCTools -find *\Tools\vsdevcmd.bat`) do (
         set "vsdevcmd=%%i"
         goto:$LaunchDevCmd
     )
 
     :: As a last resort, try without specifying the required workload
-    for /f "usebackq delims=" %%i in (`%vswhere% -latest -products * -find *\Tools\vsdevcmd.bat`) do (
+    for /f "usebackq delims=" %%i in (`"%vswhere%" -latest -products * -find *\Tools\vsdevcmd.bat`) do (
         set "vsdevcmd=%%i"
         goto:$LaunchDevCmd
     )

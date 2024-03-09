@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using DaxStudio.UI.Events;
@@ -25,7 +25,7 @@ using DaxStudio.Common.Enums;
 using DaxStudio.Controls.PropertyGrid;
 using DaxStudio.UI.Extensions;
 using DaxStudio.UI.JsonConverters;
-using ControlzEx.Standard;
+// using ControlzEx.Standard;
 using Newtonsoft.Json.Linq;
 using System.Windows.Navigation;
 using Fluent;

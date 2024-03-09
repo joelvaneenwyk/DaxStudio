@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.CommandLine", "Da
 		{F92E0BFC-F721-4A08-A4FA-77DC019B14F6} = {F92E0BFC-F721-4A08-A4FA-77DC019B14F6}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.Launcher", "DaxStudio.UriHandler\DaxStudio.Launcher.csproj", "{A59D633B-3B8C-4C2F-9CE7-D0DCBCE6567C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.Launcher", "DaxStudio.UriHandler\DaxStudio.Launcher.csproj", "{A59D633B-3B8C-4C2F-9CE7-D0DCBCE6567C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaxStudio.SqlFormatter", "DaxStudio.SqlFormatter\DaxStudio.SqlFormatter.csproj", "{EFE78597-D6F1-45F3-9CC5-A01A2D957BFA}"
 EndProject
