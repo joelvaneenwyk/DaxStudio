@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Office.Tools.Ribbon;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -82,11 +82,6 @@ namespace DaxStudio.ExcelAddin
                 MessageBox.Show($"The following Error occurred while trying to launch the DAX Studio User Interface\n{msg}", "DAX Studio Excel Add-in");    
                 Log.Error(ex, "{Class} {method} {exception} {stacktrace}", "DaxStudioRibbon", "BtnDaxClick", ex.Message, ex.StackTrace);
             }
-        }
-
-        public void BtnTextClick(object sender, RibbonControlEventArgs e)
-        {
-
         }
 
         public void Launch(bool enableLogging)
