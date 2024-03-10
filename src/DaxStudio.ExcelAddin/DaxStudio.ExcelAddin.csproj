@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <OutputType>Library</OutputType>
         <NoStandardLibraries>false</NoStandardLibraries>
         <RootNamespace>DaxStudio.ExcelAddin</RootNamespace>
