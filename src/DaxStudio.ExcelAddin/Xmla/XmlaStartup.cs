@@ -1,11 +1,6 @@
-﻿using DaxStudio.Interfaces;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Configuration;
-using Microsoft.Owin;
-using Microsoft.Owin.Hosting;
+﻿using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Owin;
-using System.Collections.Generic;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;

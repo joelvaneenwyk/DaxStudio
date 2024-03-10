@@ -1,7 +1,6 @@
 extern alias ExcelAmo;
 
 using System;
-using System.IO;
 using Serilog;
 
 namespace DaxStudio.ExcelAddin.AmoWrapper

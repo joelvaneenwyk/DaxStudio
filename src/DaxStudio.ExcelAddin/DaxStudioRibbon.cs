@@ -1,13 +1,10 @@
 using System;
 using Microsoft.Office.Tools.Ribbon;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Serilog;
 using System.Windows;
 using DaxStudio.Common;
 using System.IO;
-using System.Reflection;
-using System.Data.OleDb;
 
 namespace DaxStudio.ExcelAddin
 {
