@@ -83,7 +83,7 @@
     <ProjectReference Include="..\UnitComboLib\DaxStudio.UnitComboLib.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
     <PackageReference Include="AvalonEdit">
       <Version>6.3.0.90</Version>
     </PackageReference>

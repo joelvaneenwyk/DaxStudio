@@ -1,4 +1,4 @@
-﻿extern alias ExcelAmo;
+extern alias ExcelAmo;
 
 using System;
 using System.IO;
