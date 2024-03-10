@@ -34,17 +34,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <InnoSetupExecutable Condition="Exists('$(UserDir)\scoop\shims\iscc.exe')">$(UserDir)\scoop\shims\iscc.exe</InnoSetupExecutable>
-        <InnoSetupExecutable Condition="Exists('$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe')">$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe</InnoSetupExecutable>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <UserDir>$(HOMEDRIVE)$(HOMEPATH)</UserDir>
-        <InnoSetupExecutable Condition="Exists('$(UserDir)\scoop\shims\iscc.exe')">$(UserDir)\scoop\shims\iscc.exe</InnoSetupExecutable>
-        <InnoSetupExecutable Condition="Exists('$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe')">$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe</InnoSetupExecutable>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
         <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
         <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>

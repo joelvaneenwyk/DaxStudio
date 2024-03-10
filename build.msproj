@@ -12,15 +12,18 @@
         <TimeStampUri>http://timestamp.digicert.com</TimeStampUri>
     </PropertyGroup>
 
-    <ItemGroup>
-    </ItemGroup>
+    <PropertyGroup>
+        <UserDir>$(HOMEDRIVE)$(HOMEPATH)</UserDir>
+        <InnoSetupExecutable Condition="Exists('$(UserDir)\scoop\shims\iscc.exe')">$(UserDir)\scoop\shims\iscc.exe</InnoSetupExecutable>
+        <InnoSetupExecutable Condition="Exists('$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe')">$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe</InnoSetupExecutable>
+    </PropertyGroup>
 
     <ItemGroup>
         <VstoProject Include="./src/DaxStudio.ExcelAddin/DaxStudio.ExcelAddin.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <DllFiles Include=".\bin\$(Configuration)\bin\DaxStudio.*.dll"/>
+        <DllFiles Include=".\bin\$(Configuration)\DaxStudio.*.dll"/>
     </ItemGroup>
 
     <PropertyGroup>
@@ -72,7 +75,7 @@
 
     <Target Name="MoveExes" DependsOnTargets="DeleteXml;DeletePdb">
         <ItemGroup>
-            <FilesToMove Include=".\bin\$(Configuration)\bin\DaxStudio.exe;.\bin\$(Configuration)\bin\DaxStudio.exe.config;.\bin\$(Configuration)\bin\DaxStudio.Checker.exe;.\bin\$(Configuration)\bin\DaxStudio.Checker.exe.config;.\bin\$(Configuration)\bin\dscmd.exe;.\bin\$(Configuration)\bin\dscmd.exe.config;" />
+            <FilesToMove Include=".\bin\$(Configuration)\DaxStudio.exe;.\bin\$(Configuration)\DaxStudio.exe.config;.\bin\$(Configuration)\DaxStudio.Checker.exe;.\bin\$(Configuration)\DaxStudio.Checker.exe.config;.\bin\$(Configuration)\dscmd.exe;.\bin\$(Configuration)\dscmd.exe.config;" />
         </ItemGroup>
         <Message Text="Moving exe files" Importance="High" />
         <Move SourceFiles="@(FilesToMove)" DestinationFolder="./$(Configuration)" />
@@ -99,9 +102,9 @@
     <Target Name="SignAssemblies" DependsOnTargets="Build">
         <Message Text="Attempting to sign Assemblies" Importance="high" />
         <!--
-            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\bin\daxstudio.exe' IgnoreExitCode="true"/>
-            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\bin\daxstudio.checker.exe' IgnoreExitCode="true"/>
-            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\bin\daxstudio.dll' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\daxstudio.exe' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\daxstudio.checker.exe' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\daxstudio.dll' IgnoreExitCode="true"/>
         -->
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\bin\$(Configuration)\daxstudio.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\bin\$(Configuration)\dscmd.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
@@ -124,11 +127,11 @@
         <Exec WorkingDirectory="./$(Configuration)/bin" Command='$(MageExe) -update "DaxStudio.vsto" -CertHash $(ManifestThumbPrint) -appmanifest "DaxStudio.dll.manifest" -TimeStampUri $(TimeStampUri)' />
     </Target>
 
-    <Target Name="Installer" DependsOnTargets="DeleteXml; DeletePdb;MoveExes">
+    <Target Name="Installer" DependsOnTargets="DeleteXml; DeletePdb; MoveExes">
         <Exec Command='"$(InnoSetupExecutable)" .\installer\DaxStudio.iss' />
     </Target>
 
-    <Target Name="InstallerWithSignedAssemblies" DependsOnTargets="DeleteXml; DeletePdb; SignVsto;MoveExes">
+    <Target Name="InstallerWithSignedAssemblies" DependsOnTargets="DeleteXml; DeletePdb; SignVsto; MoveExes">
         <Exec Command='"$(InnoSetupExecutable)" .\installer\daxstudio.iss' />
     </Target>
 
@@ -141,7 +144,7 @@
 
     <Target Name="CreatePortableFile">
         <Message Text="Creating .portable file" Importance="high"/>
-        <Touch Files=".\bin\$(Configuration)\bin\.portable" AlwaysCreate="True" />
+        <Touch Files=".\bin\$(Configuration)\.portable" AlwaysCreate="True" />
     </Target>
 
     <Target Name="DeleteInstaller" DependsOnTargets="">
