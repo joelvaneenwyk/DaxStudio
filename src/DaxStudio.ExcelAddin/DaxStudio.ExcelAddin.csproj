@@ -1,402 +1,394 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
-    <OutputType>Library</OutputType>
-    <NoStandardLibraries>false</NoStandardLibraries>
-    <RootNamespace>ExcelAddIn1</RootNamespace>
-    <AssemblyName>ExcelAddIn1</AssemblyName>
-    <LoadBehavior>3</LoadBehavior>
-    <DefineConstants>VSTO40;UseOfficeInterop</DefineConstants>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
-    <ResolveComReferenceSilent>true</ResolveComReferenceSilent>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-  </PropertyGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <PropertyGroup>
-    <OfficeApplication>Excel</OfficeApplication>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Accessibility" />
-    <Reference Include="PresentationFramework.Aero" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <Choose>
-    <When Condition="$([System.String]::Copy(&quot;;$(DefineConstants);&quot;).ToLower().Contains(';useofficeinterop;')) or $([System.String]::Copy(&quot;,$(DefineConstants),&quot;).ToLower().Contains(',useofficeinterop,'))">
-      <ItemGroup>
-        <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-          <Private>False</Private>
-          <EmbedInteropTypes>true</EmbedInteropTypes>
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <OutputType>Library</OutputType>
+        <NoStandardLibraries>false</NoStandardLibraries>
+        <RootNamespace>DaxStudio.ExcelAddin</RootNamespace>
+        <AssemblyName>DaxStudio.ExcelAddin</AssemblyName>
+        <LoadBehavior>3</LoadBehavior>
+        <DefineConstants>VSTO40;UseOfficeInterop</DefineConstants>
+        <BootstrapperEnabled>true</BootstrapperEnabled>
+        <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
+        <ResolveComReferenceSilent>true</ResolveComReferenceSilent>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    </PropertyGroup>
+    <ItemGroup>
+        <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
+            <Visible>False</Visible>
+            <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+            <Install>true</Install>
+        </BootstrapperPackage>
+    </ItemGroup>
+    <PropertyGroup>
+        <OfficeApplication>Excel</OfficeApplication>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+        <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+        <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Accessibility" />
+        <Reference Include="Microsoft.Office.Interop.Excel">
+          <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for
+                Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll</HintPath>
         </Reference>
-        <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-          <Private>False</Private>
-          <EmbedInteropTypes>true</EmbedInteropTypes>
+        <Reference Include="Microsoft.Office.Tools">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.dll</HintPath>
         </Reference>
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <COMReference Include="Microsoft.Office.Core">
-          <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-          <VersionMajor>2</VersionMajor>
-          <VersionMinor>7</VersionMinor>
-          <Lcid>0</Lcid>
-          <WrapperTool>tlbimp</WrapperTool>
-          <Isolated>False</Isolated>
-          <EmbedInteropTypes>true</EmbedInteropTypes>
-        </COMReference>
+        <Reference Include="Microsoft.Office.Tools.Common">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Common.v4.0.Utilities.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Tools.Excel">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Excel.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Tools.Excel.v4.0.Utilities">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Office.Tools.v4.0.Framework">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.v4.0.Framework.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime">
+          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="PresentationFramework.Aero" />
+    </ItemGroup>
+    <Choose>
+        <When Condition="$([System.String]::Copy(&quot;;$(DefineConstants);&quot;).ToLower().Contains(';useofficeinterop;')) or $([System.String]::Copy(&quot;,$(DefineConstants),&quot;).ToLower().Contains(',useofficeinterop,'))">
+            <ItemGroup>
+                <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+                    <Private>False</Private>
+                    <EmbedInteropTypes>true</EmbedInteropTypes>
+                </Reference>
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <COMReference Include="Microsoft.Office.Core">
+                    <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+                    <VersionMajor>2</VersionMajor>
+                    <VersionMinor>7</VersionMinor>
+                    <Lcid>0</Lcid>
+                    <WrapperTool>tlbimp</WrapperTool>
+                    <Isolated>False</Isolated>
+                    <EmbedInteropTypes>true</EmbedInteropTypes>
+                </COMReference>
+                <COMReference Include="Microsoft.Office.Interop.Excel">
+                    <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+                    <VersionMajor>1</VersionMajor>
+                    <VersionMinor>8</VersionMinor>
+                    <Lcid>0</Lcid>
+                    <WrapperTool>tlbimp</WrapperTool>
+                    <Isolated>False</Isolated>
+                    <EmbedInteropTypes>true</EmbedInteropTypes>
+                </COMReference>
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+    <ItemGroup>
+        <Compile Include="..\CommonAssemblyInfo.cs">
+            <Link>Properties\CommonAssemblyInfo.cs</Link>
+        </Compile>
+        <Compile Include="..\CommonAssemblyVersion.cs">
+            <Link>Properties\CommonAssemblyVersion.cs</Link>
+        </Compile>
+        <Content Include="DaxStudio.ico" />
+        <None Update="app.Debug.config">
+            <DependentUpon>app.config</DependentUpon>
+            <SubType>Designer</SubType>
+        </None>
+        <None Update="app.Release.config">
+            <DependentUpon>app.config</DependentUpon>
+            <SubType>Designer</SubType>
+        </None>
+        <Content Include="DaxStudio.cer">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Update="DaxStudio.dll.xl2010.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <Compile Update="Ribbon.cs">
+            <DependentUpon>Ribbon.xml</DependentUpon>
+        </Compile>
+        <Compile Update="DaxStudioRibbon.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <None Update="ThisAddIn.Designer.xml">
+            <DependentUpon>ThisAddIn.cs</DependentUpon>
+        </None>
+        <AppDesigner Include="Properties\" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ADOTabular\DaxStudio.ADOTabular.csproj" />
+        <ProjectReference Include="..\DAXEditor\DaxStudio.DAXEditor.csproj" />
+        <ProjectReference Include="..\DaxStudio.Checker\DaxStudio.Checker.csproj" />
+        <ProjectReference Include="..\DaxStudio.Common\DaxStudio.Common.csproj" />
+        <ProjectReference Include="..\DaxStudio.Controls.DataGridFilter\DaxStudio.Controls.DataGridFilter.csproj" />
+        <ProjectReference Include="..\DaxStudio.Controls.PropertyGrid\DaxStudio.Controls.PropertyGrid.csproj" />
+        <ProjectReference Include="..\DaxStudio.FileIcons\DaxStudio.FileIcons.csproj" />
+        <ProjectReference Include="..\DaxStudio.Interfaces\DaxStudio.Interfaces.csproj" />
+        <ProjectReference Include="..\DaxStudio.QueryTrace.Excel\DaxStudio.QueryTrace.Excel.csproj" />
+        <ProjectReference Include="..\DaxStudio.QueryTrace\DaxStudio.QueryTrace.csproj" />
+        <ProjectReference Include="..\DaxStudio.SqlFormatter\DaxStudio.SqlFormatter.csproj" />
+        <ProjectReference Include="..\DaxStudio.UriHandler\DaxStudio.Launcher.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AnalysisServices.retail.amd64">
+            <Version>19.76.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNet.SignalR.Core">
+            <Version>2.4.3</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNet.SignalR.Owin">
+            <Version>1.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNet.WebApi.Client">
+            <Version>6.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNet.WebApi.Core">
+            <Version>5.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNet.WebApi.Owin">
+            <Version>5.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost">
+            <Version>5.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Bcl.AsyncInterfaces">
+            <Version>8.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Bcl.TimeProvider">
+            <Version>8.0.1</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Identity.Client">
+            <Version>4.59.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.IdentityModel.Abstractions">
+            <Version>7.4.0</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NETCore.Platforms">
+            <Version>7.0.4</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Owin">
+            <Version>4.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Owin.Diagnostics">
+            <Version>4.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Owin.Host.HttpListener">
+            <Version>4.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Owin.Hosting">
+            <Version>4.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Owin.Security">
+            <Version>4.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Owin.SelfHost">
+            <Version>4.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="NETStandard.Library">
+            <Version>2.0.3</Version>
+        </PackageReference>
+        <PackageReference Include="Newtonsoft.Json">
+            <Version>13.0.3</Version>
+        </PackageReference>
+        <PackageReference Include="Newtonsoft.Json.Bson">
+            <Version>1.0.2</Version>
+        </PackageReference>
+        <PackageReference Include="Owin">
+            <Version>1.0</Version>
+        </PackageReference>
+        <PackageReference Include="Polly">
+            <Version>8.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="Polly.Core">
+            <Version>8.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="Serilog">
+            <Version>3.1.1</Version>
+        </PackageReference>
+        <PackageReference Include="Serilog.Settings.AppSettings">
+            <Version>2.2.2</Version>
+        </PackageReference>
+        <PackageReference Include="Serilog.Sinks.EventLog">
+            <Version>3.1.0</Version>
+        </PackageReference>
+        <PackageReference Include="Serilog.Sinks.File">
+            <Version>5.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="Serilog.Sinks.PeriodicBatching">
+            <Version>4.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Buffers">
+            <Version>4.5.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Collections">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Collections.Concurrent">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.ComponentModel.Annotations">
+            <Version>5.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+        <PackageReference Include="System.Diagnostics.Debug">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Diagnostics.DiagnosticSource">
+            <Version>8.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Diagnostics.Tools">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Globalization">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.IO">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.IO.Compression">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Linq">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Linq.Expressions">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Memory">
+            <Version>4.5.5</Version>
+        </PackageReference>
+        <PackageReference Include="System.Net.Http">
+            <Version>4.3.4</Version>
+        </PackageReference>
+        <PackageReference Include="System.Net.Primitives">
+            <Version>4.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Numerics.Vectors">
+            <Version>4.5.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.ObjectModel">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Reflection">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Reflection.Extensions">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Reflection.Primitives">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Resources.ResourceManager">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Runtime">
+            <Version>4.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+            <Version>6.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Runtime.Extensions">
+            <Version>4.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Runtime.InteropServices">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Runtime.Numerics">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Security.Cryptography.Algorithms">
+            <Version>4.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Security.Cryptography.Encoding">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Security.Cryptography.Primitives">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Security.Cryptography.X509Certificates">
+            <Version>4.3.2</Version>
+        </PackageReference>
+        <PackageReference Include="System.Text.Encoding">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Text.Encoding.Extensions">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Text.RegularExpressions">
+            <Version>4.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Threading">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Threading.Channels">
+            <Version>8.0.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Threading.Tasks">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Threading.Tasks.Extensions">
+            <Version>4.5.4</Version>
+        </PackageReference>
+        <PackageReference Include="System.ValueTuple">
+            <Version>4.5.0</Version>
+        </PackageReference>
+        <PackageReference Include="System.Xml.ReaderWriter">
+            <Version>4.3.1</Version>
+        </PackageReference>
+        <PackageReference Include="System.Xml.XDocument">
+            <Version>4.3.0</Version>
+        </PackageReference>
+        <PackageReference Include="Unofficial.Excel.Amo">
+            <Version>11.0.2832.12</Version>
+            <Aliases>ExcelAmo</Aliases>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Xmla\XmlaHelpers.cs" />
+    </ItemGroup>
+    <ItemGroup>
         <COMReference Include="Microsoft.Office.Interop.Excel">
-          <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-          <VersionMajor>1</VersionMajor>
-          <VersionMinor>8</VersionMinor>
-          <Lcid>0</Lcid>
+            <WrapperTool>tlbimp</WrapperTool>
+            <VersionMinor>9</VersionMinor>
+            <VersionMajor>1</VersionMajor>
+            <Guid>00020813-0000-0000-c000-000000000046</Guid>
+            <Lcid>0</Lcid>
+            <Isolated>false</Isolated>
+            <EmbedInteropTypes>true</EmbedInteropTypes>
+        </COMReference>
+        <COMReference Include="Microsoft.Office.Core">
           <WrapperTool>tlbimp</WrapperTool>
-          <Isolated>False</Isolated>
+          <VersionMinor>8</VersionMinor>
+          <VersionMajor>2</VersionMajor>
+          <Guid>2df8d04c-5bfa-101b-bde5-00aa0044de52</Guid>
+          <Lcid>0</Lcid>
+          <Isolated>false</Isolated>
           <EmbedInteropTypes>true</EmbedInteropTypes>
         </COMReference>
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
-  <ItemGroup>
-    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\CommonAssemblyVersion.cs">
-      <Link>Properties\CommonAssemblyVersion.cs</Link>
-    </Compile>
-    <Content Include="DaxStudio.ico" />
-    <None Update="app.Debug.config">
-      <DependentUpon>app.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="app.Release.config">
-      <DependentUpon>app.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="DaxStudio.cer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Update="DaxStudio.dll.xl2010.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <Compile Update="Ribbon.cs">
-      <DependentUpon>Ribbon.xml</DependentUpon>
-    </Compile>
-    <None Include="DaxStudio.ExcelAddin_1_TemporaryKey.pfx" />
-    <None Include="DaxStudio.ExcelAddin_TemporaryKey.pfx" />
-    <Compile Update="DaxStudioRibbon.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <None Update="ThisAddIn.Designer.xml">
-      <DependentUpon>ThisAddIn.cs</DependentUpon>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ADOTabular\DaxStudio.ADOTabular.csproj" />
-    <ProjectReference Include="..\DAXEditor\DaxStudio.DAXEditor.csproj" />
-    <ProjectReference Include="..\DaxStudio.Checker\DaxStudio.Checker.csproj" />
-    <ProjectReference Include="..\DaxStudio.Common\DaxStudio.Common.csproj" />
-    <ProjectReference Include="..\DaxStudio.Controls.DataGridFilter\DaxStudio.Controls.DataGridFilter.csproj" />
-    <ProjectReference Include="..\DaxStudio.Controls.PropertyGrid\DaxStudio.Controls.PropertyGrid.csproj" />
-    <ProjectReference Include="..\DaxStudio.FileIcons\DaxStudio.FileIcons.csproj" />
-    <ProjectReference Include="..\DaxStudio.Interfaces\DaxStudio.Interfaces.csproj" />
-    <ProjectReference Include="..\DaxStudio.QueryTrace.Excel\DaxStudio.QueryTrace.Excel.csproj" />
-    <ProjectReference Include="..\DaxStudio.QueryTrace\DaxStudio.QueryTrace.csproj" />
-    <ProjectReference Include="..\DaxStudio.SqlFormatter\DaxStudio.SqlFormatter.csproj" />
-    <ProjectReference Include="..\DaxStudio.UriHandler\DaxStudio.Launcher.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AnalysisServices.retail.amd64">
-      <Version>19.76.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.SignalR.Core">
-      <Version>2.4.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.SignalR.Owin">
-      <Version>1.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client">
-      <Version>6.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core">
-      <Version>5.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Owin">
-      <Version>5.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost">
-      <Version>5.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces">
-      <Version>8.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Bcl.TimeProvider">
-      <Version>8.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Identity.Client">
-      <Version>4.59.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.IdentityModel.Abstractions">
-      <Version>7.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.Platforms">
-      <Version>7.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin">
-      <Version>4.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin.Diagnostics">
-      <Version>4.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin.Host.HttpListener">
-      <Version>4.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin.Hosting">
-      <Version>4.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin.Security">
-      <Version>4.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin.SelfHost">
-      <Version>4.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="NETStandard.Library">
-      <Version>2.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json.Bson">
-      <Version>1.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Owin">
-      <Version>1.0</Version>
-    </PackageReference>
-    <PackageReference Include="Polly">
-      <Version>8.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="Polly.Core">
-      <Version>8.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="Serilog">
-      <Version>3.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Serilog.Settings.AppSettings">
-      <Version>2.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Serilog.Sinks.EventLog">
-      <Version>3.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="Serilog.Sinks.File">
-      <Version>5.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Serilog.Sinks.PeriodicBatching">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Buffers">
-      <Version>4.5.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Collections">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Collections.Concurrent">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations">
-      <Version>5.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="System.Diagnostics.Debug">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.DiagnosticSource">
-      <Version>8.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.Tools">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Globalization">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.Compression">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Linq">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Linq.Expressions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Memory">
-      <Version>4.5.5</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Primitives">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Numerics.Vectors">
-      <Version>4.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ObjectModel">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.Extensions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Resources.ResourceManager">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>6.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Extensions">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Numerics">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Algorithms">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Encoding">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.X509Certificates">
-      <Version>4.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encoding">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encoding.Extensions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.RegularExpressions">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Channels">
-      <Version>8.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Tasks">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Xml.ReaderWriter">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Xml.XDocument">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Unofficial.Excel.Amo">
-      <Version>11.0.2832.12</Version>
-      <Aliases>ExcelAmo</Aliases>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Xmla\XmlaHelpers.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>9</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>00020813-0000-0000-c000-000000000046</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>DaxStudio.ExcelAddin_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>718DCBE2CF2EC3F8B1BEB65AA3203A8F9A217C98</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
-        <Host Name="Excel" GeneratedCodeNamespace="ExcelAddIn1" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="ThisAddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
-        </Host>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
+    </ItemGroup>
+    <ProjectExtensions>
+        <VisualStudio>
+            <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+                <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+                <Host Name="Excel" GeneratedCodeNamespace="DaxStudio.ExcelAddin" IconIndex="0">
+                    <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="ThisAddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+                </Host>
+            </FlavorProperties>
+        </VisualStudio>
+    </ProjectExtensions>
 </Project>
