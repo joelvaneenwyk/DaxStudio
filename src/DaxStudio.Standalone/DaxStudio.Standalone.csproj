@@ -109,7 +109,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DaxStudio.Common\DaxStudio.Common.csproj" />
-    <ProjectReference Include="..\DaxStudio.FileIcons\DaxStudio.FileIcons.csproj" />
     <ProjectReference Include="..\DaxStudio.Interfaces\DaxStudio.Interfaces.csproj" />
     <ProjectReference Include="..\DaxStudio.UI\DaxStudio.UI.csproj" />
   </ItemGroup>
@@ -161,21 +160,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Caliburn.Micro">
-      <Version>4.0.212</Version>
-    </PackageReference>
-    <PackageReference Include="FluentCommandLineParser">
-      <Version>1.5.0.20-commands</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
       <Version>8.0.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Serilog">
-      <Version>3.1.1</Version>
-    </PackageReference>
     <PackageReference Include="Serilog.Settings.AppSettings">
       <Version>2.2.2</Version>
     </PackageReference>
@@ -183,6 +173,7 @@
       <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="BuildDateAttribute.cs" />
