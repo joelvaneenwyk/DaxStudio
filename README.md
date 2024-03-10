@@ -8,4 +8,4 @@ When preparing to make changes in order to submit a pull request you should crea
 
 We merge from develop to master when doing a public release.
 
-See the following for details about [debugging](debugging) DAX Studio.
+See the following for details about [debugging](./docs/debugging.md) DAX Studio.
