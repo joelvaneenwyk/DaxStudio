@@ -1,0 +1,63 @@
+#
+# DAX Studio - GitHub Build Workflow
+#
+
+name: Build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        solution: [src/DaxStudio.sln]
+        configuration: [Debug, Release]
+        platform: [Any CPU]
+
+    runs-on: windows-latest
+
+    env:
+      test_project_path: "tests/DaxStudio.Tests/DaxStudio.Tests.csproj"
+      build_definition: "**/*.msproj"
+      build_target: "Installer"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      # Install the .NET tools
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+
+      # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Restore NuGet packages
+        working-directory: ${{ github.workspace }}
+        run: nuget restore "${{ matrix.solution }}"
+
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild /m /t:Restore /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
+
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Build application
+        run: msbuild /m /t:Build /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
+
+      # - name: Generate Installer
+      #   uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+      #   with:
+      #     path: installer/DaxStudio.iss
+      #     options: /O+
