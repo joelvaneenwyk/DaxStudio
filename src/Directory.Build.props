@@ -1,9 +1,16 @@
 <Project>
     <PropertyGroup>
+        <Deterministic>true</Deterministic>
         <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
     </PropertyGroup>
     <PropertyGroup>
         <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) DAX Studio ($([System.DateTime]::UtcNow.ToString("s")))</Copyright>
+    </PropertyGroup>
 
+    <PropertyGroup>
+        <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
+        <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
+        <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
+        <VisualStudioToolsOfficeRoot Condition="Exists('C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll')">C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15</VisualStudioToolsOfficeRoot>
     </PropertyGroup>
 </Project>

@@ -35,29 +35,28 @@
     <ItemGroup>
         <Reference Include="Accessibility" />
         <Reference Include="Microsoft.Office.Interop.Excel">
-          <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for
-                Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll</HintPath>
+          <HintPath>$(VisualStudioToolsOfficeRoot)\Microsoft.Office.Interop.Excel.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.Office.Tools">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.Office.Tools.Common">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Common.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.Common.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Common.v4.0.Utilities.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.Common.v4.0.Utilities.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.Office.Tools.Excel">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Excel.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.Excel.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.Office.Tools.Excel.v4.0.Utilities">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.Office.Tools.v4.0.Framework">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.Office.Tools.v4.0.Framework.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.v4.0.Framework.dll</HintPath>
         </Reference>
         <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime">
-          <HintPath>C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll</HintPath>
+          <HintPath>$(ReferenceAssemblyRoot)\Microsoft.VisualStudio.Tools.Applications.Runtime.dll</HintPath>
         </Reference>
         <Reference Include="PresentationFramework.Aero" />
     </ItemGroup>
