@@ -1,5 +1,6 @@
 <Project>
     <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
         <Deterministic>true</Deterministic>
         <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
         <!-- For non-SDK projects that import this file and then import Microsoft.Common.props,
@@ -30,6 +31,17 @@
 
     <PropertyGroup>
         <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) DAX Studio ($([System.DateTime]::UtcNow.ToString("s")))</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <InnoSetupExecutable Condition="Exists('$(UserDir)\scoop\shims\iscc.exe')">$(UserDir)\scoop\shims\iscc.exe</InnoSetupExecutable>
+        <InnoSetupExecutable Condition="Exists('$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe')">$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe</InnoSetupExecutable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <UserDir>$(HOMEDRIVE)$(HOMEPATH)</UserDir>
+        <InnoSetupExecutable Condition="Exists('$(UserDir)\scoop\shims\iscc.exe')">$(UserDir)\scoop\shims\iscc.exe</InnoSetupExecutable>
+        <InnoSetupExecutable Condition="Exists('$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe')">$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe</InnoSetupExecutable>
     </PropertyGroup>
 
     <PropertyGroup>

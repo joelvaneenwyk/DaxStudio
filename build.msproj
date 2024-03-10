@@ -4,6 +4,7 @@
 
     <!-- Setup Properties -->
     <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
         <SignToolExe>"C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe"</SignToolExe>
         <MageExe>"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\mage.exe"</MageExe>
         <ManifestKeyFile>./lib/DaxStudio.pfx</ManifestKeyFile>
@@ -19,11 +20,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <DllFiles Include=".\Release\bin\DaxStudio.*.dll"/>
+        <DllFiles Include=".\bin\$(Configuration)\bin\DaxStudio.*.dll"/>
     </ItemGroup>
 
     <PropertyGroup>
-        <ReleaseDirectory>./Release</ReleaseDirectory>
+        <ReleaseDirectory>./$(Configuration)</ReleaseDirectory>
     </PropertyGroup>
 
     <Target Name="Clean" DependsOnTargets="MakeReleaseFolder">
@@ -32,8 +33,8 @@
     </Target>
 
     <Target Name="DeleteReleaseFolder">
-        <Message Text="Cleaning Release folder" Importance="High"/>
-        <RemoveDir Directories="/Release/" />
+        <Message Text="Cleaning $(Configuration) folder" Importance="High"/>
+        <RemoveDir Directories="/$(Configuration)/" />
     </Target>
 
     <Target Name="MakeReleaseFolder" DependsOnTargets="DeleteReleaseFolder">
@@ -52,7 +53,7 @@
 
     <Target Name="DeletePdb" AfterTargets="Build" DependsOnTargets="Build">
         <ItemGroup>
-            <FilesToDelete Include="./Release/**/*.pdb"/>
+            <FilesToDelete Include="./$(Configuration)/**/*.pdb"/>
         </ItemGroup>
         <Delete Files="@(FilesToDelete)" />
     </Target>
@@ -60,21 +61,21 @@
 
     <Target Name="DeleteXml" AfterTargets="Build" DependsOnTargets="Build">
         <ItemGroup>
-            <FilesToDelete Include="./Release/**/*.xml"/>
+            <FilesToDelete Include="./$(Configuration)/**/*.xml"/>
         </ItemGroup>
         <Delete Files="@(FilesToDelete)" />
     </Target>
 
     <PropertyGroup>
-        <MyAssemblies>./Release/bin/DaxStudio.dll</MyAssemblies>
+        <MyAssemblies>./$(Configuration)/bin/DaxStudio.dll</MyAssemblies>
     </PropertyGroup>
 
     <Target Name="MoveExes" DependsOnTargets="DeleteXml;DeletePdb">
         <ItemGroup>
-            <FilesToMove Include=".\Release\bin\DaxStudio.exe;.\Release\bin\DaxStudio.exe.config;.\Release\bin\DaxStudio.Checker.exe;.\Release\bin\DaxStudio.Checker.exe.config;.\Release\bin\dscmd.exe;.\Release\bin\dscmd.exe.config;" />
+            <FilesToMove Include=".\bin\$(Configuration)\bin\DaxStudio.exe;.\bin\$(Configuration)\bin\DaxStudio.exe.config;.\bin\$(Configuration)\bin\DaxStudio.Checker.exe;.\bin\$(Configuration)\bin\DaxStudio.Checker.exe.config;.\bin\$(Configuration)\bin\dscmd.exe;.\bin\$(Configuration)\bin\dscmd.exe.config;" />
         </ItemGroup>
         <Message Text="Moving exe files" Importance="High" />
-        <Move SourceFiles="@(FilesToMove)" DestinationFolder="./Release" />
+        <Move SourceFiles="@(FilesToMove)" DestinationFolder="./$(Configuration)" />
     </Target>
 
 
@@ -98,15 +99,15 @@
     <Target Name="SignAssemblies" DependsOnTargets="Build">
         <Message Text="Attempting to sign Assemblies" Importance="high" />
         <!--
-            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.exe' IgnoreExitCode="true"/>
-            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.checker.exe' IgnoreExitCode="true"/>
-            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.dll' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\bin\daxstudio.exe' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\bin\daxstudio.checker.exe' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\bin\$(Configuration)\bin\daxstudio.dll' IgnoreExitCode="true"/>
         -->
-        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
-        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\dscmd.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
-        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.checker.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
-        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.checker.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
-        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v ./Release/bin/daxstudio.dll' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
+        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\bin\$(Configuration)\daxstudio.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
+        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\bin\$(Configuration)\dscmd.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
+        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\bin\$(Configuration)\daxstudio.checker.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
+        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\bin\$(Configuration)\daxstudio.checker.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
+        <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v ./$(Configuration)/bin/daxstudio.dll' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
     </Target>
 
     <Target Name="DllsToSign">
@@ -120,16 +121,15 @@
 
     <Target Name="SignVsto" DependsOnTargets="SignManifest">
         <Message Text="Attempting to sign DaxStudio.vsto file" Importance="high"/>
-        <Exec WorkingDirectory="./Release/bin" Command='$(MageExe) -update "DaxStudio.vsto" -CertHash $(ManifestThumbPrint) -appmanifest "DaxStudio.dll.manifest" -TimeStampUri $(TimeStampUri)' />
+        <Exec WorkingDirectory="./$(Configuration)/bin" Command='$(MageExe) -update "DaxStudio.vsto" -CertHash $(ManifestThumbPrint) -appmanifest "DaxStudio.dll.manifest" -TimeStampUri $(TimeStampUri)' />
     </Target>
 
-
     <Target Name="Installer" DependsOnTargets="DeleteXml; DeletePdb;MoveExes">
-        <Exec Command='"$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe" .\installer\DaxStudio.iss' />
+        <Exec Command='"$(InnoSetupExecutable)" .\installer\DaxStudio.iss' />
     </Target>
 
     <Target Name="InstallerWithSignedAssemblies" DependsOnTargets="DeleteXml; DeletePdb; SignVsto;MoveExes">
-        <Exec Command='"$(MSBuildProgramFiles32)\Inno Setup 6\iscc.exe" .\installer\daxstudio.iss' />
+        <Exec Command='"$(InnoSetupExecutable)" .\installer\daxstudio.iss' />
     </Target>
 
     <Target Name="SignedInstaller" DependsOnTargets="InstallerWithSignedAssemblies; RetrieveIdentities">
@@ -141,7 +141,7 @@
 
     <Target Name="CreatePortableFile">
         <Message Text="Creating .portable file" Importance="high"/>
-        <Touch Files=".\Release\bin\.portable" AlwaysCreate="True" />
+        <Touch Files=".\bin\$(Configuration)\bin\.portable" AlwaysCreate="True" />
     </Target>
 
     <Target Name="DeleteInstaller" DependsOnTargets="">
@@ -161,11 +161,11 @@
     </Target>
 
     <Target Name="SignedPortable" DependsOnTargets="Build;CreatePortableFile;DeleteZip;MoveExes;SignAssemblies">
-        <ZipDirectory SourceDirectory=".\Release" DestinationFile="$(MSBuildProjectDirectory)\Package\DaxStudio_$(OutVersion)_portable.zip" Overwrite="True" />
+        <ZipDirectory SourceDirectory=".\$(Configuration)" DestinationFile="$(MSBuildProjectDirectory)\Package\DaxStudio_$(OutVersion)_portable.zip" Overwrite="True" />
     </Target>
 
     <Target Name="Portable" DependsOnTargets="Build;CreatePortableFile;DeleteZip;MoveExes">
-        <ZipDirectory SourceDirectory=".\Release" DestinationFile="$(MSBuildProjectDirectory)\Package\DaxStudio_$(OutVersion)_portable.zip" Overwrite="True" />
+        <ZipDirectory SourceDirectory=".\$(Configuration)" DestinationFile="$(MSBuildProjectDirectory)\Package\DaxStudio_$(OutVersion)_portable.zip" Overwrite="True" />
     </Target>
 
     <Target Name="GenerateInstallerHash" DependsOnTargets="SignedInstaller">
