@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+using Caliburn.Micro;
 using DaxStudio.Interfaces;
 using DaxStudio.UI.Events;
 using DaxStudio.UI.Extensions;
@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using ICSharpCode.SharpDevelop.Dom;
 using System.Threading;
 
 namespace DaxStudio.UI.Utils

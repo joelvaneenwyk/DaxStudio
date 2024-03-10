@@ -1,6 +1,5 @@
-﻿using DaxStudio.Interfaces;
+using DaxStudio.Interfaces;
 using DaxStudio.UI.Enums;
-using ICSharpCode.NRefactory.Ast;
 using Newtonsoft.Json;
 using System.IO;
 using System.Runtime.Serialization;

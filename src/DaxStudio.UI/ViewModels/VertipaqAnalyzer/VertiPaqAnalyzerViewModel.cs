@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.Composition;
+using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using DaxStudio.UI.Events;
 using DaxStudio.UI.Model;
@@ -23,7 +23,6 @@ using Microsoft.AspNet.SignalR.Client;
 using System.Windows;
 using System.Windows.Forms;
 using ADOTabular;
-using Mono.Cecil.Cil;
 using System.Globalization;
 using System.Text;
 using DaxStudio.UI.Views;
