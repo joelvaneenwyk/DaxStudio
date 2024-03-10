@@ -8,8 +8,8 @@
 #define myAppMinor
 #define myAppRevision
 #define myAppBuild
-#define MyAppVersionFull ParseVersion('..\release\DaxStudio.exe', myAppMajor, myAppMinor, myAppRevision, myAppBuild)
-#define MyAppVersion GetFileVersion('..\release\DaxStudio.exe')
+#define MyAppVersionFull ParseVersion('..\bin\Release\DaxStudio.exe', myAppMajor, myAppMinor, myAppRevision, myAppBuild)
+#define MyAppVersion GetFileVersion('..\bin\Release\DaxStudio.exe')
 #define MyAppPublisher "Dax Studio"
 #define MyAppURL "http://daxstudio.codeplex.com"
 #define MyAppExeName "DaxStudio.exe"
@@ -61,7 +61,7 @@ WizardSmallImageFile=WizardSmallImageFile.bmp
 
 PrivilegesRequired=none
 ArchitecturesAllowed=x86 x64
-ArchitecturesInstallIn64BitMode=x64 
+ArchitecturesInstallIn64BitMode=x64
 
 DisableDirPage=auto
 DisableProgramGroupPage=auto
@@ -86,20 +86,20 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\release\DaxStudio.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: Core
-Source: "..\release\bin\DaxStudio.vsto"; DestDir: "{app}"; Flags: ignoreversion; Components: Excel
-Source: "..\release\bin\DaxStudio.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: Excel
-Source: "..\release\bin\DaxStudio.dll.manifest"; DestDir: "{app}"; Flags: ignoreversion; Components: Excel
-Source: "..\release\*"; DestDir: "{app}"; Flags: replacesameversion recursesubdirs createallsubdirs ignoreversion; Components: Core; Excludes: "*.pdb,*.xml,DaxStudio.vshost.*,*.config,DaxStudio.dll,DaxStudio.exe,DaxStudio.vsto"
+Source: "..\bin\Release\DaxStudio.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: Core
+Source: "..\bin\Release\DaxStudio.vsto"; DestDir: "{app}"; Flags: ignoreversion; Components: Excel
+Source: "..\bin\Release\DaxStudio.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: Excel
+Source: "..\bin\Release\DaxStudio.dll.manifest"; DestDir: "{app}"; Flags: ignoreversion; Components: Excel
+Source: "..\bin\Release\*"; DestDir: "{app}"; Flags: replacesameversion recursesubdirs createallsubdirs ignoreversion; Components: Core; Excludes: "*.pdb,*.xml,DaxStudio.vshost.*,*.config,DaxStudio.dll,DaxStudio.exe,DaxStudio.vsto"
 
 ;Standalone configs
-;Source: "..\release\DaxStudio.exe.2016.config"; DestDir: "{app}"; DestName: "DaxStudio.exe.config"; Flags: ignoreversion; Components: Core; Check: Not IsComponentSelected('ASAzureSupport')
-;Source: "..\release\DaxStudio.exe.2017.config"; DestDir: "{app}"; DestName: "DaxStudio.exe.config"; Flags: ignoreversion; Components: Core; Check: IsComponentSelected('ASAzureSupport')
+;Source: "..\bin\Release\DaxStudio.exe.2016.config"; DestDir: "{app}"; DestName: "DaxStudio.exe.config"; Flags: ignoreversion; Components: Core; Check: Not IsComponentSelected('ASAzureSupport')
+;Source: "..\bin\Release\DaxStudio.exe.2017.config"; DestDir: "{app}"; DestName: "DaxStudio.exe.config"; Flags: ignoreversion; Components: Core; Check: IsComponentSelected('ASAzureSupport')
 
 ;Excel Addin configs
-Source: "..\release\bin\DaxStudio.dll.config"; DestDir: "{app}"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Excel; Check: Not IsComponentSelected('ASAzureSupport') And IsExcel2010Installed
-;Source: "..\release\bin\DaxStudio.dll.2016.config"; DestDir: "{app}"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Excel; Check: Not IsComponentSelected('ASAzureSupport') And Not IsExcel2010Installed
-;Source: "..\release\bin\DaxStudio.dll.2017.config"; DestDir: "{app}"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Excel; Check: IsComponentSelected('ASAzureSupport') 
+Source: "..\bin\Release\DaxStudio.dll.config"; DestDir: "{app}"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Excel; Check: Not IsComponentSelected('ASAzureSupport') And IsExcel2010Installed
+;Source: "..\bin\Release\DaxStudio.dll.2016.config"; DestDir: "{app}"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Excel; Check: Not IsComponentSelected('ASAzureSupport') And Not IsExcel2010Installed
+;Source: "..\bin\Release\DaxStudio.dll.2017.config"; DestDir: "{app}"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Excel; Check: IsComponentSelected('ASAzureSupport')
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -112,12 +112,12 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 ;[UninstallRun]
 
-;Filename: {win}\Microsoft.NET\Framework64\v4.0.30319\ngen.exe Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Removing native images and dependencies ...; Flags: runhidden; Check: CheckFramework; 
+;Filename: {win}\Microsoft.NET\Framework64\v4.0.30319\ngen.exe Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Removing native images and dependencies ...; Flags: runhidden; Check: CheckFramework;
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
 Filename: "eventcreate"; Parameters: "/ID 1 /L APPLICATION /T INFORMATION  /SO DaxStudio /D ""DaxStudio Installed"""; WorkingDir: "{sys}"; Flags: runascurrentuser runhidden; StatusMsg: "Registering DaxStudio Eventlog Source"; Components: Core
-;Filename: {code:GetV4NetDir}ngen.exe; Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Optimizing performance for your system ...; Flags: runhidden; 
+;Filename: {code:GetV4NetDir}ngen.exe; Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Optimizing performance for your system ...; Flags: runhidden;
 ;Check: CheckFramework;
 
 #include "scripts\products.iss"
@@ -134,8 +134,8 @@ Filename: "eventcreate"; Parameters: "/ID 1 /L APPLICATION /T INFORMATION  /SO D
 ;#include "scripts\products\sql2017amo.iss"
 
 [UninstallRun]
-;Filename: {code:GetV4NetDir}ngen.exe; Parameters: "uninstall ""{app}\{#MyAppExeName}""";  StatusMsg: Removing native images and dependencies ...; Flags: runhidden; 
-;Check: CheckFramework; 
+;Filename: {code:GetV4NetDir}ngen.exe; Parameters: "uninstall ""{app}\{#MyAppExeName}""";  StatusMsg: Removing native images and dependencies ...; Flags: runhidden;
+;Check: CheckFramework;
 
 [Types]
 Name: "full"; Description: "Full Install"
@@ -192,19 +192,19 @@ end;
 var maxCommonSsasAssemblyVersion: string;
 
 function GetV4NetDir(version: string) : string;
-var 
+var
   regkey, regval  : string;
 begin
 
     // in case the target is 3.5, replace 'v4' with 'v3.5'
-    // for other info, check out this link 
+    // for other info, check out this link
     // https://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     regkey := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full'
 
     RegQueryStringValue(HKLM, regkey, 'InstallPath', regval);
 
     Result := regval;
-end; 
+end;
 
 function SwapSlashes(const path:String):String;
 var
@@ -253,7 +253,7 @@ begin
   for I := 1 to GetArrayLength(RegKeys) do
   begin
     If  RegKeyExists(HKEY_CURRENT_USER, RegKeys[I]) then
-    begin  
+    begin
       if RegGetValueNames(HKEY_CURRENT_USER, RegKeys[I], Names) then
       begin
         keyName := '';
@@ -274,11 +274,11 @@ begin
     end;
 
   end;
-  
+
 end;
 
 
-          
+
 function GetMaxCommonSsasAssemblyVersion(): String;
 begin
     Result := maxCommonSsasAssemblyVersion;
@@ -287,9 +287,9 @@ end;
 
 function InitializeSetup(): boolean;
 begin
-                     
+
   // clear DaxStudio from Excel Add-ins hard disabled items
-  try 
+  try
     Log('Clearing Disabled items from Excel Add-in registry location');
     CleanDisabledItems();
   except
@@ -298,7 +298,7 @@ begin
   end;
 
 	//init windows version
-	try 
+	try
     Log('Checking Windows Version');
     initwinversion();
   except
@@ -326,7 +326,7 @@ begin
 //  end  else begin
 //      msgbox('adomd NOT ok',mbInformation, MB_OK);
 //  end;
-  
+
 #ifdef use_msi20
 	msi20('2.0');
 #endif
@@ -337,7 +337,7 @@ begin
 	msi45('4.5');
 #endif
 
- 
+
 
 if ShouldInstallDependencies() then
   Log('Checking for Dependencies')
@@ -352,7 +352,7 @@ else
 #endif
 
 #ifdef use_dotnetfx45
-    
+
     //dotnetfx45(2); // min allowed version is .netfx 4.5.2
     if ShouldInstallDependencies() then begin
       Log('Checking if .Net 4.5 is installed');
@@ -434,7 +434,7 @@ const
   // There are other values that GetBinaryType can return, but we're
   // not interested in them.
 
-// Declare Win32 function  
+// Declare Win32 function
 function GetBinaryType(lpApplicationName: AnsiString; var lpBinaryType: Integer): Boolean;
 external 'GetBinaryTypeA@kernel32.dll stdcall';
 
@@ -494,7 +494,7 @@ begin
     Log('IsSQL2016DllsFound() = False');
     Result := False
   End;
-  
+
  end;
 
 function IsSQL2017DllsFound(): boolean;
@@ -503,7 +503,7 @@ begin
   Log(IntToStr(Integer(CompareAssemblyVersion(GetMaxCommonSsasAssemblyVersion() ,'14.0.0.0000') = 0)));
   Log(IntToStr(Integer(IsComponentSelected('AsAzureSupport'))));
 	Result := ((CompareAssemblyVersion(GetMaxCommonSsasAssemblyVersion() ,'14.0.0.0000') = 0 )  Or  IsComponentSelected('AsAzureSupport')) ;
-end;         
+end;
 
 /////////////////////////////////////////////////////////////////////
 function GetUninstallString(): String;
@@ -517,9 +517,9 @@ begin
   if not RegQueryStringValue(HKLM, sUnInstPath, 'UninstallString', sUnInstallString) then
     RegQueryStringValue(HKCU, sUnInstPath, 'UninstallString', sUnInstallString);
 
-  //Msgbox('The following uninstall strig was found' + #13#10 + 
+  //Msgbox('The following uninstall strig was found' + #13#10 +
   //    sUnInstallString, mbInformation, MB_OK);
-  
+
   Result := sUnInstallString;
 end;
 
@@ -573,8 +573,8 @@ begin
   end;
 end;
 
-const 
-   ComponentList = 'CORE - core components| EXCEL - Excel Addin'; 
-   TaskList = 'DESKTOPICON - adds a desktop icon'; 
-   ParameterList = '/SKIPDEPENDENCIES=True/False - Skips the standard dependency checks'; 
+const
+   ComponentList = 'CORE - core components| EXCEL - Excel Addin';
+   TaskList = 'DESKTOPICON - adds a desktop icon';
+   ParameterList = '/SKIPDEPENDENCIES=True/False - Skips the standard dependency checks';
 #include "scripts/clihelp.iss"
