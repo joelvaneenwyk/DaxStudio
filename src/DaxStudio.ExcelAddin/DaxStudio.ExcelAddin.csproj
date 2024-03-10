@@ -49,9 +49,6 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Accessibility" />
-        <Reference Include="Microsoft.Office.Interop.Excel">
-          <HintPath>$(VisualStudioToolsOfficeRoot)\Microsoft.Office.Interop.Excel.dll</HintPath>
-        </Reference>
         <Reference Include="Microsoft.Office.Tools">
           <HintPath>$(ReferenceAssemblyRoot)\Microsoft.Office.Tools.dll</HintPath>
         </Reference>
@@ -76,16 +73,10 @@
         <Reference Include="PresentationFramework.Aero" />
     </ItemGroup>
     <Choose>
-        <When Condition="$([System.String]::Copy(&quot;;$(DefineConstants);&quot;).ToLower().Contains(';useofficeinterop;')) or $([System.String]::Copy(&quot;,$(DefineConstants),&quot;).ToLower().Contains(',useofficeinterop,'))">
-            <ItemGroup>
-                <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-                    <Private>False</Private>
-                    <EmbedInteropTypes>true</EmbedInteropTypes>
-                </Reference>
-            </ItemGroup>
-        </When>
+        <When Condition="$([System.String]::Copy(&quot;;$(DefineConstants);&quot;).ToLower().Contains(';useofficeinterop;')) or $([System.String]::Copy(&quot;,$(DefineConstants),&quot;).ToLower().Contains(',useofficeinterop,'))" />
         <Otherwise>
             <ItemGroup>
+                <!--
                 <COMReference Include="Microsoft.Office.Core">
                     <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
                     <VersionMajor>2</VersionMajor>
@@ -104,6 +95,7 @@
                     <Isolated>False</Isolated>
                     <EmbedInteropTypes>true</EmbedInteropTypes>
                 </COMReference>
+            -->
             </ItemGroup>
         </Otherwise>
     </Choose>
@@ -192,6 +184,7 @@
         <PackageReference Include="Microsoft.NETCore.Platforms">
             <Version>7.0.4</Version>
         </PackageReference>
+        <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
         <PackageReference Include="Microsoft.Owin">
             <Version>4.2.2</Version>
         </PackageReference>
@@ -210,6 +203,7 @@
         <PackageReference Include="Microsoft.Owin.SelfHost">
             <Version>4.2.2</Version>
         </PackageReference>
+        <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" />
         <PackageReference Include="NETStandard.Library">
             <Version>2.0.3</Version>
         </PackageReference>
@@ -375,7 +369,7 @@
     <ItemGroup>
         <Compile Remove="Xmla\XmlaHelpers.cs" />
     </ItemGroup>
-    <ItemGroup>
+    <ItemGroup><!--
         <COMReference Include="Microsoft.Office.Interop.Excel">
             <WrapperTool>tlbimp</WrapperTool>
             <VersionMinor>9</VersionMinor>
@@ -393,7 +387,7 @@
           <Lcid>0</Lcid>
           <Isolated>false</Isolated>
           <EmbedInteropTypes>true</EmbedInteropTypes>
-        </COMReference>
+        </COMReference>-->
     </ItemGroup>
     <ProjectExtensions>
         <VisualStudio>
