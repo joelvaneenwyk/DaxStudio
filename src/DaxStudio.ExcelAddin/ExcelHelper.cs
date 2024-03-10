@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 //using ADOTabular;
@@ -11,9 +11,9 @@ using System.Globalization;
 using Serilog;
 using System.Collections.Generic;
 
-namespace DaxStudio.ExcelAddin 
+namespace DaxStudio.ExcelAddin
 {
-    public class ExcelHelper:IDisposable
+    public class ExcelHelper : IDisposable
     {
         // ReSharper disable InconsistentNaming
         const string NEW_SHEET = "<New Sheet>";
@@ -26,43 +26,43 @@ namespace DaxStudio.ExcelAddin
         // ReSharper restore InconsistentNaming
 
         //private QueryTable _qryTable;
-        private readonly Application _app ;
+        private readonly Application _app;
 
         public delegate void QueryTableRefreshedHandler(object sender, QueryTableRefreshEventArgs e);
         public event QueryTableRefreshedHandler QueryTableRefreshedEventHandler;
-        
-        public ExcelHelper( Application app)
+
+        public ExcelHelper(Application app)
         {
             _app = app;
         }
-        
+
         /*
         public void RefreshQueryTableAsync(QueryTable queryTable)
         {
             _qryTable = queryTable;
             _qryTable.AfterRefresh += OnQueryTableAfterRefresh;
             _qryTable.Refresh(true);
-        }        
+        }
         */
 
         public Worksheet GetTargetWorksheet(string sheetName)
         {
             var wb = _app.ActiveWorkbook;
             var shts = wb.Sheets;
-                    switch (sheetName)
-                {
-                    case NEW_SHEET:
-                        return CreateNewWorkSheeet(wb);
-                    case DAX_RESULTS_SHEET:
-                        return GetDaxResultsWorkSheet(wb);
-                    default:
-                        return (Worksheet)shts[sheetName];
-                }
+            switch (sheetName)
+            {
+                case NEW_SHEET:
+                    return CreateNewWorkSheeet(wb);
+                case DAX_RESULTS_SHEET:
+                    return GetDaxResultsWorkSheet(wb);
+                default:
+                    return (Worksheet)shts[sheetName];
+            }
         }
 
         internal static void CopyDataTableToRange(System.Data.DataTable dt, Worksheet excelSheet)
         {
-            
+
             // Calculate the final column letter
             var finalColLetter = string.Empty;
             const string colCharset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -78,7 +78,7 @@ namespace DaxStudio.ExcelAddin
             // Fast data export to Excel
             string excelRange = string.Format("A1:{0}{1}",
                 finalColLetter, dt.Rows.Count + 1);
-            
+
             // copying an object array to Value2 means that there is only one
             // .Net to COM interop call
             var r = excelSheet.Range[excelRange, Type.Missing];
@@ -91,11 +91,12 @@ namespace DaxStudio.ExcelAddin
             var iCol = 1;     // Excel ranges are 1 based
             foreach (DataColumn c in dt.Columns)
             {
-                Range rngHdr = r[1, iCol];
-                rngHdr.Value = rngHdr.Value.Replace('`',' ');
+                Range rngHdr = (Range)r[1, iCol];
+                // #jve #todo need to check if this is correct
+                rngHdr.Value = ((Worksheet)rngHdr.Value).ToString().Replace('`', ' ');
                 if (c.DataType == typeof(DateTime))
                 {
-                    Range col = r.Columns[iCol];
+                    Range col = (Range)r.Columns[iCol];
                     col.NumberFormat = "m/d/yyyy"; // US format appears to set the default date format for the current culture
 
                 }
@@ -117,8 +118,8 @@ namespace DaxStudio.ExcelAddin
                 , 1, XlSheetType.xlWorksheet);
         }
 
-        private  Worksheet _shtDaxResults;
-        public  Worksheet GetDaxResultsWorkSheet(Workbook workbook)
+        private Worksheet _shtDaxResults;
+        public Worksheet GetDaxResultsWorkSheet(Workbook workbook)
         {
             var shts = workbook.Sheets;
             if (_shtDaxResults == null)
@@ -128,7 +129,7 @@ namespace DaxStudio.ExcelAddin
                     _shtDaxResults = s;
                 }
             }
-            
+
             if (_shtDaxResults != null)
             {
                 _app.DisplayAlerts = false;
@@ -146,7 +147,8 @@ namespace DaxStudio.ExcelAddin
 
         internal bool IsExcel2013OrLater
         {
-            get {
+            get
+            {
                 return float.Parse(_app.Version, CultureInfo.InvariantCulture) >= 15;
             }
         }
@@ -170,14 +172,14 @@ namespace DaxStudio.ExcelAddin
                             return true;
                         }
                     }
-                    
+
                     Log.Debug("{Class} {method} {event}", "ExcelHelper", "HasPowerPivotData:false", "End (2013)");
                     return false;
                 }
 
                 // if Excel 2010
                 PivotCaches pvtcaches = wb.PivotCaches();
-                
+
                 if (pvtcaches.Count == 0) CreateHiddenPivotTable(wb);   // create a hidden pivottable so we can "wake up" the data model
 
                 var ptc = (from PivotCache pvtc in pvtcaches
@@ -196,7 +198,7 @@ namespace DaxStudio.ExcelAddin
 
                     ptc.Connection = new AdomdConnection( )
                 }
-                 */ 
+                 */
                 if (ptc != null)
                 {
                     ptc.Refresh();
@@ -206,7 +208,7 @@ namespace DaxStudio.ExcelAddin
                 Log.Debug("{Class} {method} {event}", "ExcelHelper", "HasPowerPivotData", "End (2010) - false");
                 return false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("{Class} {method} {exception} {stacktrace}", "ExcelHelper", "HasPowerPivotData", ex.Message, ex.StackTrace);
                 throw;
@@ -232,7 +234,7 @@ namespace DaxStudio.ExcelAddin
             PivotCache pc;
             string connStr;
             var wb = _app.ActiveWorkbook;
-            
+
             if (IsExcel2013OrLater)
             {
                 PivotCaches pvtcaches = wb.PivotCaches();
@@ -244,7 +246,7 @@ namespace DaxStudio.ExcelAddin
                                  select pvtc).First();
                 var wbc = ((dynamic)pc.WorkbookConnection);
                 var modelCnn = wbc.ModelConnection;
-                
+
                 //var wbkCnn = FindPowerPivotConnection(wb);
                 //var modelCnn = wbkCnn.ModelConnection;
                 var cnn = modelCnn.ADOConnection;
@@ -280,24 +282,25 @@ namespace DaxStudio.ExcelAddin
             Worksheet sht = null;
             try
             {
-                sht = wb.Sheets["DaxStudioConnectionHelper"];
+                sht = (Worksheet)wb.Sheets["DaxStudioConnectionHelper"];
             }
             catch { } // swallow any exception if the sheet is not found
 
 
-            if (sht == null) {
-                sht = wb.Sheets.Add();
+            if (sht == null)
+            {
+                sht = (Worksheet)wb.Sheets.Add();
                 sht.Name = "DaxStudioConnectionHelper";
                 sht.Visible = XlSheetVisibility.xlSheetVeryHidden;
             }
-            
+
             //PivotTable pt;
             PivotCaches pivotCaches;
             pivotCaches = wb.PivotCaches();
             var pc = pivotCaches.Create(XlPivotTableSourceType.xlExternal, wb.Connections["PowerPivot Data"], XlPivotTableVersionList.xlPivotTableVersion14);
-            pc.CreatePivotTable(sht.Cells[1,1], "DaxStudioConnectionPivot", Type.Missing, XlPivotTableVersionList.xlPivotTableVersion14);
+            pc.CreatePivotTable(sht.Cells[1, 1], "DaxStudioConnectionPivot", Type.Missing, XlPivotTableVersionList.xlPivotTableVersion14);
             return pc;
-            
+
             //pc = wb.PivotCaches.Create(  SourceType= xlExternal, SourceData:= wb.Connections["PowerPivot Data"], Version:=xlPivotTableVersion14)
             //pt = pc.CreatePivotTable(TableDestination:="DaxStudioConnectionHelper!R1C1", TableName:= "DaxStudioConnectionPivotTable", DefaultVersion:=xlPivotTableVersion14);
         }
@@ -330,15 +333,16 @@ namespace DaxStudio.ExcelAddin
                                       && !pvtc.IsConnected
                                   select pvtc;
 
-            if (olapPivotCaches.Count() == 0) {
-                var pc = CreateHiddenPivotTable(wb); // automatically generate a hidden pivot table 
+            if (olapPivotCaches.Count() == 0)
+            {
+                var pc = CreateHiddenPivotTable(wb); // automatically generate a hidden pivot table
                 var cache = new List<PivotCache>
                 {
                     pc
                 };
                 olapPivotCaches = cache;
             }
-            
+
             foreach (PivotCache pvtc in olapPivotCaches)
             {
                 pvtc.Refresh();
@@ -346,25 +350,25 @@ namespace DaxStudio.ExcelAddin
 
         }
 
-        public void OnQueryTableAfterRefresh(bool success) 
+        public void OnQueryTableAfterRefresh(bool success)
         {
             QueryTableRefreshedEventHandler(this, new QueryTableRefreshEventArgs(success));
         }
 
         public void Dispose()
         {
-        
+
         }
 
 
-/*
-*=====================================================
-*  Query table functions
-*=====================================================
-*/
+        /*
+        *=====================================================
+        *  Query table functions
+        *=====================================================
+        */
 
 
-        public void DaxQueryTable(Worksheet excelSheet, string daxQuery , string connectionString)
+        public void DaxQueryTable(Worksheet excelSheet, string daxQuery, string connectionString)
         {
             if (string.IsNullOrWhiteSpace(connectionString))
             {
@@ -373,9 +377,9 @@ namespace DaxStudio.ExcelAddin
             }
 
             if (IsExcel2013OrLater)
-            {    DaxQueryTable2013(excelSheet, daxQuery, connectionString);    }
+            { DaxQueryTable2013(excelSheet, daxQuery, connectionString); }
             else
-            {    DaxQueryTable2010(excelSheet, daxQuery, connectionString);    }
+            { DaxQueryTable2010(excelSheet, daxQuery, connectionString); }
         }
 
         private void DaxQueryTable2010(Worksheet excelSheet, string daxQuery, string connectionString)
@@ -383,19 +387,19 @@ namespace DaxStudio.ExcelAddin
             throw new NotImplementedException();
         }
 
-        public void DaxQueryTable(Worksheet excelSheet, string daxQuery )
+        public void DaxQueryTable(Worksheet excelSheet, string daxQuery)
         {
             if (IsExcel2013OrLater)
-            {    DaxQueryTable2013(excelSheet, daxQuery);    }
+            { DaxQueryTable2013(excelSheet, daxQuery); }
             else
-            {    DaxQueryTable2010(excelSheet, daxQuery);    }
+            { DaxQueryTable2010(excelSheet, daxQuery); }
         }
 
 
 
         public static void DaxQueryTable2010(Worksheet excelSheet, string daxQuery)
         {
-            Workbook wb = excelSheet.Parent;
+            Workbook wb = (Workbook)excelSheet.Parent;
             string path = wb.FullName;
             ListObject lo;
             var listObjs = excelSheet.ListObjects;
@@ -433,7 +437,7 @@ namespace DaxStudio.ExcelAddin
             {
                 Debug.WriteLine("ERROR");
                 Debug.WriteLine(ex.Message);
-                
+
                 //output.WriteOutputError(ex.Message);
                 //output.WriteOutputError("Error detected - collecting error details...");
                 //DaxQueryDiscardResults(connection, daxQuery, output);
@@ -452,10 +456,10 @@ namespace DaxStudio.ExcelAddin
                 //if (c.Name == "ThisWorkbookDataModel") continue;
                 if (c.ModelTables == null) continue;
                 if (c.ModelTables.Count == 0) continue;
-                
+
                 // otherwise
                 wbc = c;
-                break; 
+                break;
             }
             return wbc;
         }
@@ -465,13 +469,13 @@ namespace DaxStudio.ExcelAddin
             if (excelSheet == null) throw new ArgumentNullException(nameof(excelSheet));
 
             Worksheet ws = excelSheet;
-            Workbook wb = excelSheet.Parent;
+            Workbook wb = (Workbook)excelSheet.Parent;
             WorkbookConnection wbc = FindPowerPivotConnection(wb);
             if (wbc == null) throw new Exception("Workbook table connection not found");
 
             var listObjs = ws.ListObjects;
-            Range r = ws.Cells[1, 1];
-            var lo = listObjs.Add( SourceType: XlListObjectSourceType.xlSrcModel
+            Range r = (Range)ws.Cells[1, 1];
+            var lo = listObjs.Add(SourceType: XlListObjectSourceType.xlSrcModel
                 , Source: wbc
                 , Destination: r);
 
@@ -483,14 +487,14 @@ namespace DaxStudio.ExcelAddin
             //to.ListObject.DisplayName = "DAX query";
             var oleCnn = to.WorkbookConnection.OLEDBConnection;
             oleCnn.CommandType = XlCmdType.xlCmdDAX;
-            string[] qryArray = daxQuery.Split(new char[]{'\r'},StringSplitOptions.RemoveEmptyEntries);
+            string[] qryArray = daxQuery.Split(new char[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
             oleCnn.CommandText = qryArray;
             oleCnn.Refresh();
             WriteQueryToExcelComment(excelSheet, daxQuery);
         }
-        /* 
+        /*
          * VBA equivalent code for the above
-         * 
+         *
      With ActiveSheet.ListObjects.Add(SourceType:=4, Source:=ActiveWorkbook. _
         Connections("SqlServer Demo ContosoRetailDW"), Destination:=Range("$A$1")). _
         TableObject
@@ -509,12 +513,12 @@ namespace DaxStudio.ExcelAddin
     ActiveWorkbook.Connections("ModelConnection_Currency").Refresh
          */
 
-        public static void DaxQueryTable2013(Worksheet excelSheet, string daxQuery, string connectionString)        
+        public static void DaxQueryTable2013(Worksheet excelSheet, string daxQuery, string connectionString)
         {
             // validate parameters
             if (excelSheet == null) throw new ArgumentNullException(nameof(excelSheet));
 
-            Workbook wb = excelSheet.Parent;
+            Workbook wb = (Workbook)excelSheet.Parent;
             string path = wb.FullName;
             ListObject lo;
             var listObjs = excelSheet.ListObjects;
@@ -525,12 +529,12 @@ namespace DaxStudio.ExcelAddin
             else
             {
                 lo = listObjs.AddEx(0
-                    , $"OLEDB;Provider=MSOLAP.5;Integrated Security=SSPI;{FixMDXCompatibilitySetting(connectionString)}"            
+                    , $"OLEDB;Provider=MSOLAP.5;Integrated Security=SSPI;{FixMDXCompatibilitySetting(connectionString)}"
                     , Type.Missing
                     , XlYesNoGuess.xlGuess
                     , excelSheet.Range["$A$1"]);
             }
-            
+
             var qt = lo.QueryTable;
 
             qt.CommandType = XlCmdType.xlCmdDefault;
@@ -570,15 +574,15 @@ namespace DaxStudio.ExcelAddin
 
         // TODO - look into creating a new connection if we can't find an existing pivotcache object
         /*
-     
+
          * EXCEL VBA code to create a pivot cache - in Excel 2013+ if we find a "ThisWorkbookDataModel" connection
          *                                          but no PivotCache connection maybe we can create one...
-         * 
+         *
          ActiveWorkbook.PivotCaches.Create(SourceType:=xlExternal, SourceData:= _
             ActiveWorkbook.Connections("ThisWorkbookDataModel"), Version:= _
             xlPivotTableVersion15)
-      
-     
+
+
          */
 
     }
@@ -591,7 +595,7 @@ namespace DaxStudio.ExcelAddin
         }
 
         public bool Success { get; set; }
-    
+
     }
-    
+
 }
