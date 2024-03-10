@@ -219,7 +219,8 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <PreBuildEvent>powershell -Command "((Get-Date).ToUniversalTime()).ToString(\"s\") | Out-File '$(ProjectDir)Resources\BuildDate.txt' -NoNewline -Encoding ASCII"</PreBuildEvent>
+    <PreBuildEvent>call "$(MSBuildProjectDirectory)\GenerateBuildTime.cmd"</PreBuildEvent>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <Target Name="AfterBuild"></Target>
 </Project>
