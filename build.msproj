@@ -42,12 +42,12 @@
 
     <Target Name="Build" DependsOnTargets="Clean">
         <Message Text="Building DaxStudio.Standalone" />
-        <MSBuild Projects="./src/daxstudio.sln" Targets="Build" Properties="RestorePackages=false" />
+        <MSBuild Projects="./src/DaxStudio.sln" Targets="Build" Properties="RestorePackages=false" />
     </Target>
 
     <Target Name="BuildTests" DependsOnTargets="Clean">
         <Message Text="Building DaxStudio.Tests" />
-        <MSBuild Projects="./tests/daxstudio.Tests/DaxStudio.Tests.csproj" Targets="Build" Properties="RestorePackages=false" />
+        <MSBuild Projects="./tests/DaxStudio.Tests/DaxStudio.Tests.csproj" Targets="Build" Properties="RestorePackages=false" />
     </Target>
 
     <Target Name="DeletePdb" AfterTargets="Build" DependsOnTargets="Build">
@@ -97,23 +97,21 @@
 
     <Target Name="SignAssemblies" DependsOnTargets="Build">
         <Message Text="Attempting to sign Assemblies" Importance="high" />
-        <!--  <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.exe' IgnoreExitCode="true"/>
-    <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.checker.exe' IgnoreExitCode="true"/>
-    <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.dll' IgnoreExitCode="true"/> -->
+        <!--
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.exe' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.checker.exe' IgnoreExitCode="true"/>
+            <Exec Command='$(SignToolExe) sign /sha1 $(ManifestThumbPrint) /t $(TimeStampUri) .\Release\bin\daxstudio.dll' IgnoreExitCode="true"/>
+        -->
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\dscmd.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.checker.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v .\Release\daxstudio.checker.exe' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
         <Exec Command='AzureSignTool sign -kvu "https://daxstudiocert.vault.azure.net/" -kvi "$(KVI_PARAMETER)" -kvs "$(KVS_PARAMETER)" -kvc "$(KVC_PARAMETER)"  -kvt "$(KVT_PARAMETER)" -tr "http://rfc3161timestamp.globalsign.com/advanced" -td sha256 -v ./Release/bin/daxstudio.dll' IgnoreExitCode="false" ContinueOnError="ErrorAndStop" />
-
     </Target>
 
     <Target Name="DllsToSign">
-
         <Message Text="DLLs: @(AllFiles, ' ')" Importance="high" />
     </Target>
-
-
 
     <Target Name="SignManifest" DependsOnTargets="SignAssemblies">
         <Message Text="Attempting to sign DaxStudio.dll.manifest file" Importance="high"/>
