@@ -44,7 +44,7 @@ DefaultGroupName={#MyAppName}
 UseSetupLdr=Yes
 
 
-LicenseFile=..\license.rtf
+LicenseFile=..\LICENSE
 ;OutputBaseFilename=DaxStudio_{#MyAppFileVersion}_setup
 OutputBaseFilename=DaxStudioPerUser_{#myAppMajor}_{#myAppMinor}_{#myAppRevision}_setup
 OutputDir=..\package
