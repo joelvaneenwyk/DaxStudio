@@ -1,19 +1,13 @@
 <Project>
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildThisFileDirectory)</SolutionDir>
         <Deterministic>true</Deterministic>
         <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
         <!-- For non-SDK projects that import this file and then import Microsoft.Common.props,
              tell Microsoft.Common.props not to import Directory.Build.props again. -->
         <ImportDirectoryBuildProps>true</ImportDirectoryBuildProps>
-        <!-- Enable .NET code analysis (this is necessary for projects that target 3.1 or earlier). -->
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    </PropertyGroup>
 
-    <PropertyGroup>
-        <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
         <DebugSymbols>true</DebugSymbols>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <DebugType>full</DebugType>
@@ -27,7 +21,20 @@
         <IntermediateOutputPath>$(MSBuildProjectDirectory)\..\..\.build\obj\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
         <UseCommonOutputDirectory>false</UseCommonOutputDirectory>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-      </PropertyGroup>
+        <LangVersion>8.0</LangVersion>
+
+        <!-- Enable .NET code analysis (this is necessary for projects that target 3.1 or earlier). -->
+        <AnalysisMode>none</AnalysisMode>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+        <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <AnalysisMode>recommended</AnalysisMode>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    </PropertyGroup>
 
     <PropertyGroup>
         <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) DAX Studio ($([System.DateTime]::UtcNow.ToString("s")))</Copyright>

@@ -7,14 +7,12 @@
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <OutputPath>..\bin\Debug\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>
         <StartupObject>DaxStudio.Launcher.Startup</StartupObject>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|AnyCPU'">
         <DebugSymbols>true</DebugSymbols>
-        <OutputPath>bin\Cmd Only\</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <DebugType>full</DebugType>
         <PlatformTarget>AnyCPU</PlatformTarget>

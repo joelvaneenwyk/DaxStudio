@@ -3,7 +3,6 @@
     <TargetFramework>net48</TargetFramework>
     <OutputType>Exe</OutputType>
     <AssemblyName>dscmd</AssemblyName>
-    <LangVersion>8.0</LangVersion>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -27,18 +26,8 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Release\bin\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Cmd Only\</OutputPath>
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>dscmd.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.IdentityModel" />
