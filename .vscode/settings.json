@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.msproj": "msbuild",
+        "Directory.Build.props": "msbuild"
+    }
+}
