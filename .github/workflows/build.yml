@@ -55,9 +55,3 @@ jobs:
       # Restore the application to populate the obj folder with RuntimeIdentifiers
       - name: Build application
         run: msbuild /m /t:Build /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
-
-      # - name: Generate Installer
-      #   uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
-      #   with:
-      #     path: installer/DaxStudio.iss
-      #     options: /O+
