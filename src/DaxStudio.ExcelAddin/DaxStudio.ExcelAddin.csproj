@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -10,27 +10,12 @@
         <DefineConstants>VSTO40;UseOfficeInterop</DefineConstants>
         <BootstrapperEnabled>true</BootstrapperEnabled>
         <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
         <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     </PropertyGroup>
     <ItemGroup>
-      <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-        <Visible>False</Visible>
-        <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-        <Install>false</Install>
-      </BootstrapperPackage>
-      <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-        <Visible>False</Visible>
-        <ProductName>.NET Framework 3.5 SP1</ProductName>
-        <Install>true</Install>
-      </BootstrapperPackage>
-      <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-        <Visible>False</Visible>
-        <ProductName>Windows Installer 3.1</ProductName>
-        <Install>true</Install>
-      </BootstrapperPackage>
         <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
             <Visible>False</Visible>
             <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
@@ -38,15 +23,25 @@
         </BootstrapperPackage>
     </ItemGroup>
     <PropertyGroup>
+        <!--
+          OfficeApplication
+            Add-in host application
+        -->
         <OfficeApplication>Excel</OfficeApplication>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <IncludeSymbols>True</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
         <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
         <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Accessibility" />
@@ -370,26 +365,17 @@
     <ItemGroup>
         <Compile Remove="Xmla\XmlaHelpers.cs" />
     </ItemGroup>
-    <ItemGroup><!--
-        <COMReference Include="Microsoft.Office.Interop.Excel">
-            <WrapperTool>tlbimp</WrapperTool>
-            <VersionMinor>9</VersionMinor>
-            <VersionMajor>1</VersionMajor>
-            <Guid>00020813-0000-0000-c000-000000000046</Guid>
-            <Lcid>0</Lcid>
-            <Isolated>false</Isolated>
-            <EmbedInteropTypes>true</EmbedInteropTypes>
-        </COMReference>
-        <COMReference Include="Microsoft.Office.Core">
-          <WrapperTool>tlbimp</WrapperTool>
-          <VersionMinor>8</VersionMinor>
-          <VersionMajor>2</VersionMajor>
-          <Guid>2df8d04c-5bfa-101b-bde5-00aa0044de52</Guid>
-          <Lcid>0</Lcid>
-          <Isolated>false</Isolated>
-          <EmbedInteropTypes>true</EmbedInteropTypes>
-        </COMReference>-->
+    <ItemGroup>
+      <None Include="..\..\LICENSE">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
+    <!-- Include additional build rules for an Office application add-in. -->
+    <!--
+    <Import Project="$(VSToolsPath)\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" Condition="'$(VSToolsPath)' != ''" />
+    -->
+    <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
     <ProjectExtensions>
         <VisualStudio>
             <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
