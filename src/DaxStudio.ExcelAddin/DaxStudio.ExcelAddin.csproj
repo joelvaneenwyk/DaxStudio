@@ -12,6 +12,7 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+        <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     </PropertyGroup>
     <ItemGroup>
       <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
