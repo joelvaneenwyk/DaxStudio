@@ -1,0 +1,5 @@
+#
+# DAX Studio UI: Ignore intermediate files
+#
+
+DaxStudio.UI_*.csproj
