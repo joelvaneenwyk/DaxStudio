@@ -75,12 +75,11 @@ namespace DaxStudio.ExcelAddin
                     (dt.Columns.Count - 1) % colCharsetLen, 1);
 
             // Fast data export to Excel
-            string excelRange = string.Format("A1:{0}{1}",
-                finalColLetter, dt.Rows.Count + 1);
+            string excelRange = $"A1:{finalColLetter}{dt.Rows.Count + 1}";
 
             // copying an object array to Value2 means that there is only one
             // .Net to COM interop call
-            var r = excelSheet.Range[excelRange, Type.Missing];
+            Range r = excelSheet.Range[excelRange, Type.Missing];
             r.Value2 = dt.ToObjectArray();
 
             // Autofit the columns to the data
@@ -90,12 +89,11 @@ namespace DaxStudio.ExcelAddin
             var iCol = 1;     // Excel ranges are 1 based
             foreach (DataColumn c in dt.Columns)
             {
-                Range rngHdr = (Range)r[1, iCol];
-                // #jve #todo need to check if this is correct
-                rngHdr.Value = ((Worksheet)rngHdr.Value).ToString().Replace('`', ' ');
+                Range rngHdr = r[1, iCol] as Range;
+                rngHdr.Value = rngHdr.Value.ToString().Replace('`', ' ');
                 if (c.DataType == typeof(DateTime))
                 {
-                    Range col = (Range)r.Columns[iCol];
+                    Range col = r.Columns[iCol] as Range;
                     col.NumberFormat = "m/d/yyyy"; // US format appears to set the default date format for the current culture
 
                 }
@@ -103,7 +101,7 @@ namespace DaxStudio.ExcelAddin
             }
 
             // Mark the first row as BOLD
-            var hdr = ((Range)excelSheet.Rows[1, Type.Missing]);
+            var hdr = excelSheet.Rows[1, Type.Missing] as Range;
             var hdrFont = hdr.Font;
             hdrFont.Bold = true;
         }
