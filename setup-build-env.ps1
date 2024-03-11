@@ -1,6 +1,6 @@
 ﻿## =====================================================
 ##
-##  DAX Studio - build environment setup script.
+## DAX Studio - build environment setup script.
 ##
 ## this script copies a couple of dlls into the
 ## a lib folder so that DaxStudio will build.
@@ -28,7 +28,6 @@ $searchFolders = @(
 ## 1. Create lib subfolder
 
 $ScriptRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
-
 $libPath = "$ScriptRoot\lib"
 
 if (-not (Test-Path $libPath)) {
@@ -41,14 +40,10 @@ $searchFolders | ForEach-Object {
     $folder = $_
 
     $requiredDlls | ForEach-Object {
-
         $dllName = $_
-
         $dllPath = Join-Path $folder $dllName
-
         if (Test-Path $dllPath) {
             $newDllPath = Join-Path $libPath $dllName
-
             Copy-Item $dllPath $newDllPath -Verbose
         }
     }
@@ -57,11 +52,9 @@ $searchFolders | ForEach-Object {
 ## 3. Confirms if all the dlls had been copied
 
 $dllsOnLibFolder = Get-ChildItem -Path $libPath -Filter '*.dll' | Select-Object -ExpandProperty Name
-
 $requiredDlls | ForEach-Object {
     if (-not ($dllsOnLibFolder -contains $_)) {
         Write-Warning "Cannot find dependency: $($_)"
     }
-
 }
 

@@ -119,15 +119,16 @@ endlocal & exit /b %errorlevel%
         set "_args="
     )
 
+    if not exist "%~dp0.build" mkdir "%~dp0.build"
     call :Command "!_msbuild!" !_args! ^
        "%~dp0build.msproj" ^
        /p:Configuration="!config!" ^
        /m ^
        /v:M ^
-       /fl /flp:LogFile="%~dp0msbuild_!command!.log;Verbosity=Normal" ^
+       /fl /flp:LogFile="%~dp0.build\msbuild_!command!.log;Verbosity=Normal" ^
        /nr:false ^
        /target:!command! ^
-       /bl:LogFile="%~dp0output_!command!.binlog"
+       /bl:LogFile="%~dp0.build\output_!command!.binlog"
    set "error_result=%ERRORLEVEL%"
    goto:$BuildDone
 

@@ -3,6 +3,7 @@ Addin
 binlog
 BITNESS
 choco
+codeql
 COMNTOOLS
 COMPAT
 copydata
