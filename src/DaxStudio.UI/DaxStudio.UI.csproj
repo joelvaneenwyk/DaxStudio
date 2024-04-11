@@ -3,10 +3,6 @@
         <TargetFramework>net48</TargetFramework>
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
         <OutputType>Library</OutputType>
-        <SccProjectName></SccProjectName>
-        <SccLocalPath></SccLocalPath>
-        <SccAuxPath></SccAuxPath>
-        <SccProvider></SccProvider>
         <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
         <RestorePackages>true</RestorePackages>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

@@ -4,10 +4,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>DAXEditor</RootNamespace>
     <AssemblyName>DAXEditor</AssemblyName>
-    <SccProjectName></SccProjectName>
-    <SccLocalPath></SccLocalPath>
-    <SccAuxPath></SccAuxPath>
-    <SccProvider></SccProvider>
     <RestorePackages>true</RestorePackages>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>

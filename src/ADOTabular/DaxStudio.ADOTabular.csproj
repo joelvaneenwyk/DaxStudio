@@ -4,10 +4,6 @@
         <OutputType>Library</OutputType>
         <RootNamespace>ADOTabular</RootNamespace>
         <AssemblyName>ADOTabular</AssemblyName>
-        <SccProjectName></SccProjectName>
-        <SccLocalPath></SccLocalPath>
-        <SccAuxPath></SccAuxPath>
-        <SccProvider></SccProvider>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <Platforms>AnyCPU;x64;x86</Platforms>
         <Configurations>Debug;Release</Configurations>

@@ -3,10 +3,6 @@
         <TargetFramework>net48</TargetFramework>
         <OutputType>WinExe</OutputType>
         <AssemblyName>DaxStudio</AssemblyName>
-        <SccProjectName></SccProjectName>
-        <SccLocalPath></SccLocalPath>
-        <SccAuxPath></SccAuxPath>
-        <SccProvider></SccProvider>
         <RestorePackages>true</RestorePackages>
         <PublishUrl>publish\</PublishUrl>
         <Install>true</Install>

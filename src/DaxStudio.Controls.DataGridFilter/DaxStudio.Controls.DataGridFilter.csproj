@@ -2,10 +2,6 @@
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
         <OutputType>Library</OutputType>
-        <SccProjectName></SccProjectName>
-        <SccLocalPath></SccLocalPath>
-        <SccAuxPath></SccAuxPath>
-        <SccProvider></SccProvider>
         <PublishUrl>publish\</PublishUrl>
         <Install>true</Install>
         <InstallFrom>Disk</InstallFrom>

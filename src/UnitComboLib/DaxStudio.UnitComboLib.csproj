@@ -4,10 +4,6 @@
         <OutputType>Library</OutputType>
         <RootNamespace>UnitComboLib</RootNamespace>
         <AssemblyName>UnitComboLib</AssemblyName>
-        <SccProjectName></SccProjectName>
-        <SccLocalPath></SccLocalPath>
-        <SccAuxPath></SccAuxPath>
-        <SccProvider></SccProvider>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
