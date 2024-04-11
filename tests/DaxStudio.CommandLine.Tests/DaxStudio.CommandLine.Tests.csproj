@@ -3,7 +3,7 @@
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Platforms>AnyCPU</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>

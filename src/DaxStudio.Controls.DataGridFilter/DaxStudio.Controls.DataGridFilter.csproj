@@ -24,15 +24,29 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-        <Platforms>AnyCPU</Platforms>
+        <Platforms>AnyCPU;x64;x86</Platforms>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugType>none</DebugType>
         <UseVSHostingProcess>false</UseVSHostingProcess>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      <DebugType>none</DebugType>
+      <UseVSHostingProcess>false</UseVSHostingProcess>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+      <DebugType>none</DebugType>
+      <UseVSHostingProcess>false</UseVSHostingProcess>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|AnyCPU'">
         <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Cmd Only|x64'">
+      <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Cmd Only|x86'">
+      <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="PresentationFramework.Aero" />

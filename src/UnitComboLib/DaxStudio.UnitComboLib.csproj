@@ -4,22 +4,27 @@
         <OutputType>Library</OutputType>
         <RootNamespace>UnitComboLib</RootNamespace>
         <AssemblyName>UnitComboLib</AssemblyName>
-        <SccProjectName>SAK</SccProjectName>
-        <SccLocalPath>SAK</SccLocalPath>
-        <SccAuxPath>SAK</SccAuxPath>
-        <SccProvider>SAK</SccProvider>
+        <SccProjectName></SccProjectName>
+        <SccLocalPath></SccLocalPath>
+        <SccAuxPath></SccAuxPath>
+        <SccProvider></SccProvider>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-        <Platforms>AnyCPU</Platforms>
+        <Platforms>AnyCPU;x64;x86</Platforms>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|AnyCPU'">
         <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Cmd Only|x64'">
+      <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Cmd Only|x86'">
+      <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
     <ItemGroup>
-        <Reference
-            Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">

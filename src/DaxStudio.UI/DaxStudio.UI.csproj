@@ -3,10 +3,10 @@
         <TargetFramework>net48</TargetFramework>
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
         <OutputType>Library</OutputType>
-        <SccProjectName>SAK</SccProjectName>
-        <SccLocalPath>SAK</SccLocalPath>
-        <SccAuxPath>SAK</SccAuxPath>
-        <SccProvider>SAK</SccProvider>
+        <SccProjectName></SccProjectName>
+        <SccLocalPath></SccLocalPath>
+        <SccAuxPath></SccAuxPath>
+        <SccProvider></SccProvider>
         <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
         <RestorePackages>true</RestorePackages>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -14,6 +14,7 @@
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
         <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
         <LangVersion>8.0</LangVersion>

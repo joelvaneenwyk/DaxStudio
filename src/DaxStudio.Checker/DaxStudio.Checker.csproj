@@ -6,14 +6,26 @@
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-        <Platforms>AnyCPU</Platforms>
+        <Platforms>AnyCPU;x64;x86</Platforms>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <CodeAnalysisRuleSet>DaxStudio.Checker.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      <CodeAnalysisRuleSet>DaxStudio.Checker.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+      <CodeAnalysisRuleSet>DaxStudio.Checker.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <CodeAnalysisRuleSet>DaxStudio.Checker.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      <CodeAnalysisRuleSet>DaxStudio.Checker.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+      <CodeAnalysisRuleSet>DaxStudio.Checker.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <PropertyGroup>
         <StartupObject>DaxStudio.CheckerApp.App</StartupObject>

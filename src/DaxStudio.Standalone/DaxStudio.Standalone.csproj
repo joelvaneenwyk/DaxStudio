@@ -3,10 +3,10 @@
         <TargetFramework>net48</TargetFramework>
         <OutputType>WinExe</OutputType>
         <AssemblyName>DaxStudio</AssemblyName>
-        <SccProjectName>SAK</SccProjectName>
-        <SccLocalPath>SAK</SccLocalPath>
-        <SccAuxPath>SAK</SccAuxPath>
-        <SccProvider>SAK</SccProvider>
+        <SccProjectName></SccProjectName>
+        <SccLocalPath></SccLocalPath>
+        <SccAuxPath></SccAuxPath>
+        <SccProvider></SccProvider>
         <RestorePackages>true</RestorePackages>
         <PublishUrl>publish\</PublishUrl>
         <Install>true</Install>
@@ -27,6 +27,7 @@
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
         <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <PropertyGroup>
         <StartupObject>DaxStudio.Standalone.EntryPoint</StartupObject>
