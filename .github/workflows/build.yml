@@ -8,7 +8,7 @@ on:
   push:
     branches: [main, develop]
   pull_request:
-    branches: [main, develop]
+    branches-ignore: [main, develop]
 
 jobs:
   build:
@@ -39,7 +39,7 @@ jobs:
           dotnet-version: 6.0.x
 
       # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-      - name: Setup MSBuild.exe
+      - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
@@ -48,10 +48,5 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: nuget restore "${{ matrix.solution }}"
 
-      # Restore the application to populate the obj folder with RuntimeIdentifiers
-      - name: Restore the application
-        run: msbuild /m /t:Restore /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
-
-      # Restore the application to populate the obj folder with RuntimeIdentifiers
-      - name: Build application
+      - name: Build
         run: msbuild /m /t:Build /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
