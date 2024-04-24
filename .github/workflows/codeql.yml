@@ -4,7 +4,6 @@ on:
   push:
     branches: [main, develop]
   pull_request:
-    branches-ignore: [main, develop]
   schedule:
     - cron: "40 19 * * 0"
 

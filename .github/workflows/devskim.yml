@@ -9,7 +9,6 @@ on:
   push:
     branches: [main, develop, feature/**]
   pull_request:
-    branches-ignore: [main, develop, feature/**]
   schedule:
     - cron: "30 17 * * 2"
 

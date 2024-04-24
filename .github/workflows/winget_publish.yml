@@ -1,4 +1,7 @@
-name: Submit DAX Studio release to Windows Package Manager Community Repository
+#
+# Submit DAX Studio release to Windows Package Manager Community Repository
+#
+name: Submit DAX Studio to WinGet
 
 on:
   release:
