@@ -1,11 +1,11 @@
 version: "0.2"
 ignorePaths: []
 dictionaryDefinitions:
-  - name: custom-dictionary
-    path: ./.cspell/custom-dictionary.txt
+  - name: dax-studio
+    path: ./.vscode/cspell-dax-studio.txt
     addWords: true
 dictionaries:
-  - custom-dictionary
+  - dax-studio
 words: []
 ignoreWords: []
 import: []
