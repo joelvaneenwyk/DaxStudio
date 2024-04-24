@@ -242,10 +242,10 @@
     </ItemGroup>
     <Target Name="ApplyAlias" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
         <ItemGroup>
-            <ReferencePath Condition="'%(FileName)' == 'Microsoft.Excel.Amo'">
+            <ReferencePath Condition="'%(FileName)'=='Microsoft.Excel.Amo'">
                 <Aliases>ExcelAmo</Aliases>
             </ReferencePath>
-            <ReferencePath Condition="'%(FileName)' == 'Microsoft.Excel.AdomdClient'">
+            <ReferencePath Condition="'%(FileName)'=='Microsoft.Excel.AdomdClient'">
                 <Aliases>ExcelAdomdClient</Aliases>
             </ReferencePath>
         </ItemGroup>
