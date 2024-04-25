@@ -6,8 +6,8 @@
 #define myAppMinor
 #define myAppRevision
 #define myAppBuild
-#define MyAppVersionFull GetVersionComponents('..\release\DaxStudio.exe', myAppMajor, myAppMinor, myAppRevision, myAppBuild)
-#define MyAppVersion GetVersionNumbersString('..\release\DaxStudio.exe')
+#define MyAppVersionFull GetVersionComponents('..\bin\Release\DaxStudio.exe', myAppMajor, myAppMinor, myAppRevision, myAppBuild)
+#define MyAppVersion GetVersionNumbersString('..\bin\Release\DaxStudio.exe')
 #define MyAppPublisher "DAX Studio"
 #define MyAppURL "https://daxstudio.org"
 #define MyAppExeName "DaxStudio.exe"
@@ -38,7 +38,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 ArchitecturesAllowed=x86 x64 arm64
-ArchitecturesInstallIn64BitMode=x64 
+ArchitecturesInstallIn64BitMode=x64
 ChangesAssociations=yes
 ChangesEnvironment=yes
 Compression=lzma
@@ -47,7 +47,7 @@ DefaultGroupName={#MyAppName}
 DisableDirPage=auto
 DisableProgramGroupPage=auto
 InfoBeforeFile=infobefore.txt
-LicenseFile=..\license.rtf
+LicenseFile=..\LICENSE
 OutputBaseFilename=DaxStudio_{#myAppMajor}_{#myAppMinor}_{#myAppRevision}_setup
 OutputDir=..\package
 PrivilegesRequiredOverridesAllowed=dialog commandline
@@ -55,7 +55,7 @@ SetupIconFile=DaxStudio.ico
 SolidCompression=yes
 UninstallDisplayIcon={app}\daxstudio.exe
 UseSetupLdr=Yes
-VersionInfoVersion={#MyAppVersion}                                      
+VersionInfoVersion={#MyAppVersion}
 VersionInfoProductName={#MyAppName}
 VersionInfoProductVersion={#MyAppVersion}
 VersionInfoCompany={#MyAppURL}
@@ -83,21 +83,21 @@ Name: "blockallinternetaccess"; Description: "[NOT RECOMMENDED] Blocks all featu
 Name: "modifypath"; Description: "&Add application directory to your environmental path";
 
 [Files]
-Source: "..\release\DaxStudio.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: Core
-Source: "..\release\bin\DaxStudio.vsto"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core
-Source: "..\release\bin\DaxStudio.dll"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core
-Source: "..\release\bin\DaxStudio.dll.manifest"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core
-Source: "..\release\*"; DestDir: "{app}"; Flags: replacesameversion recursesubdirs createallsubdirs ignoreversion; Components: Core; Excludes: "*.pdb,*.xml,DaxStudio.vshost.*,*.config,DaxStudio.dll,DaxStudio.exe,DaxStudio.vsto,daxstudio.pbitool.json;*.portable;Microsoft.Excel.*.dll"
+Source: "..\bin\Release\DaxStudio.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: Core
+Source: "..\bin\Release\DaxStudio.vsto"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core
+Source: "..\bin\Release\DaxStudio.dll"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core
+Source: "..\bin\Release\DaxStudio.dll.manifest"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core
+Source: "..\bin\Release\*"; DestDir: "{app}"; Flags: replacesameversion recursesubdirs createallsubdirs ignoreversion; Components: Core; Excludes: "*.pdb,*.xml,DaxStudio.vshost.*,*.config,DaxStudio.dll,DaxStudio.exe,DaxStudio.vsto,daxstudio.pbitool.json;*.portable;Microsoft.Excel.*.dll"
 
 ; PBI Desktop integration (If installing in ALL USERS mode)
-Source: "..\release\bin\daxstudio.pbitool.json"; DestDir: "{commoncf32}\Microsoft Shared\Power BI Desktop\External Tools"; Components: Core; Check: IsAdminInstallMode;                                                                                    
+Source: "..\bin\Release\daxstudio.pbitool.json"; DestDir: "{commoncf32}\Microsoft Shared\Power BI Desktop\External Tools"; Components: Core; Check: IsAdminInstallMode;
 
 ;Standalone configs
-Source: "..\release\DaxStudio.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Components: Core;
-Source: "..\release\dscmd.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Components: Core;
+Source: "..\bin\Release\DaxStudio.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Components: Core;
+Source: "..\bin\Release\dscmd.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Components: Core;
 ;Excel Addin configs
-Source: "..\release\bin\DaxStudio.dll.xl2010.config"; DestDir: "{app}\bin"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Core; Check: IsExcel2010Installed
-Source: "..\release\bin\DaxStudio.dll.config"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core; Check: Not IsExcel2010Installed
+Source: "..\bin\Release\DaxStudio.dll.xl2010.config"; DestDir: "{app}\bin"; DestName: "DaxStudio.dll.config"; Flags: ignoreversion; Components: Core; Check: IsExcel2010Installed
+Source: "..\bin\Release\DaxStudio.dll.config"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: Core; Check: Not IsExcel2010Installed
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -108,13 +108,13 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 ;Filename: {win}\Microsoft.NET\Framework64\v4.0.30319\ngen.exe Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Optimizing performance for your system ...; Flags: runhidden; Check: CheckFramework;
 
 ;[UninstallRun
-;Filename: {win}\Microsoft.NET\Framework64\v4.0.30319\ngen.exe Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Removing native images and dependencies ...; Flags: runhidden; Check: CheckFramework; 
+;Filename: {win}\Microsoft.NET\Framework64\v4.0.30319\ngen.exe Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Removing native images and dependencies ...; Flags: runhidden; Check: CheckFramework;
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
-Filename: "certutil.exe"; Parameters: "-addstore ""TrustedPublisher"" {app}\bin\DaxStudio.cer"; StatusMsg: "Adding trusted publisher..."; Components: Excel 
+Filename: "certutil.exe"; Parameters: "-addstore ""TrustedPublisher"" {app}\bin\DaxStudio.cer"; StatusMsg: "Adding trusted publisher..."; Components: Excel
 ;Filename: "eventcreate"; Parameters: "/ID 1 /L APPLICATION /T INFORMATION  /SO DaxStudio /D ""DaxStudio Installed"""; WorkingDir: "{sys}"; Flags: runascurrentuser runhidden; StatusMsg: "Registering DaxStudio Eventlog Source"; Components: Core
-;Filename: {code:GetV4NetDir}ngen.exe; Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Optimizing performance for your system ...; Flags: runhidden; 
+;Filename: {code:GetV4NetDir}ngen.exe; Parameters: "install ""{app}\{#MyAppExeName}"""; StatusMsg: Optimizing performance for your system ...; Flags: runhidden;
 ;Check: CheckFramework;
 
 #include "scripts\products.iss"
@@ -129,7 +129,7 @@ Filename: "certutil.exe"; Parameters: "-addstore ""TrustedPublisher"" {app}\bin\
 
 [UninstallRun]
 Filename: {code:GetV4NetDir}ngen.exe; Parameters: "uninstall ""{app}\{#MyAppExeName}""";  StatusMsg: Removing native images and dependencies ...; Flags: runhidden;  RunOnceId: "DaxStudio-ngen";
-;Check: CheckFramework; 
+;Check: CheckFramework;
 
 [Types]
 Name: "full"; Description: "Full Install"
@@ -209,7 +209,7 @@ Type: files; Name: "{app}\bin\Microsoft.Excel.Amo.dll"
 Type: files; Name: "{app}\bin\Microsoft.Excel.AdomdClient.dll"
 Type: files; Name: "{app}\Microsoft.Excel.Amo.dll"
 Type: files; Name: "{app}\Microsoft.Excel.AdomdClient.dll"
-; Make sure the .portable file does not exist 
+; Make sure the .portable file does not exist
 Type: files; Name: "{app}\bin\.portable"
 Type: filesandordirs; Name: "{app}\*.dll"
 Type: filesandordirs; Name: "{app}\*.exe"
@@ -293,19 +293,19 @@ end;
 var maxCommonSsasAssemblyVersion: string;
 
 function GetV4NetDir(version: string) : string;
-var 
+var
   regkey, regval  : string;
 begin
 
     // in case the target is 3.5, replace 'v4' with 'v3.5'
-    // for other info, check out this link 
+    // for other info, check out this link
     // https://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     regkey := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full'
 
     RegQueryStringValue(HKLM, regkey, 'InstallPath', regval);
 
     Result := regval;
-end; 
+end;
 
 function SwapSlashes(const path:String):String;
 var
@@ -354,7 +354,7 @@ begin
   for I := 1 to GetArrayLength(RegKeys) do
   begin
     If  RegKeyExists(HKEY_CURRENT_USER, RegKeys[I]) then
-    begin  
+    begin
       if RegGetValueNames(HKEY_CURRENT_USER, RegKeys[I], Names) then
       begin
         keyName := '';
@@ -375,7 +375,7 @@ begin
     end;
 
   end;
-  
+
 end;
 
 // var ExcelMode: TInputOptionWizardPage;
@@ -400,7 +400,7 @@ end;
 // begin
 //   Result := ExcelMode.SelectedValueIndex = 1;
 // end;
-        
+
 function GetMaxCommonSsasAssemblyVersion(): String;
 begin
     Result := maxCommonSsasAssemblyVersion;
@@ -436,9 +436,9 @@ end;
 
 function InitializeSetup(): boolean;
 begin
-                     
+
   // clear DaxStudio from Excel Add-ins hard disabled items
-  try 
+  try
     Log('Clearing Disabled items from Excel Add-in registry location');
     CleanDisabledItems();
 
@@ -449,7 +449,7 @@ begin
   end;
 
 	//init windows version
-	try 
+	try
     Log('Checking Windows Version');
     initwinversion();
   except
@@ -458,7 +458,7 @@ begin
   end;
 
 
-  
+
   //  Log('Checking the maximum SSAS assembly versions');
 //  maxCommonSsasAssemblyVersion := GetMaxCommonSsasAssemblyVersionInternal();
 //  Log('Max SSAS assembly versions ' + maxCommonSsasAssemblyVersion);
@@ -479,7 +479,7 @@ begin
 //  end  else begin
 //      msgbox('adomd NOT ok',mbInformation, MB_OK);
 //  end;
-  
+
 #ifdef use_msi20
 	msi20('2.0');
 #endif
@@ -490,7 +490,7 @@ begin
 	msi45('4.5');
 #endif
 
- 
+
 
 if ShouldInstallDependencies() then
   Log('Checking for Dependencies')
@@ -511,7 +511,7 @@ else
     end;
 #endif
 
-#ifdef use_dotnetfx471 
+#ifdef use_dotnetfx471
     if ShouldInstallDependencies() then begin
       Log('Checking if .Net 4.7.1 is installed');
       dotnetfx47(1); // min allowed version is .netfx 4.7.1
@@ -545,7 +545,7 @@ const
   // There are other values that GetBinaryType can return, but we're
   // not interested in them.
 
-// Declare Win32 function  
+// Declare Win32 function
 function GetBinaryType(lpApplicationName: AnsiString; var lpBinaryType: Integer): Boolean;
 external 'GetBinaryTypeA@kernel32.dll stdcall';
 
@@ -615,9 +615,9 @@ begin
   if not RegQueryStringValue(HKLM, sUnInstPath, 'UninstallString', sUnInstallString) then
     RegQueryStringValue(HKCU, sUnInstPath, 'UninstallString', sUnInstallString);
 
-  //Msgbox('The following uninstall strig was found' + #13#10 + 
+  //Msgbox('The following uninstall strig was found' + #13#10 +
   //    sUnInstallString, mbInformation, MB_OK);
-  
+
   Result := sUnInstallString;
 end;
 
@@ -710,13 +710,14 @@ end;
 //    Result := (RegQueryStringValue(HKLM, UninstallKey, 'UninstallString', Value) or
 //        RegQueryStringValue(HKCU, UninstallKey, 'UninstallString', Value)) and (Value <> '');
 //end;
-/////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
 if IsUpgrade then
   begin
-    
+
     if PageID = wpWelcome then
       begin
         Log('ShouldSkipPage - Skipping Welcome');
@@ -729,7 +730,7 @@ if IsUpgrade then
         Result := true
       end;
 
-    if PageID = wpInfoBefore then 
+    if PageID = wpInfoBefore then
       begin
         Log('ShouldSkipPage - Skipping InfoBefore page');
         Result := true;
@@ -738,13 +739,13 @@ if IsUpgrade then
     if PageID = wpSelectTasks then begin
       Log('ShouldSkipPage - Skipping Tasks');
       Result := true
-    end 
+    end
   end
   else
   begin
     Log('ShouldSkipPage - Initial Install');
     if PageID = wpInfoBefore then
-    if IsAdminInstallMode() then 
+    if IsAdminInstallMode() then
     begin
         Log('ShouldSkipPage - Skipping InfoBefore page');
         Result := true;
@@ -781,7 +782,7 @@ begin
 end;
 /////////////////////////////////////////////////////////////////////
 
-// Overwrite the daxstudio.pbitool.json file with the path where the user actually install DAX Studio 
+// Overwrite the daxstudio.pbitool.json file with the path where the user actually install DAX Studio
 // incase this is not the default path
 function WriteExternalToolsFile(): boolean;
 var
@@ -838,8 +839,8 @@ begin
     end;
   end;
   if (CurStep=ssPostInstall) then begin
-    
-    if IsAdminInstallMode() then 
+
+    if IsAdminInstallMode() then
       begin
         Log('Writing Power BI Desktop External Tools File');
         WriteExternalToolsFile();
@@ -848,13 +849,13 @@ begin
       begin
           Log('Skipping Power BI Desktop External Tools File - Current User install');
       end;
-    
+
     if WizardIsTaskSelected(ModPathName) then begin
       Log('Adding to Path:' + ExpandConstant('{app}'));
 			ModPath();
     end;
 
-    Log('Clearing AutoSave Folder - ' + ExpandConstant('{userappdata}\DaxStudio\AutoSaveFiles\*.*')); 
+    Log('Clearing AutoSave Folder - ' + ExpandConstant('{userappdata}\DaxStudio\AutoSaveFiles\*.*'));
     DelTree(ExpandConstant('{userappdata}\DaxStudio\AutoSaveFiles\*.*'), False,True,False);
 
   end;

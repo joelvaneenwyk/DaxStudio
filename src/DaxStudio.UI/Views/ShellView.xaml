@@ -8,9 +8,9 @@
         xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
         xmlns:dd="urn:gong-wpf-dragdrop"
         mc:Ignorable="d" 
-        d:DesignWidth="466" 
-        GlowBrush="{x:Null}"
-        NonActiveGlowBrush="{x:Null}"
+        d:DesignWidth="466"
+        GlowColor="{x:Null}"
+        NonActiveGlowColor="{x:Null}"
         NonActiveBorderBrush="{DynamicResource Theme.Brush.Dialog.Border}"
         BorderBrush="{DynamicResource Theme.Brush.Dialog.Border}"            
         Background="Transparent"                   
@@ -27,8 +27,8 @@
 
                      >
     <!--
-            dd:DragDrop.IsDragSource="True"
- -->
+    dd:DragDrop.IsDragSource="True"
+    -->
     
     <!--<WindowChrome.WindowChrome>
         <WindowChrome x:Name="chrome" ResizeBorderThickness="8" CornerRadius="20" GlassFrameThickness="0" NonClientFrameEdges="None" />

@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <RootNamespace>AvalonDock.Themes</RootNamespace>
-	<TargetFrameworks>net471</TargetFrameworks>
+	<TargetFrameworks>net48</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <AssemblyOriginatorKeyFile>sn.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>4.60.0</Version>
     <AssemblyVersion>4.60.0</AssemblyVersion>
     <FileVersion>4.60.0</FileVersion>
@@ -15,15 +15,16 @@
     <Description>This assembly implements a docking layout system for WPF.</Description>
     <PackageProjectUrl>https://github.com/Dirkster99/AvalonDock</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Dirkster99/AvalonDock</RepositoryUrl>
-    <PackageId>Dirkster.AvalonDock.Themes.VS2013</PackageId>
+    <PackageId>DaxStudio.AvalonDock.Themes</PackageId>
     <Authors>https://github.com/Dirkster99/AvalonDock</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <ApplicationIcon></ApplicationIcon>
     <OutputType>Library</OutputType>
     <StartupObject />
-    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <BaseOutputPath>..\bin\Debug\</BaseOutputPath>
-    <Configurations>Debug;Release;Cmd Only</Configurations>
+    <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Title>Dirkster.AvalonDock.Themes</Title>
   </PropertyGroup>
 
   <ItemGroup>

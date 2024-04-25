@@ -6,12 +6,10 @@
     xmlns:avalonDockLayout="https://github.com/Dirkster99/AvalonDock"
     xmlns:avalonDockControls="https://github.com/Dirkster99/AvalonDock"
     xmlns:avalonDockConverters="https://github.com/Dirkster99/AvalonDock"
-    xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
-    xmlns:reskeys="clr-namespace:AvalonDock.Themes.DaxStudio.Themes;assembly=AvalonDock.Themes.DaxStudio"
-    >
+    xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock">
 
     <!-- Colors  -->
-    
+
     <Color x:Key="AvalonDock.Border.Background.Color">#FFFFFFFF</Color>
     <Color x:Key="AvalonDock.Control.Background.Color">#FFF3F2F1</Color>
     <Color x:Key="AvalonDock.Transparent.Color">#00FFFFFF</Color>
@@ -22,7 +20,7 @@
     <SolidColorBrush x:Key="AvalonDock.Control.Background.Brush" Color="{StaticResource AvalonDock.Control.Background.Color}"/>
     <SolidColorBrush x:Key="AvalonDock.DisabledText.Brush" Color="{x:Static SystemColors.GrayTextColor}"></SolidColorBrush>
     <SolidColorBrush x:Key="AvalonDock.Text.Brush" Color="{StaticResource AvalonDock.Text.Color}"/>
-    
+
     <SolidColorBrush x:Key="AvalonDock.Highlight.Brush" Color="{x:Static SystemColors.HighlightColor}"/>
     <SolidColorBrush x:Key="AvalonDock.HighlightText.Brush" Color="{x:Static SystemColors.HighlightTextColor}"/>
     <SolidColorBrush x:Key="DocumentWellTabSelectedActiveBackground" Color="{StaticResource AvalonDock.Control.Background.Color}"/>

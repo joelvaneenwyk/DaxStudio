@@ -1,5 +1,4 @@
-﻿using System;
-using DaxStudio.ExcelAddin;
+﻿using DaxStudio.ExcelAddin;
 using Serilog;
 
 namespace DaxStudio

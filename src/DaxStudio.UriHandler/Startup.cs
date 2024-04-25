@@ -1,4 +1,4 @@
-﻿using Serilog.Core;
+using Serilog.Core;
 using Serilog;
 using System;
 using System.Diagnostics;
@@ -25,6 +25,7 @@ namespace DaxStudio.Launcher
         {
             _levelSwitch.MinimumLevel = Serilog.Events.LogEventLevel.Information;
             ConfigureLogging(_levelSwitch);
+
             // find a daxstudio.exe process
             // send a wm_copydata message
             Process[] processes = Process.GetProcessesByName("daxstudio");
@@ -39,9 +40,6 @@ namespace DaxStudio.Launcher
                 WMHelper.SendCopyDataMessage(processes[0].MainWindowHandle, args);
             }
         }
-
-
-
 
         private static void LaunchNewProcess(string[] args)
         {
@@ -71,6 +69,9 @@ namespace DaxStudio.Launcher
 
             _logger = config.CreateLogger();
             Log.Logger = _logger;
+
+            Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+            Serilog.Debugging.SelfLog.Enable(Console.Error);
         }
     }
 

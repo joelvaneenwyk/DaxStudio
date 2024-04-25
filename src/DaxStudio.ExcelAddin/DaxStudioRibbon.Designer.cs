@@ -13,7 +13,7 @@
             InitializeComponent();
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -43,23 +43,23 @@
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // tab1
-            // 
+            //
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tab1.Groups.Add(this.group1);
             this.tab1.Label = "TabAddIns";
             this.tab1.Name = "tab1";
-            // 
+            //
             // group1
-            // 
+            //
             this.group1.Items.Add(this.btnDax);
             this.group1.Items.Add(this.btnTest1);
             this.group1.Items.Add(this.btnTest);
             this.group1.Name = "group1";
-            // 
+            //
             // btnDax
-            // 
+            //
             this.btnDax.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnDax.Image = ((System.Drawing.Image)(resources.GetObject("btnDax.Image")));
             this.btnDax.Label = "DAX Studio";
@@ -67,22 +67,22 @@
             this.btnDax.ScreenTip = "Launch DAX Studio";
             this.btnDax.ShowImage = true;
             this.btnDax.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnDaxClick);
-            // 
+            //
             // btnTest1
-            // 
+            //
             this.btnTest1.Label = "Test";
             this.btnTest1.Name = "btnTest1";
             this.btnTest1.ScreenTip = "Test Button";
             this.btnTest1.Visible = false;
             this.btnTest1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnTest1_Click);
-            // 
+            //
             // btnTest
-            // 
+            //
             this.btnTest.Label = "";
             this.btnTest.Name = "btnTest";
-            // 
+            //
             // DaxStudioRibbon
-            // 
+            //
             this.Name = "DaxStudioRibbon";
             this.RibbonType = "Microsoft.Excel.Workbook";
             this.Tabs.Add(this.tab1);

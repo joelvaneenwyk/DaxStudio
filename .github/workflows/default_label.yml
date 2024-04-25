@@ -1,9 +1,11 @@
 name: Default Issue Label
+
 on:
   issues:
     types:
       - reopened
       - opened
+
 jobs:
   label_issues:
     runs-on: ubuntu-latest

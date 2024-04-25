@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Media;
 using System.Globalization;
 using System.Diagnostics;
@@ -11,10 +11,8 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Xml;
 using System.Collections.Generic;
-using ICSharpCode.NRefactory.Parser;
 using System.Linq;
 using Fclp.Internals.Extensions;
-using ICSharpCode.SharpDevelop.Dom;
 using DaxStudio.Controls.PropertyGrid;
 using PoorMansTSqlFormatterLib;
 

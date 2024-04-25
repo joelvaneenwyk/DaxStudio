@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Inno Setup: Compile Script",
+            "type": "process",
+            "command": "ISCC.exe",
+            "args": ["installer/DaxStudio.iss"],
+            "presentation": {
+                "reveal": "always",
+                "echo": false
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "type": "dotnet",
+            "task": "build",
+            "file": "src",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "label": "dotnet: build"
+        }
+    ]
+}
