@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using Microsoft.Owin.Hosting;
 using Serilog;
-using System.Diagnostics;
 
 namespace DaxStudio
 {

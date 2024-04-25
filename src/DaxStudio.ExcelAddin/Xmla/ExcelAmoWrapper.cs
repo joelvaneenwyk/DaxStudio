@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Serilog;
-using ADOTabular;
 using System.Diagnostics;
 
 namespace DaxStudio.ExcelAddin.Xmla
@@ -36,7 +29,7 @@ namespace DaxStudio.ExcelAddin.Xmla
             string directoryName = ADOTabular.AdomdClientWrappers.ExcelAdoMdConnections.RetrieveAdomdAssemblyFolder();
             Log.Debug("{Class} {Method} dir: {directoryName}", "ExcelAmoWrapper", "RetrieveExcelAmoAssemblyPath", directoryName);
             var assPath = Path.Combine(directoryName, dllName);
-            if (!File.Exists(assPath)) { 
+            if (!File.Exists(assPath)) {
                 Log.Error(Common.Constants.LogMessageTemplate, nameof(ExcelAmoWrapper), nameof(RetrieveExcelAmoAssemblyPath), $"unable to find Microsoft.Excel.Amo.dll path: {assPath}");
                 //TODO try using vfs path
                 UpdatePathForVfs(ref assPath);
@@ -44,7 +37,7 @@ namespace DaxStudio.ExcelAddin.Xmla
 
             //assPath = Path.Combine(@"C:\Program Files\Microsoft Office\root\vfs\ProgramFilesCommonX64\Microsoft Shared\Office16\DataModelv16", dllName);
             return assPath;
-            
+
         }
 
         public static Assembly ExcelAmoAssembly

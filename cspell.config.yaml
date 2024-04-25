@@ -1,0 +1,11 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions:
+  - name: dax-studio
+    path: ./.vscode/cspell-dax-studio.txt
+    addWords: true
+dictionaries:
+  - dax-studio
+words: []
+ignoreWords: []
+import: []

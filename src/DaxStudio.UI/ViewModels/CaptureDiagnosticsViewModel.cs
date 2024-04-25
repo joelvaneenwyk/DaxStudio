@@ -1,12 +1,10 @@
-﻿using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices;
 using Caliburn.Micro;
 using DaxStudio.Interfaces;
 using DaxStudio.UI.Events;
 using DaxStudio.UI.Interfaces;
 using DaxStudio.UI.Model;
-using ICSharpCode.NRefactory.Ast;
 using Microsoft.Win32;
-using Mono.Cecil.Cil;
 using Serilog;
 using System;
 using System.Collections.Generic;
