@@ -140,7 +140,7 @@
             <Version>1.4.1</Version>
         </PackageReference>
         <PackageReference Include="Dax.ViewModel">
-            <Version>1.4.1</Version>
+            <Version>1.5.1</Version>
         </PackageReference>
         <PackageReference Include="Dax.ViewVpaExport">
             <Version>1.4.1</Version>
