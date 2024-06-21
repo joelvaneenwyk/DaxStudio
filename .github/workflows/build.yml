@@ -12,6 +12,9 @@ on:
   schedule:
     - cron: "40 19 * * 0"
 
+env:
+  SOLUTION_PATH: DaxStudio.sln
+
 jobs:
   lint:
     name: DevSkim
@@ -32,8 +35,21 @@ jobs:
         with:
           sarif_file: devskim-results.sarif
 
-  build:
+  dotnet:
     needs: lint
+    name: ".NET Build"
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - uses: actions/setup-dotnet@v4
+      - run: dotnet build "${{ env.SOLUTION_PATH }}"
+
+  build:
+    needs: dotnet
     strategy:
       fail-fast: false
       matrix:
@@ -41,8 +57,8 @@ jobs:
         configuration: [Debug, Release]
         platform: [Any CPU]
 
-    # e.g., 'Build Debug | Any CPU'
-    name: "Build ${{ matrix.configuration }} | ${{ matrix.platform }}"
+    # e.g., 'MSBuild Debug | Any CPU'
+    name: "MSBuild ${{ matrix.configuration }} | ${{ matrix.platform }}"
     runs-on: windows-latest
     steps:
       - name: Checkout

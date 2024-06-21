@@ -1,49 +1,50 @@
 <Project>
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildThisFileDirectory)</SolutionDir>
-        <Deterministic>true</Deterministic>
-        <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
-        <!-- For non-SDK projects that import this file and then import Microsoft.Common.props,
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildThisFileDirectory)</SolutionDir>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
+    <!-- For non-SDK projects that import this file and then import Microsoft.Common.props,
              tell Microsoft.Common.props not to import Directory.Build.props again. -->
-        <ImportDirectoryBuildProps>true</ImportDirectoryBuildProps>
+    <ImportDirectoryBuildProps>true</ImportDirectoryBuildProps>
 
-        <DebugSymbols>true</DebugSymbols>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <DebugType>full</DebugType>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
 
-        <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
-        <OutputPath>$(MSBuildProjectDirectory)\..\..\bin\$(Configuration)\</OutputPath>
-        <OutDir>$(OutputPath)</OutDir>
-        <IntDir>$(MSBuildProjectDirectory)\..\..\.build\obj\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</IntDir>
-        <IntermediateOutputPath>$(MSBuildProjectDirectory)\..\..\.build\obj\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
-        <UseCommonOutputDirectory>false</UseCommonOutputDirectory>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <LangVersion>8.0</LangVersion>
+    <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
+    <OutputPath>$(MSBuildThisFileDirectory)\bin\$(Configuration)\</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+    <IntDir>$(MSBuildThisFileDirectory)\.build\obj\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</IntDir>
+    <IntermediateOutputPath>$(MSBuildProjectDirectory)\.build\obj\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <UseCommonOutputDirectory>false</UseCommonOutputDirectory>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>8.0</LangVersion>
 
-        <!-- Enable .NET code analysis (this is necessary for projects that target 3.1 or earlier). -->
-        <AnalysisMode>none</AnalysisMode>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
-        <EnableNETAnalyzers>false</EnableNETAnalyzers>
-    </PropertyGroup>
+    <!-- Enable .NET code analysis (this is necessary for projects that target 3.1 or earlier). -->
+    <AnalysisMode>none</AnalysisMode>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
+  </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <AnalysisMode>recommended</AnalysisMode>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <AnalysisMode>recommended</AnalysisMode>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) DAX Studio ($([System.DateTime]::UtcNow.ToString("s")))</Copyright>
-    </PropertyGroup>
+  <PropertyGroup>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) DAX Studio ($([System.DateTime]::UtcNow.ToString("s")))</Copyright>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
-        <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
-        <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
-        <VisualStudioToolsOfficeRoot Condition="Exists('C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll')">C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15</VisualStudioToolsOfficeRoot>
-    </PropertyGroup>
+  <PropertyGroup>
+    <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
+    <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
+    <ReferenceAssemblyRoot Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0\Microsoft.VisualStudio.Tools.Applications.Runtime.dll')">C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\ReferenceAssemblies\v4.0</ReferenceAssemblyRoot>
+    <VisualStudioToolsOfficeRoot Condition="Exists('C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll')">C:\Program Files (x86)\Microsoft Visual Studio\Shared\Visual Studio Tools for Office\PIA\Office15</VisualStudioToolsOfficeRoot>
+  </PropertyGroup>
 </Project>
