@@ -102,12 +102,16 @@ endlocal & exit /b %errorlevel%
     set "error_result=0"
     if "!config!"=="" set "config=Release"
 
-    set "_msbuild=msbuild"
-    where msbuild >nul 2>nul && goto:$RunBuild
     set "_msbuild=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\msbuild.exe"
+    if not exist "!_msbuild!" set "_msbuild=C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe"
+    if not exist "!_msbuild!" set "_msbuild=C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\msbuild.exe"
     if not exist "!_msbuild!" set "_msbuild=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\msbuild.exe"
     if not exist "!_msbuild!" set "_msbuild=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild"
-    if not exist "!_msbuild!" goto:$BuildErrorMissingTools
+    if exist "!_msbuild!" goto:$RunBuild
+
+    set "_msbuild=msbuild"
+    where msbuild >nul 2>nul && goto:$RunBuild
+    goto:$BuildErrorMissingTools
 
     :$RunBuild
     cd /D "%~dp0"
@@ -120,6 +124,10 @@ endlocal & exit /b %errorlevel%
     )
 
     if not exist "%~dp0.build" mkdir "%~dp0.build"
+    cd /D "%~dp0src"
+    nuget restore
+
+    cd /D "%~dp0"
     call :Command "!_msbuild!" !_args! ^
        "%~dp0build.msproj" ^
        /p:Configuration="!config!" ^
@@ -149,11 +157,7 @@ endlocal & (
     set "config=%~2"
     if "!config!"=="" set "config=Release"
 
-    call :Build "Restore"   "!config!"
-    if errorlevel 1 exit /b %errorlevel%
-
-    call :Build "!target!"  "!config!"
-    if errorlevel 1 exit /b %errorlevel%
+    call :Build "!target!" "!config!"
 exit /b %errorlevel%
 
 :$Main
