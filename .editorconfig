@@ -27,7 +27,7 @@ indent_size = 6
 indent_style = tab
 
 #################################
-[*.{csproj,msbuild,proj}]
+[*.{csproj,msbuild,proj,msproj,xml,Build.props}]
 #--------------------------------
 
 indent_size = 2
