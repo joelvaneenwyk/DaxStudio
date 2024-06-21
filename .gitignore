@@ -202,4 +202,8 @@ docs/.jekyll-metadata
 
 src/upgrade-assistant.clef
 src/AnalysisReport.sarif
-/appveyor-tools
+/appveyor-tools/
+
+*.vsmdi
+*.sln.DotSettings
+.config/
