@@ -2,6 +2,7 @@
     "recommendations": [
         "chouzz.vscode-innosetup",
         "tintoy.msbuild-project-tools",
-        "lambdageek.msbuild-structured-log-viewer"
+        "lambdageek.msbuild-structured-log-viewer",
+        "deitry.msbuild-solution-syntax"
     ]
 }

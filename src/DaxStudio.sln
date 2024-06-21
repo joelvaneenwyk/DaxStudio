@@ -8,7 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "{root}", "{root}", "{E04330
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		CommonAssemblyVersion.cs = CommonAssemblyVersion.cs
 		CurrentReleaseVersion.json = CurrentReleaseVersion.json
-		setup-build-env.ps1 = setup-build-env.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaxStudio.ExcelAddin", "DaxStudio.ExcelAddin\DaxStudio.ExcelAddin.csproj", "{C8769178-B109-4155-ABC2-F4E4587642DB}"

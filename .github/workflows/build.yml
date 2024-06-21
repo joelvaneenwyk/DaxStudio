@@ -38,12 +38,15 @@ jobs:
         configuration: [Debug, Release]
         platform: [Any CPU]
 
-    runs-on: windows-latest
-
     env:
       test_project_path: "tests/DaxStudio.Tests/DaxStudio.Tests.csproj"
       build_definition: "**/*.msproj"
       build_target: "Installer"
+
+    runs-on: windows-latest
+
+    # e.g., 'Build Debug | Any CPU'
+    name: "Build ${{ matrix.configuration }} | ${{ matrix.platform }}"
 
     steps:
       - name: Checkout
