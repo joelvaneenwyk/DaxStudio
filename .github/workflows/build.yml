@@ -15,7 +15,7 @@ on:
 jobs:
   lint:
     name: DevSkim
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
@@ -41,16 +41,9 @@ jobs:
         configuration: [Debug, Release]
         platform: [Any CPU]
 
-    env:
-      test_project_path: "tests/DaxStudio.Tests/DaxStudio.Tests.csproj"
-      build_definition: "**/*.msproj"
-      build_target: "Installer"
-
-    runs-on: windows-latest
-
     # e.g., 'Build Debug | Any CPU'
     name: "Build ${{ matrix.configuration }} | ${{ matrix.platform }}"
-
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,7 +71,6 @@ jobs:
 
   analyze:
     needs: build
-    name: Analyze
 
     strategy:
       fail-fast: false
@@ -98,6 +90,7 @@ jobs:
       actions: read
       contents: read
 
+    name: Analyze
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

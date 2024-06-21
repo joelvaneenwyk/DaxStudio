@@ -124,10 +124,8 @@ endlocal & exit /b %errorlevel%
     )
 
     if not exist "%~dp0.build" mkdir "%~dp0.build"
-    cd /D "%~dp0src"
-    nuget restore
-
     cd /D "%~dp0"
+    nuget restore
     call :Command "!_msbuild!" !_args! ^
        "%~dp0build.msproj" ^
        /p:Configuration="!config!" ^
