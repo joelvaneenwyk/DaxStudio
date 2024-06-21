@@ -3,12 +3,39 @@
 # top-most EditorConfig file
 root = true
 
+#################################
 [*]
+#--------------------------------
+
 indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
 tab_width = 4
+
+#################################
+[*.{yml,yaml}]
+#--------------------------------
+
+indent_size = 2
+
+#################################
+[*.{sln,solution}]
+#--------------------------------
+
+indent_size = 6
+indent_style = tab
+
+#################################
+[*.{csproj,msbuild,proj}]
+#--------------------------------
+
+indent_size = 2
+indent_style = space
+
+#################################
+[*.{cs,vb}]
+#--------------------------------
 
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = suggestion
@@ -28,18 +55,6 @@ dotnet_analyzer_diagnostic.category-Style.severity = silent
 # Default severity for all the categories (including forma)
 dotnet_analyzer_diagnostic.severity = suggestion
 
-[*.{yml,yaml}]
-indent_size = 2
-
-[*.{sln}]
-indent_size = 4
-indent_style = tab
-
-[*.{csproj,msbuild,proj}]
-indent_size = 4
-indent_style = space
-
-[*.{cs,vb}]
 csharp_indent_labels = one_less_than_current
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion

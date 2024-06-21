@@ -5,37 +5,26 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-        <Platforms>AnyCPU;x64;x86</Platforms>
+        <Platforms>AnyCPU</Platforms>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cmd Only|AnyCPU'">
         <DebugSymbols>true</DebugSymbols>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Cmd Only|ARM64'">
+      <DebugSymbols>true</DebugSymbols>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+      <CodeAnalysisRuleSet>DaxStudio.Common.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Cmd Only|x64'">
       <DebugSymbols>true</DebugSymbols>

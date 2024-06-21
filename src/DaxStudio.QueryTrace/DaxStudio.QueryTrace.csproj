@@ -4,7 +4,7 @@
         <OutputType>Library</OutputType>
         <RestorePackages>true</RestorePackages>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <Platforms>AnyCPU;x64;x86</Platforms>
+        <Platforms>AnyCPU</Platforms>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -15,22 +15,6 @@
         <AnalysisLevel>latest</AnalysisLevel>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      <CodeAnalysisRuleSet>DaxStudio.QueryTrace.ruleset</CodeAnalysisRuleSet>
-      <LangVersion>8.0</LangVersion>
-      <EnableNETAnalyzers>true</EnableNETAnalyzers>
-      <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-      <AnalysisLevel>latest</AnalysisLevel>
-      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-      <CodeAnalysisRuleSet>DaxStudio.QueryTrace.ruleset</CodeAnalysisRuleSet>
-      <LangVersion>8.0</LangVersion>
-      <EnableNETAnalyzers>true</EnableNETAnalyzers>
-      <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-      <AnalysisLevel>latest</AnalysisLevel>
-      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
         <CodeAnalysisRuleSet>DaxStudio.QueryTrace.ruleset</CodeAnalysisRuleSet>
@@ -39,24 +23,6 @@
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
         <AnalysisLevel>latest</AnalysisLevel>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <DebugSymbols>true</DebugSymbols>
-      <CodeAnalysisRuleSet>DaxStudio.QueryTrace.ruleset</CodeAnalysisRuleSet>
-      <LangVersion>8.0</LangVersion>
-      <EnableNETAnalyzers>true</EnableNETAnalyzers>
-      <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-      <AnalysisLevel>latest</AnalysisLevel>
-      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-      <DebugSymbols>true</DebugSymbols>
-      <CodeAnalysisRuleSet>DaxStudio.QueryTrace.ruleset</CodeAnalysisRuleSet>
-      <LangVersion>8.0</LangVersion>
-      <EnableNETAnalyzers>true</EnableNETAnalyzers>
-      <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-      <AnalysisLevel>latest</AnalysisLevel>
-      <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="..\CommonAssemblyInfo.cs">

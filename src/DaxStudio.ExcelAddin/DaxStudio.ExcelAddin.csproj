@@ -16,7 +16,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <Description>DAX Studio Excel Addin</Description>
         <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-        <Platforms>AnyCPU;x64;x86</Platforms>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>

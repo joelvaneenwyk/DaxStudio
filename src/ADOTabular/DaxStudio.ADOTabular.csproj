@@ -5,7 +5,7 @@
         <RootNamespace>ADOTabular</RootNamespace>
         <AssemblyName>ADOTabular</AssemblyName>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <Platforms>AnyCPU;x64;x86</Platforms>
+        <Platforms>AnyCPU</Platforms>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup>
