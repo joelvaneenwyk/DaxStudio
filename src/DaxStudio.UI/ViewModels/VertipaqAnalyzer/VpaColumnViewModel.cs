@@ -11,14 +11,14 @@ namespace DaxStudio.UI.ViewModels
     public class VpaColumnViewModel
     {
         readonly VpaColumn _col;
-        private IGlobalOptions _options;
+        private IVpaOptions _options;
 
-        public VpaColumnViewModel(VpaColumn col, IGlobalOptions options)
+        public VpaColumnViewModel(VpaColumn col, IVpaOptions options)
         {
             _col = col;
             _options = options;
         }
-        public VpaColumnViewModel(VpaColumn col, VpaTableViewModel table, IGlobalOptions options)
+        public VpaColumnViewModel(VpaColumn col, VpaTableViewModel table, IVpaOptions options)
         {
             _col = col;
             Table = table;
@@ -55,5 +55,7 @@ namespace DaxStudio.UI.ViewModels
         public double PercentOfMaxTotalSize => Table == null ? 0 : TotalSize / (double)Table.ColumnMaxTotalSize;
         public double PercentOfMaxCardinality => Table == null ? 0 : ColumnCardinality / (double)Table.ColumnsMaxCardinality;
         public double PercentOfMaxTotalDBSize => MaxColumnTotalSize == 0 ? 0 : TotalSize / (double)MaxColumnTotalSize;
+
+        public bool IsNotResident => (_col.SegmentsResident ?? 1) == 0;
     }
 }

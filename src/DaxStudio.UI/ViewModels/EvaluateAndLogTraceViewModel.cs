@@ -14,21 +14,16 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System;
 using System.IO.Packaging;
-using System.Windows.Media;
-using System.Xml;
-using DaxStudio.Interfaces.Enums;
 using DaxStudio.Interfaces;
 using DaxStudio.UI.Utils;
 using Formatting = Newtonsoft.Json.Formatting;
 using Serilog;
 using DaxStudio.Common.Enums;
-using DaxStudio.Controls.PropertyGrid;
 using DaxStudio.UI.Extensions;
 using DaxStudio.UI.JsonConverters;
 // using ControlzEx.Standard;
 using Newtonsoft.Json.Linq;
-using System.Windows.Navigation;
-using Fluent;
+using System.ComponentModel.DataAnnotations;
 
 namespace DaxStudio.UI.ViewModels
 {
@@ -39,7 +34,7 @@ namespace DaxStudio.UI.ViewModels
         IViewAware
 
     {
-
+        const string fileExtension = ".evalAndLogTrace";
 
         [ImportingConstructor]
         public EvaluateAndLogTraceViewModel(IEventAggregator eventAggregator, IGlobalOptions globalOptions, IWindowManager windowManager) : base(eventAggregator, globalOptions,windowManager)
@@ -57,6 +52,22 @@ namespace DaxStudio.UI.ViewModels
             };
         }
 
+        public bool ShowNotice { get => SelectedEvent?.ShowNotice ?? false; }
+
+        public override void CheckEnabled(IConnection connection, ITraceWatcher active)
+        {
+            base.CheckEnabled(connection, active);
+
+            if (connection.ServerType != ADOTabular.Enums.ServerType.PowerBIDesktop) {
+                IsEnabled = false;
+            }
+        }
+
+        public override string DisableReason {
+            get {
+                if (Connection.ServerType != ADOTabular.Enums.ServerType.PowerBIDesktop) return "The EvaluateAndLog Trace is only supported for Power BI Desktop connections";
+                return base.DisableReason; }
+        }
 
         protected override void ProcessSingleEvent(DaxStudioTraceEventArgs traceEvent)
         {
@@ -68,22 +79,10 @@ namespace DaxStudio.UI.ViewModels
             {
 
                 StartTime = traceEvent.StartTime,
-                //Username = traceEvent.NTUserName,
                 Text = traceEvent.TextData,
-                //CpuDuration = traceEvent.CpuTime,
                 Duration = traceEvent.Duration,
-                //DatabaseName = traceEvent.DatabaseFriendlyName,
-                //RequestID = traceEvent.RequestID,
-                //RequestParameters = traceEvent.RequestParameters,
-                //RequestProperties = traceEvent.RequestProperties,
-                //ObjectName = traceEvent.ObjectName,
-                //ObjectPath = traceEvent.ObjectPath,
-                //ObjectReference = traceEvent.ObjectReference,
                 EventClass = traceEvent.EventClass,
                 EventSubClass = traceEvent.EventSubclass,
-                //ProgressTotal = traceEvent.ProgressTotal,
-                //ActivityID = traceEvent.ActivityId,
-                //SPID = traceEvent.SPID
 
             };
             try
@@ -106,20 +105,6 @@ namespace DaxStudio.UI.ViewModels
         protected override void ProcessResults()
         {
 
-            //if (IsPaused) return; // exit here if we are paused
-
-            if (Events == null) return;
-
-            // todo summarize events
-            while (!Events.IsEmpty)
-            {
-                Events.TryDequeue(out var traceEvent);
-                // todo - produce summary
-            }
-
-            Events.Clear();
-
-
             NotifyOfPropertyChange(() => DebugEvents);
             NotifyOfPropertyChange(() => CanClearAll);
             NotifyOfPropertyChange(() => CanCopyAll);
@@ -138,28 +123,15 @@ namespace DaxStudio.UI.ViewModels
 
         // IToolWindow interface
         public override string Title => "Evaluate & Log";
-        public override string TraceSuffix => "debug-log";
+        public override string TraceSuffix => "eval-and-log";
         public override string KeyTip => "EL";
         public override string ToolTipText => "Runs a server trace to capture the output from the EvaluateAndLog() DAX Function";
         public override int SortOrder => 50;
         public override bool FilterForCurrentSession => true;
-        public override bool IsPreview
-        {
-            get
-            {
-                // only show this in debug builds
-#if DEBUG
-                return false;
-#else
-                return true;
-#endif
-            }
-        }
-        protected override bool IsFinalEvent(DaxStudioTraceEventArgs traceEvent)
-        {
-            return traceEvent.EventClass == DaxStudioTraceEventClass.CommandEnd &&
-                   traceEvent.TextData.Contains("<Refresh ");
-        }
+        public override bool IsPreview => false;
+
+        protected override bool IsFinalEvent(DaxStudioTraceEventArgs traceEvent) => false;
+
 
         public override void ClearAll()
         {
@@ -183,11 +155,12 @@ namespace DaxStudio.UI.ViewModels
         public new bool IsBusy => false;
 
         private EvaluateAndLogEvent _selectedEvent;
-        public EvaluateAndLogEvent SelectedEvent { get =>_selectedEvent; 
-            set { 
-                _selectedEvent = value; 
-                NotifyOfPropertyChange(); 
-            } 
+        public EvaluateAndLogEvent SelectedEvent { get =>_selectedEvent;
+            set {
+                _selectedEvent = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(ShowNotice));
+            }
         }
 
         public override bool IsCopyAllVisible => true;
@@ -245,7 +218,7 @@ namespace DaxStudio.UI.ViewModels
         void ISaveState.Save(string filename)
         {
             string json = GetJson();
-            File.WriteAllText(filename + ".debugTrace", json);
+            File.WriteAllText(filename + fileExtension, json);
         }
 
         public string GetJson()
@@ -255,7 +228,7 @@ namespace DaxStudio.UI.ViewModels
 
         void ISaveState.Load(string filename)
         {
-            filename = filename + ".debugTrace";
+            filename = filename + fileExtension;
             if (!File.Exists(filename)) return;
 
             _eventAggregator.PublishOnUIThreadAsync(new ShowTraceWindowEvent(this));
@@ -317,9 +290,11 @@ namespace DaxStudio.UI.ViewModels
             }
         }
 
+
+
         public override bool CanExport => _debugEvents.Count > 0;
 
-        public override string ImageResource => "evaluate_logDrawingImage"; 
+        public override string ImageResource => "evaluate_logDrawingImage";
 
         public override void ExportTraceDetails(string filePath)
         {
@@ -343,9 +318,10 @@ namespace DaxStudio.UI.ViewModels
 
         //TODO
         private string _text;
+        [JsonIgnore]
         public string Text { get => _text; set { _text = value;
                 ParseJson(_text);
-            } 
+            }
         }
         public DateTime StartTime { get; set; }
         public long Duration { get; set; }
@@ -359,6 +335,11 @@ namespace DaxStudio.UI.ViewModels
         public string Expression { get; set; }
         public string Label { get; set; }
         public long RowCount {  get; set; }
+        private string _notification = string.Empty;
+        public string Notice { get;set; }
+
+        [JsonIgnore]
+        public bool ShowNotice { get => !string.IsNullOrWhiteSpace(Notice); }
         #endregion
 
         internal void ParseJson(string json)
@@ -367,13 +348,15 @@ namespace DaxStudio.UI.ViewModels
 
             Label = item.Label;
             Expression = item.Expression;
+            Notice = item.Notice;
             var row1input = item.Data[0].Input;
             var row1output = item.Data[0].Output;
             var inputIdx = 0;
             var outputIdx = 0;
             bool isScalar = false;
-            foreach (var col in item.Inputs) { 
+            foreach (var col in item.Inputs) {
                 var newCol = Table.Columns.Add(col, row1input[inputIdx].GetType());
+                newCol.AllowDBNull = true;
                 newCol.ExtendedProperties.Add(columnSource, "Input");
                 inputIdx++;
             }
@@ -383,6 +366,7 @@ namespace DaxStudio.UI.ViewModels
                 foreach (var col in item.Outputs)
                 {
                     var newCol = Table.Columns.Add(col, GetOutputColumnType(row1output , outputIdx));
+                    newCol.AllowDBNull = true;
                     newCol.ExtendedProperties.Add(columnSource, "Output");
                     //newCol.ExtendedProperties.Add(shortName, );
                     outputIdx++;
@@ -391,26 +375,38 @@ namespace DaxStudio.UI.ViewModels
             else
             {
                 var newCol = Table.Columns.Add("Value", row1output[outputIdx].GetType());
+                newCol.AllowDBNull = true;
                 newCol.ExtendedProperties.Add(columnSource, "Output");
                 isScalar = true;
             }
 
-            foreach( var data in item.Data)
+            // add standard columns
+            Table.Columns.Add("Table Number", typeof(long));
+            Table.Columns.Add("Row Number", typeof(long));
+            Table.Columns.Add("Row Count", typeof(long));
+
+            long tableNum = 1;
+            long rowNum = 1;
+
+            foreach ( var data in item.Data)
             {
                 if (isScalar) {
                     int colIdx = 0;
                     var row = Table.NewRow();
                     foreach (var input in data.Input)
                     {
-                        row[colIdx] = input;
+                        if (input != null) row[colIdx] = input;
                         colIdx++;
                     }
 
+                    if (data.Output[0] != null) row[colIdx] = data.Output[0];
+                    colIdx++;
 
-                        row[colIdx] = data.Output[0];
-                        colIdx++;
-
+                    row["Table Number"] = tableNum;
+                    row["Row Number"] = rowNum;
+                    row["Row Count"] = data.RowCount;
                     Table.Rows.Add(row);
+                    rowNum++;
 
                 }
                 else
@@ -421,20 +417,27 @@ namespace DaxStudio.UI.ViewModels
                         var row = Table.NewRow();
                         foreach (var input in data.Input)
                         {
-                            row[colIdx] = input;
+                            JToken jt = input as JToken;
+                            if( (jt != null && jt.Type != JTokenType.Null) || input != null) row[colIdx] = input;
                             colIdx++;
                         }
 
                         for (outputIdx = 0; outputIdx < output.Count; outputIdx++)
                         {
 
-
-                            row[colIdx] = output[outputIdx];
+                            if (output[outputIdx].Type != JTokenType.Null) row[colIdx] = output[outputIdx];
                             colIdx++;
                         }
+
+                        row["Table Number"] = tableNum;
+                        row["Row Number"] = rowNum;
+                        row["Row Count"] = data.RowCount;
                         Table.Rows.Add(row);
+                        rowNum++;
                     }
                 }
+                tableNum++;
+                rowNum = 1;
             }
         }
 
@@ -447,8 +450,10 @@ namespace DaxStudio.UI.ViewModels
             }
             catch {
                 return typeof(string);
-            } 
+            }
         }
+
+
     }
 
     public class EvaluateAndLogItem
@@ -456,7 +461,8 @@ namespace DaxStudio.UI.ViewModels
         public string Expression { get; set; }
         public string Label { get; set; }
         public long RowCount { get; set; }
-        public List<String> Inputs { get; set; }
+        public string Notice { get; set; }
+        public List<string> Inputs { get; set; }
         public List<string> Outputs { get; set; }
         public List<EvaluateAndLogData> Data { get; set; }
     }
@@ -468,7 +474,7 @@ namespace DaxStudio.UI.ViewModels
 
         [JsonConverter(typeof(SingleOrArrayConverter<object>))]
         public List<object> Output { get; set; }
-        public long RowCount { get; set; }  
+        public long RowCount { get; set; }
     }
 
     public abstract class DebugItem
@@ -492,9 +498,9 @@ namespace DaxStudio.UI.ViewModels
         public string RequestId { get; set; }
         public string Spid { get; set; }
 
- 
 
- 
+
+
 
         private void UpdateDatabase(TraceEvent newEvent, Dictionary<string, string> reference)
         {
@@ -516,7 +522,7 @@ namespace DaxStudio.UI.ViewModels
             // TODO update column info
         }
 
- 
+
 
         public void UpdateItem(TraceEvent newEvent)
         {
@@ -525,7 +531,6 @@ namespace DaxStudio.UI.ViewModels
         }
 
     }
-
 
 
 #endregion

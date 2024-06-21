@@ -26,7 +26,6 @@ using ADOTabular.Interfaces;
 using ADOTabular.MetadataInfo;
 using ADOTabular.Utils;
 using Caliburn.Micro;
-using Dax.Metadata.Extractor;
 using Dax.ViewModel;
 using DAXEditorControl;
 using DaxStudio.Common;
@@ -57,6 +56,9 @@ using FocusManager = DaxStudio.UI.Utils.FocusManager;
 using System.Linq.Dynamic;
 using DaxStudio.Controls.PropertyGrid;
 using ICSharpCode.AvalonEdit.Folding;
+using Dax.Model.Extractor;
+using Dax.Vpax.Obfuscator.Common;
+using Dax.Vpax.Obfuscator;
 
 namespace DaxStudio.UI.ViewModels
 {
@@ -1189,68 +1191,73 @@ namespace DaxStudio.UI.ViewModels
                 {
                     if (message == null) return;
                     MetadataPane.IsBusy = true;
-                    Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Starting Connect");
 
-                    await Connection.ConnectAsync(message, this.UniqueID);
-                    Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Finished Connect");
+                    await Task.Run(async () => { 
+
+                        Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Starting Connect");
+
+                        await Connection.ConnectAsync(message, this.UniqueID);
+                        Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Finished Connect");
 
 
-                    // show database dialog if there is more than 1 database available
-                    if (Connection.Databases.Count() > 1 && string.IsNullOrEmpty(message.DatabaseName) && Options.ShowDatabaseDialogOnConnect)
-                    {
-                        Log.Debug(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Start Showing Database Dialog");
-                        await Application.Current.Dispatcher.InvokeAsync(async () =>
+                        // show database dialog if there is more than 1 database available
+                        if (Connection.Databases.Count > 1 && string.IsNullOrEmpty(message.DatabaseName) && Options.ShowDatabaseDialogOnConnect)
                         {
-                            var dialog = new DatabaseDialogViewModel(Connection.Databases);
-                            await _windowManager.ShowDialogBoxAsync(dialog);
-                            if (dialog.Result == System.Windows.Forms.DialogResult.OK && dialog.SelectedDatabase != null)
+                            Log.Debug(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Start Showing Database Dialog");
+                            await Application.Current.Dispatcher.InvokeAsync(async () =>
                             {
-                                Connection.SetSelectedDatabase(dialog.SelectedDatabase.Name);
-                                MetadataPane.SelectDatabaeByName(dialog.SelectedDatabase.Name);
-                                await MetadataPane.RefreshTablesAsync();
+                                var dialog = new DatabaseDialogViewModel(Connection.Databases);
+                                await _windowManager.ShowDialogBoxAsync(dialog);
+                                if (dialog.Result == System.Windows.Forms.DialogResult.OK && dialog.SelectedDatabase != null)
+                                {
+                                    Connection.SetSelectedDatabase(dialog.SelectedDatabase.Name);
+                                    MetadataPane.SelectDatabaseByName(dialog.SelectedDatabase.Name);
+                                    await MetadataPane.RefreshTablesAsync();
+                                }
+                            });
+                            Log.Debug(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "End Showing Database Dialog");
+                        }
+
+                        UpdateViewAsDescription(message.ConnectionString);
+
+                        NotifyOfPropertyChange(() => IsAdminConnection);
+                        var activeTrace = TraceWatchers.FirstOrDefault(t => t.IsChecked);
+                        // enable/disable traces depending on the current connection
+                        foreach (var traceWatcher in TraceWatchers)
+                        {
+                            // on change of connection we need to disable traces as they will
+                            // be pointing to the old connection
+                            traceWatcher.IsChecked = false;
+                            // then we need to check if the new connection can be traced
+                            traceWatcher.CheckEnabled(Connection, activeTrace);
+                        }
+
+                        // re-connect any traces that were previously active
+                        if (message.ActiveTraces != null)
+                        {
+                            foreach (var traceWatcher in message.ActiveTraces)
+                            {
+                                traceWatcher.IsChecked = true;
+                            }
+                        }
+                        Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Starting - Editor Function highlight updates");
+                        Execute.OnUIThread(() =>
+                        {
+                            try
+                            {
+                                if (_editor == null) _editor = GetEditor();
+                                //    _editor.UpdateKeywordHighlighting(_connection.Keywords);
+                                _editor.UpdateFunctionHighlighting(Connection.AllFunctions);
+                                Log.Information("{class} {method} {message}", "DocumentViewModel", "UpdateConnections", "SyntaxHighlighting updated");
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Error(ex, "{class} {method} {message}", "DocumentViewModel", "UpdateConnections", "Error Updating SyntaxHighlighting: " + ex.Message);
                             }
                         });
-                        Log.Debug(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "End Showing Database Dialog");
-                    }
+                        Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Finished - Editor Function highlight updates");
 
-                    UpdateViewAsDescription(message.ConnectionString);
-
-                    NotifyOfPropertyChange(() => IsAdminConnection);
-                    var activeTrace = TraceWatchers.FirstOrDefault(t => t.IsChecked);
-                    // enable/disable traces depending on the current connection
-                    foreach (var traceWatcher in TraceWatchers)
-                    {
-                        // on change of connection we need to disable traces as they will
-                        // be pointing to the old connection
-                        traceWatcher.IsChecked = false;
-                        // then we need to check if the new connection can be traced
-                        traceWatcher.CheckEnabled(Connection, activeTrace);
-                    }
-
-                    // re-connect any traces that were previously active
-                    if (message.ActiveTraces != null)
-                    {
-                        foreach (var traceWatcher in message.ActiveTraces)
-                        {
-                            traceWatcher.IsChecked = true;
-                        }
-                    }
-                    Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Starting - Editor Function highlight updates");
-                    Execute.OnUIThread(() =>
-                    {
-                        try
-                        {
-                            if (_editor == null) _editor = GetEditor();
-                            //    _editor.UpdateKeywordHighlighting(_connection.Keywords);
-                            _editor.UpdateFunctionHighlighting(Connection.AllFunctions);
-                            Log.Information("{class} {method} {message}", "DocumentViewModel", "UpdateConnections", "SyntaxHighlighting updated");
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error(ex, "{class} {method} {message}", "DocumentViewModel", "UpdateConnections", "Error Updating SyntaxHighlighting: " + ex.Message);
-                        }
                     });
-                    Log.Verbose(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(UpdateConnectionsAsync), "Finished - Editor Function highlight updates");
                 }
                 catch (Exception ex)
                 {
@@ -1281,7 +1288,7 @@ namespace DaxStudio.UI.ViewModels
                     MetadataPane.IsBusy = false;
                 }
             }
-            if (Connection.Databases.Count() == 0) {
+            if (Connection.Databases.Count == 0) {
                 var msg = $"No Databases were found when connecting to {Connection.ServerName} ({Connection.ServerType})"
                 + (Connection.ServerType == ServerType.PowerBIDesktop ? "\nIf your Power BI File is using a Live Connection please connect directly to the source model instead." : "");
                 OutputWarning(msg);
@@ -2317,6 +2324,7 @@ namespace DaxStudio.UI.ViewModels
         public void OutputError(string error)
         {
             OutputError(error, double.NaN);
+            ActivateOutput();
         }
 
         public void OutputError(string error, double durationMs)
@@ -2335,6 +2343,7 @@ namespace DaxStudio.UI.ViewModels
             else
             {
                 OutputPane?.AddError(error, durationMs);
+                ActivateOutput();
             }
         }
 
@@ -2360,6 +2369,7 @@ namespace DaxStudio.UI.ViewModels
             });
 
             OutputPane?.AddError(error, msgRow, msgCol);
+            ActivateOutput();
         }
 
         #endregion
@@ -3043,7 +3053,8 @@ namespace DaxStudio.UI.ViewModels
             });
 
             // todo - should we be checking for exceptions in this continuation
-            if (!FileName.EndsWith(".vpax", StringComparison.OrdinalIgnoreCase))
+            if (!FileName.EndsWith(".vpax", StringComparison.OrdinalIgnoreCase) 
+                && !FileName.EndsWith(".ovpax", StringComparison.OrdinalIgnoreCase))
             {
                 await ChangeConnectionAsync();
             }
@@ -3109,7 +3120,14 @@ namespace DaxStudio.UI.ViewModels
 
                 if (FileName.EndsWith(".vpax", StringComparison.OrdinalIgnoreCase))
                 {
-                    ImportAnalysisData(fileName);
+                    ImportAnalysisData(fileName, string.Empty);
+                    return;
+                }
+
+                if (FileName.EndsWith(".ovpax", StringComparison.OrdinalIgnoreCase))
+                {
+                    // try to get default dict file
+                    ImportAnalysisData(fileName, string.Empty);
                     return;
                 }
 
@@ -3386,9 +3404,20 @@ namespace DaxStudio.UI.ViewModels
             try
             {
                 if (IsQueryRunning) {
-                    OutputWarning("You cannot clear the cache while a query is running");
+                    var msg = "You cannot clear the cache while a query is running";
+                    OutputWarning(msg);
+                    Log.Warning(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(ClearDatabaseCacheAsync), msg);
                     return;
                 }
+
+                if (!IsAdminConnection)
+                {
+                    var msg = "You do not sufficient permission to clear the cache";
+                    OutputWarning(msg);
+                    Log.Warning(Constants.LogMessageTemplate, nameof(DocumentViewModel), nameof(ClearDatabaseCacheAsync), msg);
+                    return;
+                }
+
                 IsQueryRunning = true;
                 var sw = Stopwatch.StartNew();
                 _currentQueryDetails = CreateQueryHistoryEvent(string.Empty, string.Empty);
@@ -4331,6 +4360,12 @@ namespace DaxStudio.UI.ViewModels
             {
                 if (IsVertipaqAnalyzerRunning) return; // if we are already running exit here
 
+                var dialog = new VertipaqAnalyzerDialogViewModel(Options, _eventAggregator);
+                await _windowManager.ShowDialogBoxAsync(dialog);
+
+                // exit here if the dialog has been cancelled
+                if (dialog.Result != System.Windows.Forms.DialogResult.OK) return;
+
                 IsVertipaqAnalyzerRunning = true;
                 sw.Start();
                 using (new StatusBarMessage(this, "Analyzing Model Metrics"))
@@ -4357,8 +4392,8 @@ namespace DaxStudio.UI.ViewModels
                         || Connection.ServerVersion.StartsWith("11.", StringComparison.InvariantCultureIgnoreCase)               // SSAS 2012 SP1
                         || Connection.ServerVersion.StartsWith("12.", StringComparison.InvariantCultureIgnoreCase);              // SSAS 2014
 
-                    bool readStatisticsFromData = Options.VpaxReadStatisticsFromData && (!isLegacySsas);
-                    bool readStatisticsFromDirectQuery = Options.VpaxReadStatisticsFromDirectQuery && (!isLegacySsas);
+                    bool readStatisticsFromData = dialog.VpaxReadStatisticsFromData && (!isLegacySsas);
+                    bool readStatisticsFromDirectQuery = dialog.VpaxReadStatisticsFromDirectQuery && (!isLegacySsas);
 
                     VpaModel viewModel = null;
 
@@ -4374,7 +4409,7 @@ namespace DaxStudio.UI.ViewModels
                                 Connection.ServerName, Connection.DatabaseName,
                                 "DaxStudio", version.ToString(),
                                 readStatisticsFromData: readStatisticsFromData,
-                                sampleRows: Options.VpaxSampleReferentialIntegrityViolations,
+                                sampleRows: dialog.VpaxSampleReferentialIntegrityViolations,
                                 analyzeDirectQuery: readStatisticsFromDirectQuery);
                         }
                         catch (Exception ex)
@@ -4389,7 +4424,7 @@ namespace DaxStudio.UI.ViewModels
                                     Connection.ServerName, Connection.DatabaseName,
                                     "DaxStudio", version.ToString(),
                                     readStatisticsFromData: false, // Disable statistics during retry
-                                    sampleRows: Options.VpaxSampleReferentialIntegrityViolations,
+                                    sampleRows: dialog.VpaxSampleReferentialIntegrityViolations,
                                     analyzeDirectQuery: false);
                             }
                             else
@@ -4443,9 +4478,10 @@ namespace DaxStudio.UI.ViewModels
             // Configure save file dialog box
             var dlg = new SaveFileDialog
             {
-                FileName = Connection.DatabaseName,
+                FileName = Connection.Database?.Caption?? Connection.Database?.Name ?? "Model",
                 DefaultExt = ".vpax",
-                Filter = "Analyzer Data (vpax)|*.vpax"
+                Filter = "Analyzer Data|*.vpax|Ofuscated Data|*.ovpax|Ofuscated Data (incremental)|*.ovpax"
+
             };
 
             // Show save file dialog box
@@ -4454,16 +4490,45 @@ namespace DaxStudio.UI.ViewModels
             // Process save file dialog box results 
             if (result == true)
             {
+                
+                var inputDictionaryPath = string.Empty;
+
+                if (dlg.FilterIndex==3) // incremental ovpax
+                {
+                    var dlg2 = new OpenFileDialog
+                    {
+                        Title = "Select existing dict file",
+                        FileName = Connection.Database?.Caption ?? Connection.Database?.Name ?? "Model",
+                        DefaultExt = ".dict",
+                        Filter = "Ofuscation Dictionary|*.dict"
+
+                    };
+
+                    if (dlg2.ShowDialog()==true)
+                    {
+                        inputDictionaryPath = dlg2.FileName;
+                    }
+                }
+
+
+                
+                var dictionaryPath = dlg.FileName.EndsWith(".ovpax", StringComparison.OrdinalIgnoreCase) ?  
+                    Path.Combine(Path.GetDirectoryName(dlg.FileName), Path.GetFileNameWithoutExtension(dlg.FileName) + ".dict") 
+                    : string.Empty;
+
+                // Add a suffix to dictionary path if one already exists
+                dictionaryPath = dictionaryPath.GetNextAvailableFilename();              
+
                 // Save document 
                 try {
                     IsVertipaqAnalyzerRunning = true;
                     if (vm != null)
                     {
-                        await vm.ExportAnalysisDataAsync(dlg.FileName);
+                        await vm.ExportAnalysisDataAsync(dlg.FileName, dictionaryPath, inputDictionaryPath);
                     }
                     else
                     {
-                        await ExportAnalysisDataAsync(dlg.FileName);
+                        await ExportAnalysisDataAsync(dlg.FileName, dictionaryPath, inputDictionaryPath);
                     }
                 }
                 finally
@@ -4482,7 +4547,7 @@ namespace DaxStudio.UI.ViewModels
             {
                 Multiselect = false,
                 DefaultExt = ".vpax",
-                Filter = "Analyzer Data (vpax)|*.vpax"
+                Filter = "Analyzer Data|*.vpax|Obfuscated Analyzer Data|*.ovpax"
             };
 
             // Show save file dialog box
@@ -4490,19 +4555,39 @@ namespace DaxStudio.UI.ViewModels
 
             if (result == true)
             {
+                string dictFilePath = string.Empty;
                 var filename = dlg.FileName;
-                ImportAnalysisData(filename);
+
+                if (dlg.FilterIndex == 2) 
+                {
+                    // if this is an ovpax file get the dictionary
+                    dictFilePath = ModelAnalyzer.GetDictPathForOvpax(filename);
+                }
+
+                ImportAnalysisData(filename, dictFilePath);
             }
 
         }
 
-        private async void ImportAnalysisData(string path)
+        private async void ImportAnalysisData(string path, string dictFilePath)
         {
 
             try
             {
+                Dax.Vpax.Tools.VpaxTools.VpaxContent content;
+                using var vpax = new MemoryStream(File.ReadAllBytes(path));
+                {
+                    
+                    if (!string.IsNullOrEmpty(dictFilePath))
+                    {
+                        // if we have a dictionary path use this to deobfuscate the stream
+                        var dictionary = ObfuscationDictionary.ReadFrom(dictFilePath);
+                        var obfuscator = new VpaxObfuscator();
+                        obfuscator.Deobfuscate(vpax, dictionary);
+                    }
 
-                var content = Dax.Vpax.Tools.VpaxTools.ImportVpax(path);
+                    content = Dax.Vpax.Tools.VpaxTools.ImportVpax(vpax);
+                }
                 var database = content.TomDatabase;
                 if (!Connection.IsConnected)
                     await Task.Run(async ()=> {await Connection.ConnectAsync(new ConnectEvent(Connection.ApplicationName, content), UniqueID); });
@@ -4535,11 +4620,11 @@ namespace DaxStudio.UI.ViewModels
 
         }
 
-        public async Task ExportAnalysisDataAsync(string path)
+        public async Task ExportAnalysisDataAsync(string path, string dictionaryPath, string inputDictionaryPath)
         {
             try
             {
-                await Task.Run(() => ExportAnalysisData(path));
+                await Task.Run(() => ExportAnalysisData(path, dictionaryPath, inputDictionaryPath));
             }
             catch (Exception ex)
             {
@@ -4550,12 +4635,18 @@ namespace DaxStudio.UI.ViewModels
             }
         }
 
-        public void ExportAnalysisData(string path)
+        public void ExportAnalysisData(string path, string dictionaryPath, string inputDictionaryPath)
         {
             using (var _ = new StatusBarMessage(this, "Exporting Model Metrics"))
             {
                 try
                 {
+
+                    var dialog = new VertipaqAnalyzerDialogViewModel(Options, _eventAggregator);
+                    Execute.OnUIThread(() => {
+                        _windowManager.ShowDialogBoxAsync(dialog).Wait();
+                    });
+                    if (dialog.Result != System.Windows.Forms.DialogResult.OK) return;
 
                     OutputMessage(String.Format("Saving {0}...", path));
                     // get current DAX Studio version
@@ -4566,12 +4657,12 @@ namespace DaxStudio.UI.ViewModels
                         || Connection.ServerVersion.StartsWith("11.", StringComparison.InvariantCultureIgnoreCase)               // SSAS 2012 SP1
                         || Connection.ServerVersion.StartsWith("12.", StringComparison.InvariantCultureIgnoreCase);              // SSAS 2014
 
-                    bool readStatisticsFromData = Options.VpaxReadStatisticsFromData && (!isLegacySsas);
-                    bool readStatisticsFromDirectQuery = Options.VpaxReadStatisticsFromDirectQuery && (!isLegacySsas);
+                    bool readStatisticsFromData = dialog.VpaxReadStatisticsFromData && (!isLegacySsas);
+                    bool readStatisticsFromDirectQuery = dialog.VpaxReadStatisticsFromDirectQuery && (!isLegacySsas);
 
                     try
                     {
-                        ModelAnalyzer.ExportVPAX(Connection.ServerName, Connection.DatabaseName, path, Options.VpaxIncludeTom, "DaxStudio", ver.ToString(), readStatisticsFromData, modelName, readStatisticsFromDirectQuery);
+                        ModelAnalyzer.ExportVPAX(Connection.ConnectionStringWithInitialCatalog, path,dictionaryPath, inputDictionaryPath, Options.VpaxIncludeTom, "DaxStudio", ver.ToString(), readStatisticsFromData, modelName, readStatisticsFromDirectQuery, dialog.VpaxDirectLakeExtractionMode);
                     }
                     catch (Exception ex)
                     {
@@ -4582,7 +4673,7 @@ namespace DaxStudio.UI.ViewModels
                             var exMsg = ex.GetAllMessages();
                             OutputWarning("Error exporting metrics with ReadStatisticsFromData enabled (retry without statistics): " + exMsg);
 
-                            ModelAnalyzer.ExportVPAX(Connection.ServerName, Connection.DatabaseName, path, Options.VpaxIncludeTom, "DaxStudio", ver.ToString(), false, modelName, false); // Disable statistics during retry
+                            ModelAnalyzer.ExportVPAX(Connection.ConnectionStringWithInitialCatalog , path, dictionaryPath, inputDictionaryPath, Options.VpaxIncludeTom, "DaxStudio", ver.ToString(), false, modelName, false, Dax.Metadata.DirectLakeExtractionMode.ResidentOnly); // Disable statistics during retry
                         }
                         else
                         {

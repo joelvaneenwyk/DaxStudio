@@ -1,4 +1,5 @@
 {
+    "xml.format.maxLineWidth": 500,
     "files.associations": {
         "*.msproj": "msbuild",
         "Directory.Build.props": "msbuild"

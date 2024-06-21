@@ -5,6 +5,7 @@ using System.Linq;
 using DaxStudio.Interfaces;
 using Caliburn.Micro;
 using DaxStudio.UI.Events;
+using DaxStudio.UI.Extensions;
 
 namespace DaxStudio.UI.ViewModels
 {
@@ -20,9 +21,9 @@ namespace DaxStudio.UI.ViewModels
         private readonly VpaTable _table;
         private readonly VertiPaqAnalyzerViewModel _parentViewModel;
         private readonly VpaSort _sort;
-        private IGlobalOptions _options;
+        private IVpaOptions _options;
         private IEventAggregator _eventAggregator;
-        public VpaTableViewModel(VpaTable table, VertiPaqAnalyzerViewModel parentViewModel, VpaSort sort, IGlobalOptions options, IEventAggregator eventAggregator)
+        public VpaTableViewModel(VpaTable table, VertiPaqAnalyzerViewModel parentViewModel, VpaSort sort, IVpaOptions options, IEventAggregator eventAggregator)
         {
             _options = options;
             _eventAggregator = eventAggregator;
@@ -195,12 +196,16 @@ namespace DaxStudio.UI.ViewModels
         public string StorageMode {
             get
             {
+                // if the value is cached return that
                 if (!string.IsNullOrEmpty(_storageMode)) return _storageMode;
+
+                var _modelMode = _parentViewModel.ViewModel.Model.DefaultMode;
                 foreach (var p in _table.Partitions)
                 {
                     if (string.IsNullOrEmpty(_storageMode))
                     {
-                        _storageMode = p.PartitionMode;
+                        _storageMode = p.PartitionMode.ParseStorageMode();
+                        
                         continue;
                     }
                     if (p.PartitionMode != _storageMode)

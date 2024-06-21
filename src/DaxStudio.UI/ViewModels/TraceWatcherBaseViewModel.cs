@@ -89,13 +89,7 @@ namespace DaxStudio.UI.ViewModels
 
         public void ProcessAllEvents()
         {
-            if (_timeout != null)
-            {
-                _timeout.Stop();
-                _timeout.Elapsed -= QueryEndEventTimeout;
-                _timeout.Dispose();
-                _timeout = null;
-            }
+            ResetTimeout();
 
             //foreach (var e in capturedEvents)
             //{
@@ -110,11 +104,24 @@ namespace DaxStudio.UI.ViewModels
             _eventAggregator.PublishOnUIThreadAsync(new QueryTraceCompletedEvent(this));
         }
 
+        private void ResetTimeout()
+        {
+            if (_timeout != null)
+            {
+                _timeout.Stop();
+                _timeout.Elapsed -= QueryEndEventTimeout;
+                _timeout.Dispose();
+                _timeout = null;
+            }
+        }
+
         // This method is called before a trace starts which gives you a chance to 
         // reset any stored state
         public void Reset()
         {
             IsPaused = false;
+            IsBusy = false;
+            BusyMessage = string.Empty;
             Events.Clear();
             OnReset();
         }
@@ -272,7 +279,7 @@ namespace DaxStudio.UI.ViewModels
 
 
 
-        public void CheckEnabled(IConnection connection, ITraceWatcher active)
+        public virtual void CheckEnabled(IConnection connection, ITraceWatcher active)
         {
             if (connection == null) {
                 IsEnabled = false;
@@ -466,7 +473,7 @@ namespace DaxStudio.UI.ViewModels
 
         public abstract bool FilterForCurrentSession { get; }
         public bool IsAdminConnection { get; private set; }
-        public string DisableReason { get {
+        public virtual string DisableReason { get {
                 if (!IsAdminConnection) return "You must have Admin rights on the server to enable traces";
                 if (IsChecked && IsEnabled) return "Trace is already running";
                 return "You cannot have both session traces and all queries traces enabled at the same time";
@@ -646,10 +653,13 @@ namespace DaxStudio.UI.ViewModels
         private void TracerOnTraceError(object sender, string e)
         {
             Document.OutputError(e);
-            _eventAggregator.PublishOnUIThreadAsync(new TraceChangedEvent(this, QueryTraceStatus.Error));
+            
             Log.Error(Constants.LogMessageTemplate, GetSubclassName(), nameof(TracerOnTraceError), e);
             // stop the trace if there was an error
             IsRecording = false;
+            IsBusy = false;
+            ResetTimeout();
+            _eventAggregator.PublishOnUIThreadAsync(new TraceChangedEvent(this, QueryTraceStatus.Error));
         }
 
         public void StopTrace()

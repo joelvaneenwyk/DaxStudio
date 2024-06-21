@@ -16,7 +16,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <Description>DAX Studio Excel Addin</Description>
         <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-        <Platforms>AnyCPU;x64;x86</Platforms>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,7 +40,7 @@
         <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
         <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" />
         <PackageReference Include="MSBuild.Microsoft.VisualStudio.Tools.Office.targets" Version="15.0.1" />
-        <PackageReference Include="stdole" Version="17.9.37000" />
+        <PackageReference Include="stdole" Version="17.10.40170" />
         <PackageReference Include="Serilog.Settings.AppSettings">
             <Version>2.2.2</Version>
         </PackageReference>

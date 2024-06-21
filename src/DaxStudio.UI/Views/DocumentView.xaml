@@ -8,7 +8,6 @@
     xmlns:avalonedit="clr-namespace:ICSharpCode.AvalonEdit.CodeCompletion;assembly=ICSharpCode.AvalonEdit"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
-    xmlns:dax="clr-namespace:DAXEditorControl;assembly=DAXEditor" 
     xmlns:beh="clr-namespace:DaxStudio.UI.Behaviours"
     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
     xmlns:local="clr-namespace:DaxStudio.UI.Utils"
@@ -20,6 +19,7 @@
     xmlns:res="clr-namespace:DaxStudio.UI.Resources"
     xmlns:fm="clr-namespace:ICSharpCode.AvalonEdit.Folding;assembly=ICSharpCode.AvalonEdit"
     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+    xmlns:daxEditorControl="clr-namespace:DAXEditorControl;assembly=DAXEditor"
     x:Class="DaxStudio.UI.Views.DocumentView" 
     mc:Ignorable="d" 
     d:DesignWidth="500" 
@@ -119,9 +119,9 @@
             </Style>
             
             <Style TargetType="{x:Type avalonedit:CompletionWindow}">
-                <Setter Property="WindowStyle" Value="None"></Setter>
-                <Setter Property="ResizeMode" Value="NoResize"></Setter>
-                <Setter Property="BorderThickness" Value="3"></Setter>
+                <Setter Property="WindowStyle" Value="None" />
+                <Setter Property="ResizeMode" Value="NoResize" />
+                <Setter Property="BorderThickness" Value="3" />
             </Style>
 
             <Style TargetType="{x:Type avalonedit:InsightWindow}">
@@ -385,12 +385,9 @@
                                 <Ellipse Margin="0,0,5,0"
                                    Visibility="{Binding Content.IsTraceRunning, Converter={StaticResource BoolToCollapsedConverter}, FallbackValue=Collapsed}"
                                    Style="{StaticResource Recording}" 
-                                   Fill="{StaticResource RecordingBrush}"
-                                   >
-                                    
-                                </Ellipse>
+                                   Fill="{StaticResource RecordingBrush}" />
                                 <Image Source="{DynamicResource pause_tabDrawingImage}" Margin="0,0,5,0"
-                                   Visibility="{Binding Content.IsPaused, Converter={StaticResource BoolToCollapsedConverter}, FallbackValue=Collapsed}"/>
+                                       Visibility="{Binding Content.IsPaused, Converter={StaticResource BoolToCollapsedConverter}, FallbackValue=Collapsed}"/>
                                 <!--<TextBlock Text=";" FontFamily="Webdings" Width="10" Padding="0,0,2,0" Margin="0,0,5,0"
                                    Visibility="{Binding Content.IsPaused, Converter={StaticResource BoolToCollapsedConverter}, FallbackValue=Collapsed}"
                                    Foreground="{StaticResource MutedTextBrush}"
@@ -592,7 +589,7 @@
                                     </Border>
 
                                     <!-- EditorBorder.CornerRadius="8"-->
-                                    <dax:DAXEditor x:Name="daxEditor" 
+                                    <daxEditorControl:DAXEditor x:Name="daxEditor" 
                                                    Margin="0" 
                                                    Padding="8,8,8,8"
                                                    BorderThickness="1"
@@ -637,7 +634,7 @@
                                             
                                             <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                                 <cal:Action.Target>
-                                                    <cal:ActionMessage MethodName="PreviewMouseLeftButtonUp"></cal:ActionMessage>
+                                                    <cal:ActionMessage MethodName="PreviewMouseLeftButtonUp" />
                                                 </cal:Action.Target>
                                             </i:EventTrigger>
 
@@ -668,8 +665,7 @@
                                                 </MenuItem>
                                                 <Separator />
                                                 <MenuItem x:Name="SelecteAll" Header="Select All" InputGestureText="Ctrl+A"
-                                                      cal:Message.Attach="SelectAll()">
-                                                </MenuItem>
+                                                      cal:Message.Attach="SelectAll()" />
                                                 <Separator />
                                                 <MenuItem x:Name="CommentSelection" Header="Comment" 
                                                       cal:Message.Attach="CommentSelection()">
@@ -697,12 +693,12 @@
                                                 </MenuItem>
                                             </ContextMenu>
                                         </ContextMenuService.ContextMenu>
-                                        <dax:DAXEditor.Resources>
+                                        <daxEditorControl:DAXEditor.Resources>
                                             <Style TargetType="{x:Type Line}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                             </Style>
-                                        </dax:DAXEditor.Resources>
-                                    </dax:DAXEditor>
+                                        </daxEditorControl:DAXEditor.Resources>
+                                    </daxEditorControl:DAXEditor>
 
                                     <!-- Help Watermark -->
                                     <!--<TextBlock
@@ -729,9 +725,7 @@
                                                         >
                                             <ContentControl.LayoutTransform>
                                                 <ScaleTransform ScaleX="{Binding SizeUnitLabel.StringValue, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringPercentToDoubleConverter}}" 
-                                                                ScaleY="{Binding SizeUnitLabel.StringValue, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringPercentToDoubleConverter}}">
-                                                
-                                                </ScaleTransform>
+                                                                ScaleY="{Binding SizeUnitLabel.StringValue, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringPercentToDoubleConverter}}" />
                                             </ContentControl.LayoutTransform>
                                         </ContentControl>
                                     </Grid>
@@ -754,9 +748,7 @@
                                                         Grid.ColumnSpan="2"
                                                         Margin="2,10,40,30"
                                                         Visibility="Visible"
-                                                        cal:View.Model="{Binding MeasureExpressionEditor}" cal:View.ApplyConventions="true">
-                                        
-                                        </ContentControl>
+                                                        cal:View.Model="{Binding MeasureExpressionEditor}" cal:View.ApplyConventions="true" />
                                         <Border.Tag>
                                             <sys:Double>1.0</sys:Double>
                                         </Border.Tag>

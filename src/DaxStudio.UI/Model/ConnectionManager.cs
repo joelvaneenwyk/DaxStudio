@@ -1114,13 +1114,8 @@ namespace DaxStudio.UI.Model
 
         private bool SupportsActAs()
         {
-            return (this.ServerName.StartsWith("asazure://", StringComparison.InvariantCultureIgnoreCase)
-                || this.ServerName.StartsWith("powerbi://", StringComparison.InvariantCultureIgnoreCase)
-                || this.ServerName.StartsWith("pbiazure://", StringComparison.InvariantCultureIgnoreCase)
-                || this.ServerName.StartsWith("pbidedicated://", StringComparison.InvariantCultureIgnoreCase)
-                || this.ServerName.StartsWith("localhost:", StringComparison.InvariantCultureIgnoreCase)
-                );
-
+            // todo - does the SSDT enging also support ActAs or is it just desktop??
+            return this.IsPowerBIorSSDT;
         }
 
         public void StopViewAs(List<ITraceWatcher> activeTraces)
@@ -1246,12 +1241,15 @@ namespace DaxStudio.UI.Model
     <DatabaseID>aafa360c-734a-471d-b2b3-ba56dfe88121</DatabaseID>
   </SequencePoint>
 </Batch>";
-            var server = new Server();
-            var db = server.Databases[_dmvConnection.Database.Id];
-            db.Model.RequestRefresh(Microsoft.AnalysisServices.Tabular.RefreshType.Full);
-            db.Model.SaveChanges();
-            server.Disconnect();
 
+            await Task.Run(() =>
+            {
+                var server = new Server();
+                var db = server.Databases[_dmvConnection.Database.Id];
+                db.Model.RequestRefresh(Microsoft.AnalysisServices.Tabular.RefreshType.Full);
+                db.Model.SaveChanges();
+                server.Disconnect();
+            });
 //            await Task.Run(() => _dmvConnection.ExecuteNonQuery(refreshCommand));
         }
 

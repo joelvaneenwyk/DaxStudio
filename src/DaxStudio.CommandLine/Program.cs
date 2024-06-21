@@ -1,31 +1,29 @@
 ﻿using Caliburn.Micro;
 using DaxStudio.CommandLine.Commands;
+using DaxStudio.CommandLine.Infrastructure;
 using DaxStudio.Interfaces;
+using DaxStudio.UI.Interfaces;
 using DaxStudio.UI.Model;
 using DaxStudio.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.Spectre;
+using Spectre.Console.Cli;
 using System;
 using System.Collections.Generic;
-using Spectre.Console.Cli;
-using DaxStudio.CommandLine.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using DaxStudio.UI.Interfaces;
-using Serilog.Sinks.Spectre;
-using Microsoft.Identity.Client;
-using Serilog.Events;
 using System.Threading.Tasks;
 
 namespace DaxStudio.CommandLine
 {
-    internal class Program
+    public static class Program
     {
 
         static IEventAggregator EventAggregator { get; set; } = new EventAggregator();
         static ConsoleLogger connLogger = new ConsoleLogger();
         static IGlobalOptions Options { get; set; }
-        static async Task<int> Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-
             var settingProvider = SettingsProviderFactory.GetSettingProvider();
             Options = new OptionsViewModel(EventAggregator, settingProvider);
             Options.Initialize();
@@ -58,14 +56,14 @@ namespace DaxStudio.CommandLine
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error: {message}",ex.Message);
+                Log.Error(ex, "Error: {message}", ex.Message);
                 return 1;
             }
 
-//#if DEBUG
-//            Console.ReadKey();
-//#endif
-            
+            //#if DEBUG
+            //            Console.ReadKey();
+            //#endif
+
         }
 
         private static void ConfigureLogging()
@@ -91,7 +89,10 @@ namespace DaxStudio.CommandLine
             var app = new CommandApp(registrar);
             app.Configure(config =>
             {
-                config.AddBranch<CommandSettings>("export", export => {
+                config.SetHelpProvider(new CustomHelpProvider(config.Settings));
+
+                config.AddBranch<CommandSettings>("export", export =>
+                {
                     export.AddCommand<ExportSqlCommand>("sql")
                         .WithDescription("Exports specified tables to a SQL Server")
                         .WithExample(new[] { "export", "sql", "\"Data Source=localhost\\sql;Initial Catalog=DataDump;Integrated Security=SSPI\"", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"" })
@@ -103,18 +104,18 @@ namespace DaxStudio.CommandLine
                         .WithExample(new[] { "export", "csv", "c:\\temp\\export", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"", "-t", "Product \"Product Category\" \"Reseller Sales\"" });
                 });
 
-            config.AddCommand<CsvCommand>("csv")
-                .WithDescription("Writes query results out to a .csv file")
-                .WithExample(new[] { "csv", "c:\\temp\\export\\myresults.csv", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"", "-q","\"EVALUATE 'Product Categories'\"" });
+                config.AddCommand<CsvCommand>("csv")
+                    .WithDescription("Writes query results out to a .csv file")
+                    .WithExample(new[] { "csv", "c:\\temp\\export\\myresults.csv", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"", "-q", "\"EVALUATE 'Product Categories'\"" });
 
-            config.AddCommand<XlsxCommand>("xlsx")
-                .WithDescription("Writes query results out to an .xlsx file")
-                .WithExample(new[] { "xlsx", "c:\\temp\\export\\myresults.xlsx" , "-s", "localhost\\tabular", "-d", "\"Adventure Works\"", "-q", "\"EVALUATE 'Product Categories'\""});
+                config.AddCommand<XlsxCommand>("xlsx")
+                    .WithDescription("Writes query results out to an .xlsx file")
+                    .WithExample(new[] { "xlsx", "c:\\temp\\export\\myresults.xlsx", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"", "-q", "\"EVALUATE 'Product Categories'\"" });
 
-            config.AddCommand<VpaxCommand>("vpax")
-                .WithDescription("Generates a vpax file")
-                .WithExample(new[] { "vpax", "c:\\temp\\export\\model.vpax", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"" })
-                .WithExample(new[] { "vpax", "c:\\temp\\export\\model.vpax", "-c", "\"Data Source=localhost\\tabular;Initial Catalog=Adventure Works\"" });
+                config.AddCommand<VpaxCommand>("vpax")
+                    .WithDescription("Generates a vpax file")
+                    .WithExample(new[] { "vpax", "c:\\temp\\export\\model.vpax", "-s", "localhost\\tabular", "-d", "\"Adventure Works\"" })
+                    .WithExample(new[] { "vpax", "c:\\temp\\export\\model.vpax", "-c", "\"Data Source=localhost\\tabular;Initial Catalog=Adventure Works\"" });
 
 #if DEBUG
                 // Custom Trace
@@ -127,7 +128,7 @@ namespace DaxStudio.CommandLine
                 // Capture Diagnostics
 #endif
             });
-            
+
             return app;
         }
 

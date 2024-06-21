@@ -17,6 +17,7 @@ namespace DaxStudio.Interfaces
         bool IsPowerPivot { get; }
         bool IsConnected { get; }
         string SessionId { get; }
+        int SPID { get; }
         HashSet<DaxStudioTraceEventClass> SupportedTraceEventClasses { get; }
         AdomdType Type { get; }
         DaxColumnsRemap DaxColumnsRemapInfo { get; }
@@ -29,5 +30,7 @@ namespace DaxStudio.Interfaces
 
         ADOTabular.AdomdClientWrappers.AdomdDataReader ExecuteReader(string query, List<AdomdParameter> paramList);
         DataTable ExecuteDaxQueryDataTable(string query);
+
+        ServerType ServerType { get; }
     }
 }

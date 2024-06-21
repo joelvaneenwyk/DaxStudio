@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DaxStudio.UI.Views"
-             xmlns:dax="clr-namespace:DAXEditorControl;assembly=DAXEditor" 
+             xmlns:dax="clr-namespace:DAXEditorControl;assembly=DaxStudio.DAXEditor" 
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              xmlns:conv="clr-namespace:DaxStudio.UI.Converters"
              xmlns:controls="clr-namespace:DaxStudio.UI.Controls"
              xmlns:ap="clr-namespace:DaxStudio.UI.AttachedProperties"
+             xmlns:daxEditorControl="clr-namespace:DAXEditorControl;assembly=DAXEditor"
              mc:Ignorable="d" 
             
              d:DesignHeight="450" d:DesignWidth="800">
@@ -76,7 +77,7 @@
                         <!--EditorSelectionStart="{Binding SelectionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             EditorSelectionLength="{Binding SelectionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             EditorCaretOffset="{Binding CaretOffset}"-->
-        <dax:DAXEditor x:Name="daxExpressionEditor" 
+        <daxEditorControl:DAXEditor x:Name="daxExpressionEditor" 
                             Margin="2" 
                             Padding="8,8,8,8"
                                                    

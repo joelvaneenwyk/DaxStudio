@@ -6,6 +6,7 @@ name: Submit DAX Studio to WinGet
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 env:
   packageFileName: DaxStudio_\d+_\d+_\d+_setup\.exe

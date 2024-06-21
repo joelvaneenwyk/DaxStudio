@@ -42,11 +42,11 @@ namespace DaxStudio.UI.ViewModels
     {
 
         private readonly IEventAggregator _eventAggregator;
-        private readonly IGlobalOptions _globalOptions;
+        private readonly IVpaOptions _globalOptions;
 
         //Dax.ViewModel.VpaModel viewModel,
         [ImportingConstructor]
-        public VertiPaqAnalyzerViewModel(IEventAggregator eventAggregator, DocumentViewModel currentDocument, IGlobalOptions options)
+        public VertiPaqAnalyzerViewModel(IEventAggregator eventAggregator, DocumentViewModel currentDocument, IVpaOptions options)
         {
             Log.Debug("{class} {method} {message}", "VertiPaqAnalyzerViewModel", "ctor", "start");
             //this.ViewModel = viewModel;
@@ -390,7 +390,7 @@ namespace DaxStudio.UI.ViewModels
             public string ColumnName => "The name of the column";
         }
 
-        internal async Task ExportAnalysisDataAsync(string fileName)
+        internal async Task ExportAnalysisDataAsync(string fileName, string dictionaryPath, string inputDictionaryPath)
         {
             try
             {
@@ -405,7 +405,7 @@ namespace DaxStudio.UI.ViewModels
                 await Task.Run(() =>
                 {
                     Dax.ViewVpaExport.Model viewVpa = new Dax.ViewVpaExport.Model(ViewModel.Model);
-                    ModelAnalyzer.ExportExistingModelToVPAX(fileName, ViewModel.Model, viewVpa, Database);
+                    ModelAnalyzer.ExportExistingModelToVPAX(fileName,dictionaryPath,inputDictionaryPath, ViewModel.Model, viewVpa, Database);
                 });
             }
             catch (Exception ex)
