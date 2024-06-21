@@ -14,7 +14,7 @@
         </GeneratedMSBuildEditorConfigFile>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="..\.editorconfig">
+        <None Include="..\..\.editorconfig">
             <Link>.editorconfig</Link>
         </None>
     </ItemGroup>

@@ -21,7 +21,7 @@ namespace DaxStudio.UI.Model
         //private const int CHECK_EVERY_DAYS = 3;
         private const int CHECK_SECONDS_AFTER_STARTUP = 15;
         private const int CHECK_EVERY_HOURS = 24;
-        
+
         private readonly BackgroundWorker worker = new BackgroundWorker();
         private readonly IEventAggregator _eventAggregator;
         private WebRequestFactory _webRequestFactory;
@@ -41,7 +41,7 @@ namespace DaxStudio.UI.Model
         public VersionCheck(IEventAggregator eventAggregator,  IGlobalOptions globalOptions)
         {
             _eventAggregator = eventAggregator;
-            
+
             _globalOptions = globalOptions;
 
             if (_globalOptions.BlockVersionChecks)
@@ -59,7 +59,7 @@ namespace DaxStudio.UI.Model
         }
 
         public bool Enabled =>  true;
-            
+
         private void BackgroundGetGitHubVersion(object sender, DoWorkEventArgs e)
         {
             try
@@ -146,7 +146,7 @@ namespace DaxStudio.UI.Model
         }
 
         public Version LocalVersion => typeof(VersionCheck).Assembly.GetName().Version;
-         
+
         public int LocalBuild =>  typeof(VersionCheck).Assembly.GetName().Version.Build;
 
         public Version ServerVersion => _globalOptions.CurrentDownloadVersion;
@@ -175,17 +175,13 @@ namespace DaxStudio.UI.Model
 
             using (System.Net.WebClient http = wrf.CreateWebClient())
             {
-                
+
                 string json = "";
 
                 try
                 {
-                    //#if DEBUG
-                    //                    json = File.ReadAllText(@"..\..\..\src\CurrentReleaseVersion.json");
-                    //#else
                     Log.Information(Common.Constants.LogMessageTemplate, nameof(VersionCheck), nameof(PopulateServerVersionFromGithub), "Starting download of CurrentVersion.json");
                     json = http.DownloadString(new Uri(WebRequestFactory.CurrentGithubVersionUrl));
-//#endif           
                 }
                 catch (System.Net.WebException wex)
                 {
@@ -239,7 +235,7 @@ namespace DaxStudio.UI.Model
             {
                 // if we don't know the remote version assume we are on the latest
                 // version until we know for sure.
-                if (ServerVersion.IsNotSet()) return true;  
+                if (ServerVersion.IsNotSet()) return true;
                 return LocalVersion.CompareTo(ServerVersion) >= 0;
             }
         }
@@ -263,12 +259,12 @@ namespace DaxStudio.UI.Model
 
 
 
-        public Uri DownloadUrl { 
-            get { return _downloadUrl; } 
-            set { if (value == _downloadUrl) return; 
-                _downloadUrl = value; 
-                NotifyOfPropertyChange(() => DownloadUrl); 
-            } 
+        public Uri DownloadUrl {
+            get { return _downloadUrl; }
+            set { if (value == _downloadUrl) return;
+                _downloadUrl = value;
+                NotifyOfPropertyChange(() => DownloadUrl);
+            }
         }
 
 

@@ -66,7 +66,7 @@
         </BootstrapperPackage>
     </ItemGroup>
     <ItemGroup>
-        <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+        <CodeAnalysisDictionary Include="..\..\CustomDictionary.xml">
             <Link>CustomDictionary.xml</Link>
         </CodeAnalysisDictionary>
     </ItemGroup>

@@ -32,7 +32,7 @@
 
     <Target Name="Clean" DependsOnTargets="MakeReleaseFolder">
         <Message Text="Cleaning DaxStudio.Standalone" />
-        <MSBuild Projects="./src/DaxStudio.sln" Targets="Clean" />
+        <MSBuild Projects="./DaxStudio.sln" Targets="Clean" />
     </Target>
 
     <Target Name="DeleteReleaseFolder">
@@ -46,7 +46,7 @@
 
     <Target Name="Build" DependsOnTargets="Clean">
         <Message Text="Building DaxStudio.Standalone" />
-        <MSBuild Projects="./src/DaxStudio.sln" Targets="Build" Properties="RestorePackages=false" />
+        <MSBuild Projects="./DaxStudio.sln" Targets="Build" Properties="RestorePackages=false" />
     </Target>
 
     <Target Name="BuildTests" DependsOnTargets="Clean">

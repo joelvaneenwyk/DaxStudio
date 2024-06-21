@@ -24,7 +24,7 @@ namespace DaxStudio.UI.Utils
         }
 
 
- 
+
         // private variables
         private static IGlobalOptions _globalOptions;
         private static IWebProxy _proxy;
@@ -35,11 +35,9 @@ namespace DaxStudio.UI.Utils
         public const string DaxTextFormatUri = "https://www.daxformatter.com/api/daxformatter/DaxTextFormat";
 
 #if DEBUG
-        public const string CurrentGithubVersionUrl = "https://raw.githubusercontent.com/DaxStudio/DaxStudio/develop/src/CurrentReleaseVersion.json";
+        public const string CurrentGithubVersionUrl = "https://raw.githubusercontent.com/joelvaneenwyk/DaxStudio/develop/CurrentReleaseVersion.json";
 #else
-        // TODO - look at switching over to daxstudio.org version as it's supported by a CDN
-        public const string CurrentGithubVersionUrl = "https://daxstudio.org/CurrentReleaseVersion.json";
-        //public const string CurrentGithubVersionUrl = "https://raw.githubusercontent.com/DaxStudio/DaxStudio/master/src/CurrentReleaseVersion.json";
+        public const string CurrentGithubVersionUrl = "https://raw.githubusercontent.com/joelvaneenwyk/DaxStudio/main/CurrentReleaseVersion.json";
 #endif
 
         private static bool _isNetworkOnline;
@@ -98,7 +96,7 @@ namespace DaxStudio.UI.Utils
                 await _eventAggregator.PublishOnUIThreadAsync(new OutputMessage(MessageType.Error, "An error occurred trying to auto detect your web proxy"));
                 return this;
             }
-            
+
         }
 
         // ...
@@ -164,7 +162,7 @@ namespace DaxStudio.UI.Utils
                     UseSystemProxy();
                 }
             }
-            
+
             Log.Verbose("Proxy: {proxyAddress}", _proxy.GetProxy(new Uri(uri)).AbsolutePath);
             return _proxy;
         }
@@ -192,13 +190,13 @@ namespace DaxStudio.UI.Utils
                 var wr = WebRequest.CreateHttp(new Uri(CurrentGithubVersionUrl));
                 wr.Proxy = proxy;
                 var _ = wr.GetResponse();
-                
+
                 return false;
             }
             catch (WebException wex)
             {
-                if (wex.Status == WebExceptionStatus.ProtocolError 
-                    || wex.Status == WebExceptionStatus.NameResolutionFailure 
+                if (wex.Status == WebExceptionStatus.ProtocolError
+                    || wex.Status == WebExceptionStatus.NameResolutionFailure
                     || wex.Status == WebExceptionStatus.ConnectFailure)
                 {
                     return true;

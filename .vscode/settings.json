@@ -2,6 +2,7 @@
     "xml.format.maxLineWidth": 500,
     "files.associations": {
         "*.msproj": "msbuild",
+        "*.sln": "msbuild-solution",
         "Directory.Build.props": "msbuild"
     }
 }
