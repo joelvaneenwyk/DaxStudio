@@ -8,6 +8,9 @@ on:
   push:
     branches: [main, develop]
   pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: "40 19 * * 0"
 
 jobs:
   lint:
@@ -34,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        solution: [src/DaxStudio.sln]
+        solution: [DaxStudio.sln]
         configuration: [Debug, Release]
         platform: [Any CPU]
 
@@ -72,3 +75,66 @@ jobs:
 
       - name: Build
         run: msbuild /m /t:Build /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
+
+  analyze:
+    needs: build
+    name: Analyze
+
+    strategy:
+      fail-fast: false
+      matrix:
+        solution: [DaxStudio.sln]
+        configuration: [Release]
+        platform: [Any CPU]
+        language: [csharp]
+
+    runs-on: windows-latest
+    timeout-minutes: 360
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+
+      # Install the .NET tools
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+
+      # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Restore NuGet packages
+        working-directory: ${{ github.workspace }}
+        run: nuget restore "${{ matrix.solution }}"
+
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild /m /t:Restore /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
+
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Build application
+        run: msbuild /m /t:Build /p:Configuration="${{ matrix.configuration }}" /p:Platform="${{ matrix.platform }}" "${{ matrix.solution }}"
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
