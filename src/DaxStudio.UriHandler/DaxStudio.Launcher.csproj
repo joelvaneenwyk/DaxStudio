@@ -52,7 +52,7 @@
         <ProjectReference Include="..\DaxStudio.Common\DaxStudio.Common.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     </ItemGroup>
 </Project>
